@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Link Previews / Social Meta Tags -->
+    <title>AceSnap Portfolio</title>
+    <meta name="description" content="Portfolio of Daniel (AceSnap) - Digital designer, community manager, and full-stack developer.">
+    <meta property="og:title" content="Daniel | AceSnap Portfolio">
+    <meta property="og:description" content="Digital designer, community manager, and full-stack developer.">
+    <!-- Note: Once hosted, change ./logoD.png to your full website URL like https://yourdomain.com/logoD.png for Discord to load it properly -->
+    <meta property="og:image" content="./logoD.png">
+    <meta name="theme-color" content="#050505">
+    <meta name="twitter:card" content="summary">
+
+    <!-- Browser Tab Icon -->
+    <link rel="icon" type="image/png" href="./logoD.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505;
+            color: #ededed;
+            overflow-x: hidden;
+        }
+        
+        .ambient-glow {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80vw;
+            height: 60vh;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(139, 92, 246, 0.1) 40%, rgba(0,0,0,0) 70%);
+            filter: blur(90px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-hover:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .prevent-scroll-bleed {
+            overscroll-behavior: contain;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-blue-500/30 selection:text-white min-h-screen flex flex-col relative">
+
+    <div class="ambient-glow"></div>
+
+    <!-- Floating Navbar -->
+    <div class="fixed top-6 left-0 right-0 z-50 px-4">
+        <nav class="max-w-4xl mx-auto glass rounded-full px-6 py-4 flex justify-between items-center">
+            <div class="text-lg font-semibold tracking-wide text-white">Daniel.</div>
+            
+            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+                <a href="#gfx" class="hover:text-white transition-colors">Design</a>
+                <a href="#experiences" class="hover:text-white transition-colors">Experiences</a>
+                <a href="#web" class="hover:text-white transition-colors">Projects</a>
+            </div>
+            <button onclick="openContactModal()" class="text-sm font-medium text-white bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2 rounded-full transition-colors">Contact</button>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="max-w-4xl mx-auto px-6 pt-48 pb-32 text-center w-full">
+        <div class="inline-block mb-6 px-4 py-1.5 glass rounded-full text-xs font-medium text-blue-300 border-blue-500/20">
+            Available for new projects
+        </div>
+        <h1 class="text-5xl md:text-6xl font-medium mb-6 text-white leading-tight tracking-tight">
+            Digital designer, manager & <br>
+            <span class="text-gradient">full-stack developer.</span>
+        </h1>
+        <p class="text-lg text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto">
+            Operating as AceSnap. Specializing in high-conversion graphics, scalable community infrastructure, and web applications.
+        </p>
+    </header>
+
+    <!-- GFX Showcase (Paginated Slider: 2 items per view) -->
+    <section id="gfx" class="max-w-4xl w-full mx-auto px-6 py-20 relative">
+        <div class="mb-10 text-center">
+            <h2 class="text-2xl font-medium text-white mb-2">Design Portfolio</h2>
+            <p class="text-gray-400 text-sm">Thumbnails, custom banners, site advertisements, and social assets.</p>
+        </div>
+        
+        <!-- Outer Wrapper: Allows buttons to render fully without clipping -->
+        <div class="relative w-full">
+            
+            <!-- Left Arrow -->
+            <button onclick="moveGfx(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 glass glass-hover w-10 h-10 flex items-center justify-center rounded-full text-white shadow-xl">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+
+            <!-- Inner Wrapper: Hides overflow -->
+            <div class="w-full overflow-hidden rounded-2xl">
+                <!-- Slider Track -->
+                <div id="gfx-track" class="flex transition-transform duration-500 ease-in-out w-full">
+                    <!-- Group 1 -->
+                    <div class="flex-none w-full flex gap-4 px-12">
+                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                            <img src="./casesbanner.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
+                        </div>
+                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                            <img src="./howthiskeepshappening.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
+                        </div>
+                    </div>
+                    <!-- Group 2 -->
+                    <div class="flex-none w-full flex gap-4 px-12">
+                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                            <img src="./mineschallenge.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
+                        </div>
+                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                            <img src="./robertobanner.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
+                        </div>
+                    </div>
+                    <!-- Group 3 -->
+                    <div class="flex-none w-full flex gap-4 px-12">
+                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                            <img src="./sorhexbanner.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
+                        </div>
+                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                            <img src="./thumbnail1.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Arrow -->
+            <button onclick="moveGfx(1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 glass glass-hover w-10 h-10 flex items-center justify-center rounded-full text-white shadow-xl">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Past Experiences Section -->
+    <section id="experiences" class="max-w-6xl w-full mx-auto px-6 py-20">
+        <div class="mb-10 text-center">
+            <h2 class="text-2xl font-medium text-white mb-2">Past Experiences</h2>
+            <p class="text-gray-400 text-sm">Strategic management, design, and growth within the digital space.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Digital Graphic Design -->
+            <div class="glass p-8 rounded-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 blur-[50px] -z-10 rounded-full"></div>
+                <div class="flex justify-between items-baseline mb-4">
+                    <h3 class="text-xl font-medium text-white">Digital Graphic Design</h3>
+                    <span class="text-xs font-medium text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">4 Years</span>
+                </div>
+                <p class="text-sm text-gray-400 mb-8">Freelance GFX Artist</p>
+                <ul class="space-y-4 text-sm text-gray-300">
+                    <li class="flex items-start"><i class="fa-solid fa-arrow-right text-emerald-400 mt-1 mr-3 text-xs"></i>Designed high-conversion thumbnails, custom banners, and site advertisements.</li>
+                    <li class="flex items-start"><i class="fa-solid fa-arrow-right text-emerald-400 mt-1 mr-3 text-xs"></i>Developed unique visual branding and tailored social assets for creators.</li>
+                    <li class="flex items-start"><i class="fa-solid fa-arrow-right text-emerald-400 mt-1 mr-3 text-xs"></i>Maintained consistent, premium quality across diverse digital deliverables.</li>
+                </ul>
+            </div>
+
+            <!-- Website & UI Development -->
+            <div class="glass p-8 rounded-2xl relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-64 h-64 bg-rose-500/10 blur-[50px] -z-10 rounded-full"></div>
+                <div class="flex justify-between items-baseline mb-4">
+                    <h3 class="text-xl font-medium text-white">Website & UI Development</h3>
+                    <span class="text-xs font-medium text-rose-300 bg-rose-500/10 border border-rose-500/20 px-3 py-1 rounded-full">2 Years</span>
+                </div>
+                <p class="text-sm text-gray-400 mb-8">Full-Stack & Front-End Developer</p>
+                <ul class="space-y-4 text-sm text-gray-300">
+                    <li class="flex items-start"><i class="fa-solid fa-arrow-right text-rose-400 mt-1 mr-3 text-xs"></i>Built complete full-stack web applications and interactive UI components.</li>
+                    <li class="flex items-start"><i class="fa-solid fa-arrow-right text-rose-400 mt-1 mr-3 text-xs"></i>Specialized in crafting sleek front-ends alongside robust backend integrations.</li>
+                    <li class="flex items-start"><i class="fa-solid fa-arrow-right text-rose-400 mt-1 mr-3 text-xs"></i>Created dynamic systems, mockups, and scalable digital experiences.</li>
+                </ul>
+            </div>
+
+            <!-- RoRush -->
+            <div class="glass p-8 rounded-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 blur-[50px] -z-10 rounded-full"></div>
+                <div class="flex justify-between items-baseline mb-4">
+                    <h3 class="text-xl font-medium text-white">RoRush</h3>
+                    <span class="text-xs font-medium text-blue-300 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded-full">2 Years</span>
+                </div>
+                <p class="text-sm text-gray-400 mb-8">Moderator → Community Manager</p>
+                <ul class="space-y-4 text-sm text-gray-300">
+                    <li class="flex items-start"><i class="fa-solid fa-arrow-right text-blue-400 mt-1 mr-3 text-xs"></i>Managed official social channels and executed targeted promotional campaigns.</li>
+                    <li class="flex items-start"><i class="fa-solid fa-arrow-right text-blue-400 mt-1 mr-3 text-xs"></i>Planned and orchestrated large-scale community events and structured giveaways.</li>
+                    <li class="flex items-start"><i class="fa-solid fa-arrow-right text-blue-400 mt-1 mr-3 text-xs"></i>Directed the moderation staff, established workflows, and maintained platform integrity.</li>
+                </ul>
+            </div>
+
+            <!-- Streamer Admin -->
+            <div class="glass p-8 rounded-2xl relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-64 h-64 bg-purple-500/10 blur-[50px] -z-10 rounded-full"></div>
+                <div class="flex justify-between items-baseline mb-4">
+                    <h3 class="text-xl font-medium text-white">Various Creators</h3>
+                </div>
+                <p class="text-sm text-gray-400 mb-8">Streamer Admin & Moderator</p>
+                <ul class="space-y-4 text-sm text-gray-300">
+                    <li class="flex items-start"><i class="fa-solid fa-arrow-right text-purple-400 mt-1 mr-3 text-xs"></i>Acted as administrative support and moderation lead for multiple streaming personalities.</li>
+                    <li class="flex items-start"><i class="fa-solid fa-arrow-right text-purple-400 mt-1 mr-3 text-xs"></i>Maintained live chat environments, filtered content, and enforced community guidelines.</li>
+                    <li class="flex items-start"><i class="fa-solid fa-arrow-right text-purple-400 mt-1 mr-3 text-xs"></i>Assisted in coordinating on-stream events and viewer interactions.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Website Projects Slider -->
+    <section id="web" class="max-w-6xl w-full mx-auto px-6 py-20 relative">
+        <div class="mb-10 text-center">
+            <h2 class="text-2xl font-medium text-white mb-2">Website Projects</h2>
+            <p class="text-gray-400 text-sm">Live interactive deployments and UI/UX integrations.</p>
+        </div>
+        
+        <!-- Outer Wrapper: Allows buttons to render fully without clipping -->
+        <div class="relative w-full rounded-2xl">
+            
+            <!-- Left Arrow -->
+            <button onclick="moveWeb(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-30 glass glass-hover p-4 rounded-r-xl text-white shadow-xl">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+
+            <!-- Inner Wrapper: Hides overflow -->
+            <div class="w-full overflow-hidden rounded-2xl">
+                <!-- Slider Track -->
+                <div id="web-track" class="flex transition-transform duration-500 ease-in-out w-full">
+                    
+                    <!-- Headed.gg (Slide 1) -->
+                    <div class="flex-none w-full glass p-1">
+                        <div class="bg-[#0a0a0a] rounded-xl overflow-hidden h-full flex flex-col">
+                            <div class="bg-white/5 backdrop-blur-md p-3 flex items-center border-b border-white/5 shrink-0">
+                                <div class="flex gap-2 mr-6 px-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                                </div>
+                                <div class="bg-black/50 text-xs px-4 py-1.5 rounded-md text-gray-400 font-mono border border-white/5 flex items-center gap-2 mx-auto">
+                                    <i class="fa-solid fa-lock text-blue-400 text-[10px]"></i> headed.gg
+                                </div>
+                            </div>
+                            <div class="w-full h-[600px] prevent-scroll-bleed relative">
+                                <iframe src="https://headed.gg" class="absolute inset-0 w-full h-full border-none bg-[#050505] prevent-scroll-bleed"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SargePlayRewards (Slide 2) -->
+                    <div class="flex-none w-full glass p-1">
+                        <div class="bg-[#0a0a0a] rounded-xl overflow-hidden h-full flex flex-col">
+                            <div class="bg-white/5 backdrop-blur-md p-3 flex items-center border-b border-white/5 shrink-0">
+                                <div class="flex gap-2 mr-6 px-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                                </div>
+                                <div class="bg-black/50 text-xs px-4 py-1.5 rounded-md text-gray-400 font-mono border border-white/5 flex items-center gap-2 mx-auto">
+                                    <i class="fa-solid fa-lock text-blue-400 text-[10px]"></i> www.sargeplayrewards.com
+                                </div>
+                            </div>
+                            <div class="w-full h-[600px] prevent-scroll-bleed relative">
+                                <iframe src="https://www.sargeplayrewards.com/" class="absolute inset-0 w-full h-full border-none bg-[#050505] prevent-scroll-bleed"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Arrow -->
+            <button onclick="moveWeb(1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-30 glass glass-hover p-4 rounded-l-xl text-white shadow-xl">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="max-w-4xl w-full mx-auto px-6 py-12 mt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="text-sm text-gray-500">
+            © 2026 Daniel. All rights reserved.
+        </div>
+        <button onclick="openContactModal()" class="text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-2">
+            Get in touch <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+        </button>
+    </footer>
+
+    <!-- Contact Modal Pop-up -->
+    <div id="contactModal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <!-- Backdrop Blur -->
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer" onclick="closeContactModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="glass p-8 rounded-2xl w-[90%] max-w-md relative z-10 transform scale-95 transition-transform duration-300" id="modalContent">
+            <button onclick="closeContactModal()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <h3 class="text-2xl font-medium text-white mb-6">Let's Connect</h3>
+            
+            <div class="space-y-3">
+                <!-- Email -->
+                <a href="mailto:acesnapbuisness@gmail.com" class="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-blue-500/30 transition group">
+                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 group-hover:bg-blue-500/30 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">Email</p>
+                        <p class="text-white font-medium text-sm">acesnapbuisness@gmail.com</p>
+                    </div>
+                </a>
+                
+                <!-- Discord (Click to Copy) -->
+                <div class="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-indigo-500/30 transition group cursor-pointer" onclick="copyDiscord(this)">
+                    <div class="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-500/30 group-hover:scale-110 transition duration-300">
+                        <i class="fa-brands fa-discord"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">Discord</p>
+                        <p class="text-white font-medium text-sm">acesnapgfx</p>
+                    </div>
+                    <div class="text-gray-500 group-hover:text-white transition">
+                        <i class="fa-regular fa-copy copy-icon"></i>
+                    </div>
+                </div>
+
+                <!-- Telegram -->
+                <a href="https://t.me/acesnap" target="_blank" class="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-sky-500/30 transition group">
+                    <div class="w-10 h-10 rounded-full bg-sky-500/20 flex items-center justify-center text-sky-400 group-hover:bg-sky-500/30 group-hover:scale-110 transition duration-300">
+                        <i class="fa-brands fa-telegram"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">Telegram</p>
+                        <p class="text-white font-medium text-sm">@acesnap</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // --- Modal Logic ---
+        function openContactModal() {
+            const modal = document.getElementById('contactModal');
+            const content = document.getElementById('modalContent');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+        }
+
+        function closeContactModal() {
+            const modal = document.getElementById('contactModal');
+            const content = document.getElementById('modalContent');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+        }
+
+        function copyDiscord(element) {
+            navigator.clipboard.writeText('acesnapgfx');
+            const icon = element.querySelector('.copy-icon');
+            
+            icon.classList.remove('fa-copy', 'fa-regular');
+            icon.classList.add('fa-check', 'fa-solid', 'text-green-400');
+            
+            setTimeout(() => {
+                icon.classList.remove('fa-check', 'fa-solid', 'text-green-400');
+                icon.classList.add('fa-copy', 'fa-regular');
+            }, 2000);
+        }
+
+        // --- GFX Slider Logic ---
+        let currentGfx = 0;
+        const gfxTrack = document.getElementById('gfx-track');
+        const totalGfxPages = 3; 
+
+        function moveGfx(direction) {
+            currentGfx += direction;
+            if (currentGfx >= totalGfxPages) currentGfx = 0;
+            if (currentGfx < 0) currentGfx = totalGfxPages - 1;
+            gfxTrack.style.transform = `translateX(-${currentGfx * 100}%)`;
+        }
+
+        // --- Web Projects Slider Logic ---
+        let currentWeb = 0;
+        const webTrack = document.getElementById('web-track');
+        const totalWebPages = 2;
+
+        function moveWeb(direction) {
+            currentWeb += direction;
+            if (currentWeb >= totalWebPages) currentWeb = 0;
+            if (currentWeb < 0) currentWeb = totalWebPages - 1;
+            webTrack.style.transform = `translateX(-${currentWeb * 100}%)`;
+        }
+    </script>
+</body>
+</html>
