@@ -6,13 +6,20 @@
     
     <!-- Link Previews / Social Meta Tags -->
     <title>AceSnap Portfolio</title>
-    <meta name="description" content="Portfolio of Daniel (AceSnap) - Digital designer, community manager, and full-stack developer.">
-    <meta property="og:title" content="Daniel | AceSnap Portfolio">
+    <meta name="description" content="Portfolio of Daniel (AceSnap) — digital designer, community manager, and full-stack developer.">
+    <meta property="og:title" content="AceSnap Portfolio">
     <meta property="og:description" content="Digital designer, community manager, and full-stack developer.">
-    <!-- Note: Once hosted, change ./logoD.png to your full website URL like https://yourdomain.com/logoD.png for Discord to load it properly -->
-    <meta property="og:image" content="./logoD.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.acesnapportfolio.xyz/">
+    <meta property="og:image" content="https://www.acesnapportfolio.xyz/logoD.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AceSnap Portfolio">
+    <meta name="twitter:description" content="Digital designer, community manager, and full-stack developer.">
+    <meta name="twitter:image" content="https://www.acesnapportfolio.xyz/logoD.png">
+    <link rel="canonical" href="https://www.acesnapportfolio.xyz/">
     <meta name="theme-color" content="#050505">
-    <meta name="twitter:card" content="summary">
 
     <!-- Browser Tab Icon -->
     <link rel="icon" type="image/png" href="./logoD.png">
@@ -76,9 +83,9 @@
             <div class="text-lg font-semibold tracking-wide text-white">Daniel.</div>
             
             <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
-                <a href="#gfx" class="hover:text-white transition-colors">Design</a>
-                <a href="#experiences" class="hover:text-white transition-colors">Experiences</a>
-                <a href="#web" class="hover:text-white transition-colors">Projects</a>
+                <a href="#" onclick="event.preventDefault(); scrollToSection('gfx');" class="hover:text-white transition-colors">Design</a>
+                <a href="#" onclick="event.preventDefault(); scrollToSection('experiences');" class="hover:text-white transition-colors">Experiences</a>
+                <a href="#" onclick="event.preventDefault(); scrollToSection('web');" class="hover:text-white transition-colors">Projects</a>
             </div>
             <button onclick="openContactModal()" class="text-sm font-medium text-white bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2 rounded-full transition-colors">Contact</button>
         </nav>
@@ -356,6 +363,14 @@
 
     <!-- Scripts -->
     <script>
+        function scrollToSection(id) {
+            const section = document.getElementById(id);
+            if (!section) return;
+            const offset = 90;
+            const top = section.getBoundingClientRect().top + window.pageYOffset - offset;
+            window.scrollTo({ top, behavior: 'smooth' });
+        }
+
         // --- Modal Logic ---
         function openContactModal() {
             const modal = document.getElementById('contactModal');
