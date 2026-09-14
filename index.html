@@ -327,12 +327,16 @@
     <section id="vouches" class="max-w-6xl w-full mx-auto py-20 relative">
         <div class="reveal mb-10 text-center px-6">
             <h2 class="text-2xl font-medium text-white mb-2">Vouches</h2>
-            <p class="text-gray-400 text-sm">Feedback from clients and creators I've worked with.</p>
+            <p class="text-gray-400 text-sm mb-4">Feedback from clients and creators I've worked with.</p>
+            <div id="vouch-summary" class="inline-flex items-center gap-2 text-sm text-gray-300"></div>
         </div>
 
         <div class="reveal vouch-mask">
             <div id="vouch-track" class="vouch-track"></div>
         </div>
+        <p id="vouch-empty" class="reveal text-center text-sm text-gray-500 py-8 hidden">
+            No vouches yet — be the first.
+        </p>
     </section>
 
     <!-- Website Projects Slider -->
@@ -598,16 +602,38 @@
         // pfp link works fine); `link` is their channel/site for self-promo —
         // both are optional, the card falls back gracefully without them.
         const VOUCHES = [
-            { name: "Marcus T.", role: "Roobet Affiliate", quote: "Fast turnaround on banners and the quality was way above what I was paying for. Rebooked him twice.", rating: 5, avatar: "", link: "" },
-            { name: "Sarge", role: "SargePlayRewards", quote: "Built our whole rewards site front to back. Clean code, communicated well the entire time.", rating: 5, avatar: "", link: "https://www.sargeplayrewards.com/" },
-            { name: "RoRush Team", role: "Community Management", quote: "Ran our mod team for two years and never missed a beat. Events always went off without issues.", rating: 5, avatar: "", link: "" },
-            { name: "Roberto", role: "Streamer", quote: "The banner he made got more clicks than anything I'd used before. Straight up upgrade.", rating: 5, avatar: "", link: "" },
-            { name: "Jae", role: "CS2 Trading Site", quote: "Good communicator, delivered on time, open to revisions without getting weird about it.", rating: 5, avatar: "", link: "" }
+            // Add real vouches here after you approve them from your private
+            // submission link. Each one looks like:
+            // { name: "Marcus T.", role: "Roobet Affiliate", quote: "...", rating: 5, avatar: "", link: "" }
         ];
 
         function renderVouches() {
             const track = document.getElementById('vouch-track');
-            if (!track || VOUCHES.length === 0) return;
+            const mask = document.querySelector('.vouch-mask');
+            const emptyMsg = document.getElementById('vouch-empty');
+            const summary = document.getElementById('vouch-summary');
+            if (!track) return;
+
+            if (VOUCHES.length === 0) {
+                if (summary) summary.innerHTML = '';
+                if (mask) mask.classList.add('hidden');
+                if (emptyMsg) emptyMsg.classList.remove('hidden');
+                return;
+            }
+
+            if (mask) mask.classList.remove('hidden');
+            if (emptyMsg) emptyMsg.classList.add('hidden');
+
+            if (summary) {
+                const avg = VOUCHES.reduce((sum, v) => sum + v.rating, 0) / VOUCHES.length;
+                const avgDisplay = Math.round(avg * 10) / 10;
+                const count = VOUCHES.length;
+                summary.innerHTML = `
+                    <span class="text-purple-400">${'★'.repeat(Math.round(avg))}${'☆'.repeat(Math.max(0, 5 - Math.round(avg)))}</span>
+                    <span class="text-white font-medium">${avgDisplay}</span>
+                    <span class="text-gray-500">· ${count} ${count === 1 ? 'vouch' : 'vouches'}</span>
+                `;
+            }
 
             const initials = (name) => name
                 .split(' ')
