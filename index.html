@@ -103,6 +103,36 @@
         .nav-link.active {
             color: #ffffff;
         }
+
+        /* --- Vouches marquee: slow, continuous, pauses on hover --- */
+        .vouch-mask {
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+        }
+
+        .vouch-track {
+            display: flex;
+            gap: 1.25rem;
+            width: max-content;
+            animation: vouch-scroll 50s linear infinite;
+            padding: 0 1.5rem;
+        }
+
+        .vouch-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes vouch-scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .vouch-track {
+                animation: none;
+            }
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-purple-500/30 selection:text-white min-h-screen flex flex-col relative">
@@ -120,6 +150,7 @@
             <div id="nav-links" class="hidden md:flex gap-8 text-sm font-medium text-gray-400 relative">
                 <a href="#" data-section="gfx" onclick="event.preventDefault(); scrollToSection('gfx');" class="nav-link hover:text-white transition-colors pb-1">Design</a>
                 <a href="#" data-section="experiences" onclick="event.preventDefault(); scrollToSection('experiences');" class="nav-link hover:text-white transition-colors pb-1">Experiences</a>
+                <a href="#" data-section="vouches" onclick="event.preventDefault(); scrollToSection('vouches');" class="nav-link hover:text-white transition-colors pb-1">Vouches</a>
                 <a href="#" data-section="web" onclick="event.preventDefault(); scrollToSection('web');" class="nav-link hover:text-white transition-colors pb-1">Projects</a>
                 <span id="nav-indicator" class="absolute bottom-0 h-[2px] rounded-full bg-gradient-to-r from-purple-500 to-fuchsia-400 opacity-0 transition-all duration-300 ease-out" style="left: 0; width: 0;"></span>
             </div>
@@ -289,6 +320,18 @@
                     <li class="flex items-start"><i class="fa-solid fa-arrow-right text-indigo-400 mt-1 mr-3 text-xs"></i>Assisted in coordinating on-stream events and viewer interactions.</li>
                 </ul>
             </div>
+        </div>
+    </section>
+
+    <!-- Vouches Section -->
+    <section id="vouches" class="max-w-6xl w-full mx-auto py-20 relative">
+        <div class="reveal mb-10 text-center px-6">
+            <h2 class="text-2xl font-medium text-white mb-2">Vouches</h2>
+            <p class="text-gray-400 text-sm">Feedback from clients and creators I've worked with.</p>
+        </div>
+
+        <div class="reveal vouch-mask">
+            <div id="vouch-track" class="vouch-track"></div>
         </div>
     </section>
 
@@ -494,7 +537,7 @@
 
         function startGfxAutoplay() {
             stopGfxAutoplay();
-            gfxAutoplay = setInterval(() => moveGfx(1), 4000);
+            gfxAutoplay = setInterval(() => moveGfx(1), 3000);
         }
 
         function stopGfxAutoplay() {
@@ -547,6 +590,64 @@
 
             revealEls.forEach(el => observer.observe(el));
         })();
+
+        // --- Vouches ---
+        // Add real vouches here after you approve them from your private
+        // submission link. Nothing shows on the site until it's added here —
+        // that's the moderation. `avatar` is an image URL (their Discord/Twitter
+        // pfp link works fine); `link` is their channel/site for self-promo —
+        // both are optional, the card falls back gracefully without them.
+        const VOUCHES = [
+            { name: "Marcus T.", role: "Roobet Affiliate", quote: "Fast turnaround on banners and the quality was way above what I was paying for. Rebooked him twice.", rating: 5, avatar: "", link: "" },
+            { name: "Sarge", role: "SargePlayRewards", quote: "Built our whole rewards site front to back. Clean code, communicated well the entire time.", rating: 5, avatar: "", link: "https://www.sargeplayrewards.com/" },
+            { name: "RoRush Team", role: "Community Management", quote: "Ran our mod team for two years and never missed a beat. Events always went off without issues.", rating: 5, avatar: "", link: "" },
+            { name: "Roberto", role: "Streamer", quote: "The banner he made got more clicks than anything I'd used before. Straight up upgrade.", rating: 5, avatar: "", link: "" },
+            { name: "Jae", role: "CS2 Trading Site", quote: "Good communicator, delivered on time, open to revisions without getting weird about it.", rating: 5, avatar: "", link: "" }
+        ];
+
+        function renderVouches() {
+            const track = document.getElementById('vouch-track');
+            if (!track || VOUCHES.length === 0) return;
+
+            const initials = (name) => name
+                .split(' ')
+                .map(part => part[0])
+                .join('')
+                .slice(0, 2)
+                .toUpperCase();
+
+            const avatarHTML = (v) => v.avatar
+                ? `<img src="${v.avatar}" alt="${v.name}" class="w-9 h-9 rounded-full object-cover shrink-0" onerror="this.replaceWith(Object.assign(document.createElement('div'), {className: 'w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-xs font-semibold text-white shrink-0', textContent: '${initials(v.name)}'}))">`
+                : `<div class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-xs font-semibold text-white shrink-0">${initials(v.name)}</div>`;
+
+            const linkHTML = (v) => v.link
+                ? `<a href="${v.link}" target="_blank" rel="noopener noreferrer" class="ml-auto text-gray-500 hover:text-purple-300 transition-colors shrink-0" title="Visit ${v.name}">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                   </a>`
+                : '';
+
+            const cardHTML = (v) => `
+                <div class="vouch-card glass rounded-2xl p-6 flex-none w-[300px]">
+                    <div class="flex gap-0.5 text-purple-400 text-xs mb-4">
+                        ${'★'.repeat(v.rating)}${'☆'.repeat(Math.max(0, 5 - v.rating))}
+                    </div>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-6">${v.quote}</p>
+                    <div class="flex items-center gap-3">
+                        ${avatarHTML(v)}
+                        <div class="min-w-0">
+                            <p class="text-white text-sm font-medium truncate">${v.name}</p>
+                            <p class="text-gray-500 text-xs truncate">${v.role}</p>
+                        </div>
+                        ${linkHTML(v)}
+                    </div>
+                </div>`;
+
+            // Render the list twice back-to-back so translateX(-50%) loops seamlessly.
+            const html = VOUCHES.map(cardHTML).join('');
+            track.innerHTML = html + html;
+        }
+
+        renderVouches();
 
         // --- Nav underline: tracks whichever section you're currently in ---
         (function () {
