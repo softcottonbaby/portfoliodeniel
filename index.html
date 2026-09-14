@@ -605,6 +605,7 @@
             // Add real vouches here after you approve them from your private
             // submission link. Each one looks like:
             // { name: "Marcus T.", role: "Roobet Affiliate", quote: "...", rating: 5, avatar: "", link: "" }
+            { name: "Alen", role: "Discord", quote: "Fast, good quality. Recommend working with him!", rating: 5, avatar: "", link: "" }
         ];
 
         function renderVouches() {
@@ -668,9 +669,23 @@
                     </div>
                 </div>`;
 
-            // Render the list twice back-to-back so translateX(-50%) loops seamlessly.
             const html = VOUCHES.map(cardHTML).join('');
-            track.innerHTML = html + html;
+
+            // Duplicating the list is what makes the scroll loop seamless,
+            // but with only a few vouches the duplicate is obviously visible.
+            // Below this count, just show them centered and still.
+            const MARQUEE_THRESHOLD = 6;
+            if (VOUCHES.length < MARQUEE_THRESHOLD) {
+                track.innerHTML = html;
+                track.style.animation = 'none';
+                track.classList.add('justify-center');
+                track.style.width = '100%';
+            } else {
+                track.innerHTML = html + html;
+                track.style.animation = '';
+                track.classList.remove('justify-center');
+                track.style.width = '';
+            }
         }
 
         renderVouches();
