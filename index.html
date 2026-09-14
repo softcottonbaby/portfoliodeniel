@@ -99,6 +99,10 @@
                 transition: none;
             }
         }
+
+        .nav-link.active {
+            color: #ffffff;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-purple-500/30 selection:text-white min-h-screen flex flex-col relative">
@@ -113,12 +117,16 @@
                 <span class="text-lg font-semibold tracking-wide text-white">Daniel.</span>
             </div>
             
-            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
-                <a href="#" onclick="event.preventDefault(); scrollToSection('gfx');" class="hover:text-white transition-colors">Design</a>
-                <a href="#" onclick="event.preventDefault(); scrollToSection('experiences');" class="hover:text-white transition-colors">Experiences</a>
-                <a href="#" onclick="event.preventDefault(); scrollToSection('web');" class="hover:text-white transition-colors">Projects</a>
+            <div id="nav-links" class="hidden md:flex gap-8 text-sm font-medium text-gray-400 relative">
+                <a href="#" data-section="gfx" onclick="event.preventDefault(); scrollToSection('gfx');" class="nav-link hover:text-white transition-colors pb-1">Design</a>
+                <a href="#" data-section="experiences" onclick="event.preventDefault(); scrollToSection('experiences');" class="nav-link hover:text-white transition-colors pb-1">Experiences</a>
+                <a href="#" data-section="web" onclick="event.preventDefault(); scrollToSection('web');" class="nav-link hover:text-white transition-colors pb-1">Projects</a>
+                <span id="nav-indicator" class="absolute bottom-0 h-[2px] rounded-full bg-gradient-to-r from-purple-500 to-fuchsia-400 opacity-0 transition-all duration-300 ease-out" style="left: 0; width: 0;"></span>
             </div>
-            <button onclick="openContactModal()" class="text-sm font-medium text-white bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2 rounded-full transition-colors">Contact</button>
+            <button onclick="openContactModal()" class="group relative overflow-hidden text-sm font-medium text-white bg-white/5 border border-white/10 hover:border-purple-400/40 px-4 py-2 rounded-full transition-colors duration-300">
+                <span class="absolute inset-0 bg-gradient-to-r from-purple-500 to-fuchsia-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out"></span>
+                <span class="relative z-10">Contact</span>
+            </button>
         </nav>
     </div>
 
@@ -479,6 +487,33 @@
 
         updateGfxProgress();
 
+        // Auto-advance the design portfolio every 4 seconds.
+        // Pauses while hovered, and resets its timer after manual navigation.
+        const gfxSection = document.getElementById('gfx');
+        let gfxAutoplay = null;
+
+        function startGfxAutoplay() {
+            stopGfxAutoplay();
+            gfxAutoplay = setInterval(() => moveGfx(1), 4000);
+        }
+
+        function stopGfxAutoplay() {
+            if (gfxAutoplay) {
+                clearInterval(gfxAutoplay);
+                gfxAutoplay = null;
+            }
+        }
+
+        if (gfxSection) {
+            gfxSection.addEventListener('mouseenter', stopGfxAutoplay);
+            gfxSection.addEventListener('mouseleave', startGfxAutoplay);
+            gfxSection.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', startGfxAutoplay);
+            });
+        }
+
+        startGfxAutoplay();
+
         // --- Web Projects Slider Logic ---
         let currentWeb = 0;
         const webTrack = document.getElementById('web-track');
@@ -511,6 +546,74 @@
             });
 
             revealEls.forEach(el => observer.observe(el));
+        })();
+
+        // --- Nav underline: tracks whichever section you're currently in ---
+        (function () {
+            const navContainer = document.getElementById('nav-links');
+            const indicator = document.getElementById('nav-indicator');
+            if (!navContainer || !indicator) return;
+
+            const navLinks = Array.from(navContainer.querySelectorAll('.nav-link'));
+            const sections = navLinks
+                .map(link => ({
+                    link,
+                    el: document.getElementById(link.dataset.section)
+                }))
+                .filter(item => item.el);
+
+            const NAV_OFFSET = 140; // roughly the floating navbar height + breathing room
+
+            function moveIndicatorTo(link) {
+                const linkRect = link.getBoundingClientRect();
+                const containerRect = navContainer.getBoundingClientRect();
+                indicator.style.left = `${linkRect.left - containerRect.left}px`;
+                indicator.style.width = `${linkRect.width}px`;
+                indicator.style.opacity = '1';
+                navLinks.forEach(l => l.classList.toggle('active', l === link));
+            }
+
+            function hideIndicator() {
+                indicator.style.opacity = '0';
+                navLinks.forEach(l => l.classList.remove('active'));
+            }
+
+            let ticking = false;
+            function updateActiveSection() {
+                ticking = false;
+                const scrollPos = window.scrollY + NAV_OFFSET;
+
+                let current = null;
+                sections.forEach(({ link, el }) => {
+                    if (el.offsetTop <= scrollPos) current = link;
+                });
+
+                if (current) {
+                    moveIndicatorTo(current);
+                } else {
+                    hideIndicator();
+                }
+            }
+
+            function onScroll() {
+                if (!ticking) {
+                    window.requestAnimationFrame(updateActiveSection);
+                    ticking = true;
+                }
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', updateActiveSection);
+            window.addEventListener('load', updateActiveSection);
+
+            // Keep the underline in sync immediately after a nav click too.
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    setTimeout(updateActiveSection, 50);
+                });
+            });
+
+            updateActiveSection();
         })();
     </script>
 </body>
