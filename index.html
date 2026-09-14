@@ -205,6 +205,14 @@
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
         </div>
+
+        <!-- Progress indicator: fills as you page through the designs -->
+        <div class="reveal max-w-md mx-auto mt-6 px-12">
+            <div class="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
+                <div id="gfx-progress-bar" class="h-full rounded-full bg-gradient-to-r from-purple-500 to-fuchsia-400 transition-all duration-500 ease-out" style="width: 0%;"></div>
+            </div>
+            <p id="gfx-progress-label" class="text-center text-xs text-gray-500 mt-2 tracking-wide"></p>
+        </div>
     </section>
 
     <!-- Past Experiences Section -->
@@ -451,14 +459,25 @@
         // --- GFX Slider Logic ---
         let currentGfx = 0;
         const gfxTrack = document.getElementById('gfx-track');
-        const totalGfxPages = 5; 
+        const totalGfxPages = 5;
+        const gfxProgressBar = document.getElementById('gfx-progress-bar');
+        const gfxProgressLabel = document.getElementById('gfx-progress-label');
+
+        function updateGfxProgress() {
+            const pct = ((currentGfx + 1) / totalGfxPages) * 100;
+            if (gfxProgressBar) gfxProgressBar.style.width = `${pct}%`;
+            if (gfxProgressLabel) gfxProgressLabel.textContent = `${currentGfx + 1} / ${totalGfxPages} viewed`;
+        }
 
         function moveGfx(direction) {
             currentGfx += direction;
             if (currentGfx >= totalGfxPages) currentGfx = 0;
             if (currentGfx < 0) currentGfx = totalGfxPages - 1;
             gfxTrack.style.transform = `translateX(-${currentGfx * 100}%)`;
+            updateGfxProgress();
         }
+
+        updateGfxProgress();
 
         // --- Web Projects Slider Logic ---
         let currentWeb = 0;
