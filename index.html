@@ -36,6 +36,10 @@
 
     <style>
 
+        /* =========================================================
+           GLOBAL
+           ========================================================= */
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #050505;
@@ -50,13 +54,15 @@
             transform: translateX(-50%);
             width: 80vw;
             height: 60vh;
+
             background:
                 radial-gradient(
                     circle,
                     rgba(168, 85, 247, 0.18) 0%,
                     rgba(126, 34, 206, 0.12) 40%,
-                    rgba(0,0,0,0) 70%
+                    rgba(0, 0, 0, 0) 70%
                 );
+
             filter: blur(90px);
             z-index: -1;
             pointer-events: none;
@@ -64,20 +70,33 @@
 
         .glass {
             background: rgba(255, 255, 255, 0.02);
+
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+
             border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.3);
+
             transition: all 0.3s ease;
         }
 
         .glass-hover:hover {
             background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(168, 85, 247, 0.25);
+
+            border-color:
+                rgba(168, 85, 247, 0.25);
         }
 
         .text-gradient {
-            background: linear-gradient(to right, #c084fc, #7c3aed);
+            background:
+                linear-gradient(
+                    to right,
+                    #c084fc,
+                    #7c3aed
+                );
+
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -86,27 +105,39 @@
             overscroll-behavior: contain;
         }
 
+
         /* =========================================================
            SCROLL REVEAL
            ========================================================= */
 
         .reveal {
             opacity: 0;
+
             filter: blur(10px);
-            transform: translateY(28px) scale(0.97);
+
+            transform:
+                translateY(28px)
+                scale(0.97);
 
             transition:
                 opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
                 filter 0.7s cubic-bezier(0.22, 1, 0.36, 1),
                 transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 
-            will-change: opacity, filter, transform;
+            will-change:
+                opacity,
+                filter,
+                transform;
         }
 
         .reveal.in-view {
             opacity: 1;
+
             filter: blur(0px);
-            transform: translateY(0) scale(1);
+
+            transform:
+                translateY(0)
+                scale(1);
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -120,19 +151,29 @@
             }
         }
 
+
+        /* =========================================================
+           NAV
+           ========================================================= */
+
         .nav-link.active {
             color: #ffffff;
         }
 
+
         /* =========================================================
-           VOUCHES
+           VOUCHES CONTAINER
            ========================================================= */
 
         .vouch-mask {
             position: relative;
+
             overflow: hidden;
 
-            padding: 40px 0 50px;
+            padding:
+                40px
+                0
+                50px;
 
             cursor: grab;
 
@@ -155,6 +196,7 @@
                 );
 
             touch-action: pan-y;
+
             user-select: none;
             -webkit-user-select: none;
         }
@@ -165,16 +207,25 @@
 
         .vouch-track {
             display: flex;
+
             gap: 1.25rem;
 
             width: max-content;
 
-            padding: 0 1.5rem;
+            padding:
+                0
+                1.5rem;
 
             will-change: transform;
 
-            transform: translate3d(0, 0, 0);
+            transform:
+                translate3d(
+                    0,
+                    0,
+                    0
+                );
         }
+
 
         /* =========================================================
            VOUCH CARD
@@ -184,37 +235,56 @@
             position: relative;
 
             width: 300px;
-            flex: 0 0 300px;
+
+            flex:
+                0 0 300px;
 
             z-index: 1;
 
-            transform: scale(1);
+            overflow: visible;
+
+            background:
+                rgba(
+                    8,
+                    8,
+                    10,
+                    0.92
+                );
+
+            border:
+                1px solid
+                rgba(
+                    168,
+                    85,
+                    247,
+                    0.16
+                );
+
+            border-radius:
+                1rem;
+
+            transform:
+                scale(1);
 
             transition:
-                transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.45s
+                    cubic-bezier(
+                        0.22,
+                        1,
+                        0.36,
+                        1
+                    ),
+
                 background 0.35s ease,
+
                 border-color 0.35s ease,
+
                 box-shadow 0.35s ease;
-
-            overflow: visible;
         }
 
-        .vouch-card:hover {
-            transform: scale(1.12) translateY(-5px);
-
-            z-index: 50;
-
-            background: rgba(255, 255, 255, 0.055);
-
-            border-color: transparent;
-
-            box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.55),
-                0 0 35px rgba(168, 85, 247, 0.18);
-        }
 
         /* =========================================================
-           GRADIENT TRACE
+           THIN STATIC BORDER
            ========================================================= */
 
         .vouch-card::before {
@@ -222,62 +292,236 @@
 
             position: absolute;
 
-            inset: -2px;
+            inset: -1px;
 
-            border-radius: 1rem;
+            border-radius: inherit;
+
+            padding: 1px;
 
             background:
-                conic-gradient(
-                    from 0deg,
-                    transparent 0deg,
-                    transparent 35deg,
-                    rgba(168, 85, 247, 0.95) 75deg,
-                    rgba(217, 70, 239, 0.95) 120deg,
-                    rgba(124, 58, 237, 0.85) 155deg,
-                    transparent 205deg,
-                    transparent 360deg
+                linear-gradient(
+                    90deg,
+                    rgba(
+                        168,
+                        85,
+                        247,
+                        0.14
+                    ),
+                    rgba(
+                        217,
+                        70,
+                        239,
+                        0.10
+                    )
                 );
 
-            opacity: 0;
+            -webkit-mask:
+                linear-gradient(#fff 0 0)
+                content-box,
+                linear-gradient(#fff 0 0);
 
-            z-index: -2;
+            -webkit-mask-composite: xor;
 
-            filter: blur(1px);
+            mask-composite: exclude;
 
-            transition: opacity 0.3s ease;
+            pointer-events: none;
 
-            animation: vouch-trace 2.5s linear infinite;
+            z-index: 5;
         }
+
+
+        /* =========================================================
+           MOVING GRADIENT TRACE
+           
+           Only a small section of the border is bright.
+           It travels around the rectangle.
+           ========================================================= */
 
         .vouch-card::after {
             content: "";
 
             position: absolute;
 
-            inset: 1px;
+            inset: -1px;
 
-            border-radius: calc(1rem - 1px);
+            border-radius: inherit;
 
-            background: rgba(10, 10, 10, 0.96);
+            padding: 1.5px;
 
-            z-index: -1;
+            background:
+                conic-gradient(
+                    from 0deg,
+
+                    transparent 0deg,
+                    transparent 320deg,
+
+                    rgba(
+                        168,
+                        85,
+                        247,
+                        0.03
+                    ) 334deg,
+
+                    rgba(
+                        192,
+                        132,
+                        252,
+                        0.20
+                    ) 344deg,
+
+                    rgba(
+                        217,
+                        70,
+                        239,
+                        0.75
+                    ) 352deg,
+
+                    rgba(
+                        255,
+                        255,
+                        255,
+                        1
+                    ) 359deg,
+
+                    rgba(
+                        192,
+                        132,
+                        252,
+                        0.25
+                    ) 360deg
+                );
+
+            -webkit-mask:
+                linear-gradient(#fff 0 0)
+                content-box,
+                linear-gradient(#fff 0 0);
+
+            -webkit-mask-composite: xor;
+
+            mask-composite: exclude;
+
+            pointer-events: none;
+
+            z-index: 6;
+
+            animation:
+                vouch-border-trace
+                4.5s
+                linear
+                infinite;
         }
 
-        .vouch-card:hover::before {
-            opacity: 1;
-        }
 
-        @keyframes vouch-trace {
+        @keyframes vouch-border-trace {
 
             from {
-                transform: rotate(0deg);
+                transform:
+                    rotate(0deg);
             }
 
             to {
-                transform: rotate(360deg);
+                transform:
+                    rotate(360deg);
             }
-
         }
+
+
+        /* =========================================================
+           VOUCH HOVER
+           ========================================================= */
+
+        .vouch-card:hover {
+            transform:
+                scale(1.08)
+                translateY(-4px);
+
+            z-index: 50;
+
+            background:
+                rgba(
+                    12,
+                    10,
+                    15,
+                    0.96
+                );
+
+            border-color:
+                rgba(
+                    168,
+                    85,
+                    247,
+                    0.35
+                );
+
+            box-shadow:
+                0 25px 70px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.55
+                ),
+
+                0 0 35px
+                rgba(
+                    168,
+                    85,
+                    247,
+                    0.12
+                );
+        }
+
+
+        /* Brighter trace while hovering */
+
+        .vouch-card:hover::after {
+            background:
+                conic-gradient(
+                    from 0deg,
+
+                    transparent 0deg,
+                    transparent 315deg,
+
+                    rgba(
+                        168,
+                        85,
+                        247,
+                        0.05
+                    ) 330deg,
+
+                    rgba(
+                        192,
+                        132,
+                        252,
+                        0.30
+                    ) 344deg,
+
+                    rgba(
+                        217,
+                        70,
+                        239,
+                        0.90
+                    ) 353deg,
+
+                    rgba(
+                        255,
+                        255,
+                        255,
+                        1
+                    ) 359deg,
+
+                    rgba(
+                        192,
+                        132,
+                        252,
+                        0.30
+                    ) 360deg
+                );
+
+            animation-duration:
+                3.2s;
+        }
+
 
         /* =========================================================
            VOUCH IMAGES / LINKS
@@ -285,14 +529,39 @@
 
         .vouch-card img {
             user-select: none;
+
             -webkit-user-drag: none;
+
             pointer-events: none;
         }
 
         .vouch-card a {
             user-select: none;
+
             -webkit-user-drag: none;
         }
+
+
+        /* =========================================================
+           MOBILE
+           ========================================================= */
+
+        @media (max-width: 640px) {
+
+            .vouch-card {
+                width: 285px;
+
+                flex-basis:
+                    285px;
+            }
+
+            .vouch-card:hover {
+                transform:
+                    scale(1.04)
+                    translateY(-3px);
+            }
+        }
+
 
         /* =========================================================
            REDUCED MOTION
@@ -303,10 +572,12 @@
             .vouch-card,
             .vouch-card:hover {
                 transition: none;
-                transform: none;
+
+                transform:
+                    none;
             }
 
-            .vouch-card::before {
+            .vouch-card::after {
                 animation: none;
             }
         }
@@ -316,7 +587,15 @@
 
 
 <body
-    class="antialiased selection:bg-purple-500/30 selection:text-white min-h-screen flex flex-col relative"
+    class="
+        antialiased
+        selection:bg-purple-500/30
+        selection:text-white
+        min-h-screen
+        flex
+        flex-col
+        relative
+    "
 >
 
     <div class="ambient-glow"></div>
@@ -326,13 +605,38 @@
          FLOATING NAVBAR
          ========================================================= -->
 
-    <div class="fixed top-6 left-0 right-0 z-50 px-4">
+    <div
+        class="
+            fixed
+            top-6
+            left-0
+            right-0
+            z-50
+            px-4
+        "
+    >
 
         <nav
-            class="max-w-4xl mx-auto glass rounded-full px-6 py-4 flex justify-between items-center"
+            class="
+                max-w-4xl
+                mx-auto
+                glass
+                rounded-full
+                px-6
+                py-4
+                flex
+                justify-between
+                items-center
+            "
         >
 
-            <div class="flex items-center gap-2.5">
+            <div
+                class="
+                    flex
+                    items-center
+                    gap-2.5
+                "
+            >
 
                 <img
                     src="./acesnaplogonoouter.png"
@@ -340,7 +644,14 @@
                     class="h-7 w-auto"
                 >
 
-                <span class="text-lg font-semibold tracking-wide text-white">
+                <span
+                    class="
+                        text-lg
+                        font-semibold
+                        tracking-wide
+                        text-white
+                    "
+                >
                     Daniel.
                 </span>
 
@@ -349,49 +660,108 @@
 
             <div
                 id="nav-links"
-                class="hidden md:flex gap-8 text-sm font-medium text-gray-400 relative"
+                class="
+                    hidden
+                    md:flex
+                    gap-8
+                    text-sm
+                    font-medium
+                    text-gray-400
+                    relative
+                "
             >
 
                 <a
                     href="#"
                     data-section="gfx"
-                    onclick="event.preventDefault(); scrollToSection('gfx');"
-                    class="nav-link hover:text-white transition-colors pb-1"
+                    onclick="
+                        event.preventDefault();
+                        scrollToSection('gfx');
+                    "
+                    class="
+                        nav-link
+                        hover:text-white
+                        transition-colors
+                        pb-1
+                    "
                 >
                     Design
                 </a>
 
+
                 <a
                     href="#"
                     data-section="experiences"
-                    onclick="event.preventDefault(); scrollToSection('experiences');"
-                    class="nav-link hover:text-white transition-colors pb-1"
+                    onclick="
+                        event.preventDefault();
+                        scrollToSection('experiences');
+                    "
+                    class="
+                        nav-link
+                        hover:text-white
+                        transition-colors
+                        pb-1
+                    "
                 >
                     Experiences
                 </a>
 
+
                 <a
                     href="#"
                     data-section="vouches"
-                    onclick="event.preventDefault(); scrollToSection('vouches');"
-                    class="nav-link hover:text-white transition-colors pb-1"
+                    onclick="
+                        event.preventDefault();
+                        scrollToSection('vouches');
+                    "
+                    class="
+                        nav-link
+                        hover:text-white
+                        transition-colors
+                        pb-1
+                    "
                 >
                     Vouches
                 </a>
 
+
                 <a
                     href="#"
                     data-section="web"
-                    onclick="event.preventDefault(); scrollToSection('web');"
-                    class="nav-link hover:text-white transition-colors pb-1"
+                    onclick="
+                        event.preventDefault();
+                        scrollToSection('web');
+                    "
+                    class="
+                        nav-link
+                        hover:text-white
+                        transition-colors
+                        pb-1
+                    "
                 >
                     Projects
                 </a>
 
+
                 <span
                     id="nav-indicator"
-                    class="absolute bottom-0 h-[2px] rounded-full bg-gradient-to-r from-purple-500 to-fuchsia-400 opacity-0 transition-all duration-300 ease-out"
-                    style="left: 0; width: 0;"
+                    class="
+                        absolute
+                        bottom-0
+                        h-[2px]
+                        rounded-full
+                        bg-gradient-to-r
+                        from-purple-500
+                        to-fuchsia-400
+                        opacity-0
+                        transition-all
+                        duration-300
+                        ease-out
+                    "
+                    style="
+                        left: 0;
+                        width: 0;
+                    "
                 ></span>
 
             </div>
@@ -399,14 +769,44 @@
 
             <button
                 onclick="openContactModal()"
-                class="group relative overflow-hidden text-sm font-medium text-white bg-white/5 border border-white/10 hover:border-purple-400/40 px-4 py-2 rounded-full transition-colors duration-300"
+                class="
+                    group
+                    relative
+                    overflow-hidden
+                    text-sm
+                    font-medium
+                    text-white
+                    bg-white/5
+                    border
+                    border-white/10
+                    hover:border-purple-400/40
+                    px-4
+                    py-2
+                    rounded-full
+                    transition-colors
+                    duration-300
+                "
             >
 
                 <span
-                    class="absolute inset-0 bg-gradient-to-r from-purple-500 to-fuchsia-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out"
+                    class="
+                        absolute
+                        inset-0
+                        bg-gradient-to-r
+                        from-purple-500
+                        to-fuchsia-500
+                        origin-left
+                        scale-x-0
+                        group-hover:scale-x-100
+                        transition-transform
+                        duration-500
+                        ease-out
+                    "
                 ></span>
 
-                <span class="relative z-10">
+                <span
+                    class="relative z-10"
+                >
                     Contact
                 </span>
 
@@ -422,18 +822,47 @@
          ========================================================= -->
 
     <header
-        class="max-w-4xl mx-auto px-6 pt-48 pb-32 text-center w-full"
+        class="
+            max-w-4xl
+            mx-auto
+            px-6
+            pt-48
+            pb-32
+            text-center
+            w-full
+        "
     >
 
         <div
-            class="reveal inline-block mb-6 px-4 py-1.5 glass rounded-full text-xs font-medium text-purple-300 border-purple-500/20"
+            class="
+                reveal
+                inline-block
+                mb-6
+                px-4
+                py-1.5
+                glass
+                rounded-full
+                text-xs
+                font-medium
+                text-purple-300
+                border-purple-500/20
+            "
         >
             Available for new projects
         </div>
 
 
         <h1
-            class="reveal text-5xl md:text-6xl font-medium mb-6 text-white leading-tight tracking-tight"
+            class="
+                reveal
+                text-5xl
+                md:text-6xl
+                font-medium
+                mb-6
+                text-white
+                leading-tight
+                tracking-tight
+            "
         >
 
             Digital designer, manager & <br>
@@ -446,7 +875,15 @@
 
 
         <p
-            class="reveal text-lg text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto"
+            class="
+                reveal
+                text-lg
+                text-gray-400
+                mb-10
+                leading-relaxed
+                max-w-2xl
+                mx-auto
+            "
         >
             Operating as AceSnap. Specializing in high-conversion graphics,
             scalable community infrastructure, and web applications.
@@ -461,63 +898,173 @@
 
     <section
         id="gfx"
-        class="max-w-4xl w-full mx-auto px-6 py-20 relative"
+        class="
+            max-w-4xl
+            w-full
+            mx-auto
+            px-6
+            py-20
+            relative
+        "
     >
 
-        <div class="reveal mb-10 text-center">
+        <div
+            class="
+                reveal
+                mb-10
+                text-center
+            "
+        >
 
-            <h2 class="text-2xl font-medium text-white mb-2">
+            <h2
+                class="
+                    text-2xl
+                    font-medium
+                    text-white
+                    mb-2
+                "
+            >
                 Design Portfolio
             </h2>
 
-            <p class="text-gray-400 text-sm">
+            <p
+                class="
+                    text-gray-400
+                    text-sm
+                "
+            >
                 Thumbnails, custom banners, site advertisements, and social assets.
             </p>
 
         </div>
 
 
-        <div class="reveal relative w-full">
+        <div
+            class="
+                reveal
+                relative
+                w-full
+            "
+        >
 
-            <!-- LEFT -->
+            <!-- LEFT ARROW -->
+
             <button
                 onclick="moveGfx(-1)"
-                class="absolute left-0 top-1/2 -translate-y-1/2 z-20 glass glass-hover w-10 h-10 flex items-center justify-center rounded-full text-white shadow-xl"
+                class="
+                    absolute
+                    left-0
+                    top-1/2
+                    -translate-y-1/2
+                    z-20
+                    glass
+                    glass-hover
+                    w-10
+                    h-10
+                    flex
+                    items-center
+                    justify-center
+                    rounded-full
+                    text-white
+                    shadow-xl
+                "
             >
-                <i class="fa-solid fa-chevron-left"></i>
+
+                <i
+                    class="fa-solid fa-chevron-left"
+                ></i>
+
             </button>
 
 
-            <div class="w-full overflow-hidden rounded-2xl">
+            <!-- SLIDER -->
+
+            <div
+                class="
+                    w-full
+                    overflow-hidden
+                    rounded-2xl
+                "
+            >
 
                 <div
                     id="gfx-track"
-                    class="flex transition-transform duration-500 ease-in-out w-full"
+                    class="
+                        flex
+                        transition-transform
+                        duration-500
+                        ease-in-out
+                        w-full
+                    "
                 >
 
                     <!-- GROUP 1 -->
 
-                    <div class="flex-none w-full flex gap-4 px-12">
+                    <div
+                        class="
+                            flex-none
+                            w-full
+                            flex
+                            gap-4
+                            px-12
+                        "
+                    >
 
                         <div
-                            class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden"
+                            class="
+                                w-1/2
+                                glass
+                                glass-hover
+                                rounded-2xl
+                                p-2
+                                cursor-pointer
+                                flex
+                                items-center
+                                justify-center
+                                overflow-hidden
+                            "
                         >
 
                             <img
                                 src="./casesbanner.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="
+                                    w-full
+                                    h-auto
+                                    rounded-xl
+                                    opacity-80
+                                    hover:opacity-100
+                                    transition-opacity
+                                "
                             >
 
                         </div>
 
 
                         <div
-                            class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden"
+                            class="
+                                w-1/2
+                                glass
+                                glass-hover
+                                rounded-2xl
+                                p-2
+                                cursor-pointer
+                                flex
+                                items-center
+                                justify-center
+                                overflow-hidden
+                            "
                         >
 
                             <img
                                 src="./howthiskeepshappening.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="
+                                    w-full
+                                    h-auto
+                                    rounded-xl
+                                    opacity-80
+                                    hover:opacity-100
+                                    transition-opacity
+                                "
                             >
 
                         </div>
@@ -527,27 +1074,71 @@
 
                     <!-- GROUP 2 -->
 
-                    <div class="flex-none w-full flex gap-4 px-12">
+                    <div
+                        class="
+                            flex-none
+                            w-full
+                            flex
+                            gap-4
+                            px-12
+                        "
+                    >
 
                         <div
-                            class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden"
+                            class="
+                                w-1/2
+                                glass
+                                glass-hover
+                                rounded-2xl
+                                p-2
+                                cursor-pointer
+                                flex
+                                items-center
+                                justify-center
+                                overflow-hidden
+                            "
                         >
 
                             <img
                                 src="./mineschallenge.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="
+                                    w-full
+                                    h-auto
+                                    rounded-xl
+                                    opacity-80
+                                    hover:opacity-100
+                                    transition-opacity
+                                "
                             >
 
                         </div>
 
 
                         <div
-                            class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden"
+                            class="
+                                w-1/2
+                                glass
+                                glass-hover
+                                rounded-2xl
+                                p-2
+                                cursor-pointer
+                                flex
+                                items-center
+                                justify-center
+                                overflow-hidden
+                            "
                         >
 
                             <img
                                 src="./robertobanner.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="
+                                    w-full
+                                    h-auto
+                                    rounded-xl
+                                    opacity-80
+                                    hover:opacity-100
+                                    transition-opacity
+                                "
                             >
 
                         </div>
@@ -557,27 +1148,71 @@
 
                     <!-- GROUP 3 -->
 
-                    <div class="flex-none w-full flex gap-4 px-12">
+                    <div
+                        class="
+                            flex-none
+                            w-full
+                            flex
+                            gap-4
+                            px-12
+                        "
+                    >
 
                         <div
-                            class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden"
+                            class="
+                                w-1/2
+                                glass
+                                glass-hover
+                                rounded-2xl
+                                p-2
+                                cursor-pointer
+                                flex
+                                items-center
+                                justify-center
+                                overflow-hidden
+                            "
                         >
 
                             <img
                                 src="./sorhexbanner.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="
+                                    w-full
+                                    h-auto
+                                    rounded-xl
+                                    opacity-80
+                                    hover:opacity-100
+                                    transition-opacity
+                                "
                             >
 
                         </div>
 
 
                         <div
-                            class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden"
+                            class="
+                                w-1/2
+                                glass
+                                glass-hover
+                                rounded-2xl
+                                p-2
+                                cursor-pointer
+                                flex
+                                items-center
+                                justify-center
+                                overflow-hidden
+                            "
                         >
 
                             <img
                                 src="./thumbnail1.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="
+                                    w-full
+                                    h-auto
+                                    rounded-xl
+                                    opacity-80
+                                    hover:opacity-100
+                                    transition-opacity
+                                "
                             >
 
                         </div>
@@ -587,27 +1222,71 @@
 
                     <!-- GROUP 4 -->
 
-                    <div class="flex-none w-full flex gap-4 px-12">
+                    <div
+                        class="
+                            flex-none
+                            w-full
+                            flex
+                            gap-4
+                            px-12
+                        "
+                    >
 
                         <div
-                            class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden"
+                            class="
+                                w-1/2
+                                glass
+                                glass-hover
+                                rounded-2xl
+                                p-2
+                                cursor-pointer
+                                flex
+                                items-center
+                                justify-center
+                                overflow-hidden
+                            "
                         >
 
                             <img
                                 src="./joshy4.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="
+                                    w-full
+                                    h-auto
+                                    rounded-xl
+                                    opacity-80
+                                    hover:opacity-100
+                                    transition-opacity
+                                "
                             >
 
                         </div>
 
 
                         <div
-                            class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden"
+                            class="
+                                w-1/2
+                                glass
+                                glass-hover
+                                rounded-2xl
+                                p-2
+                                cursor-pointer
+                                flex
+                                items-center
+                                justify-center
+                                overflow-hidden
+                            "
                         >
 
                             <img
                                 src="./shopannouncement.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="
+                                    w-full
+                                    h-auto
+                                    rounded-xl
+                                    opacity-80
+                                    hover:opacity-100
+                                    transition-opacity
+                                "
                             >
 
                         </div>
@@ -617,15 +1296,41 @@
 
                     <!-- GROUP 5 -->
 
-                    <div class="flex-none w-full flex gap-4 px-12">
+                    <div
+                        class="
+                            flex-none
+                            w-full
+                            flex
+                            gap-4
+                            px-12
+                        "
+                    >
 
                         <div
-                            class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden"
+                            class="
+                                w-1/2
+                                glass
+                                glass-hover
+                                rounded-2xl
+                                p-2
+                                cursor-pointer
+                                flex
+                                items-center
+                                justify-center
+                                overflow-hidden
+                            "
                         >
 
                             <img
                                 src="./leaderboardheaded.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="
+                                    w-full
+                                    h-auto
+                                    rounded-xl
+                                    opacity-80
+                                    hover:opacity-100
+                                    transition-opacity
+                                "
                             >
 
                         </div>
@@ -637,14 +1342,32 @@
             </div>
 
 
-            <!-- RIGHT -->
+            <!-- RIGHT ARROW -->
 
             <button
                 onclick="moveGfx(1)"
-                class="absolute right-0 top-1/2 -translate-y-1/2 z-20 glass glass-hover w-10 h-10 flex items-center justify-center rounded-full text-white shadow-xl"
+                class="
+                    absolute
+                    right-0
+                    top-1/2
+                    -translate-y-1/2
+                    z-20
+                    glass
+                    glass-hover
+                    w-10
+                    h-10
+                    flex
+                    items-center
+                    justify-center
+                    rounded-full
+                    text-white
+                    shadow-xl
+                "
             >
 
-                <i class="fa-solid fa-chevron-right"></i>
+                <i
+                    class="fa-solid fa-chevron-right"
+                ></i>
 
             </button>
 
@@ -653,21 +1376,53 @@
 
         <!-- PROGRESS -->
 
-        <div class="reveal max-w-md mx-auto mt-6 px-12">
+        <div
+            class="
+                reveal
+                max-w-md
+                mx-auto
+                mt-6
+                px-12
+            "
+        >
 
-            <div class="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
+            <div
+                class="
+                    w-full
+                    h-1.5
+                    rounded-full
+                    bg-white/5
+                    overflow-hidden
+                "
+            >
 
                 <div
                     id="gfx-progress-bar"
-                    class="h-full rounded-full bg-gradient-to-r from-purple-500 to-fuchsia-400 transition-all duration-500 ease-out"
+                    class="
+                        h-full
+                        rounded-full
+                        bg-gradient-to-r
+                        from-purple-500
+                        to-fuchsia-400
+                        transition-all
+                        duration-500
+                        ease-out
+                    "
                     style="width: 0%;"
                 ></div>
 
             </div>
 
+
             <p
                 id="gfx-progress-label"
-                class="text-center text-xs text-gray-500 mt-2 tracking-wide"
+                class="
+                    text-center
+                    text-xs
+                    text-gray-500
+                    mt-2
+                    tracking-wide
+                "
             ></p>
 
         </div>
@@ -681,66 +1436,192 @@
 
     <section
         id="experiences"
-        class="max-w-6xl w-full mx-auto px-6 py-20"
+        class="
+            max-w-6xl
+            w-full
+            mx-auto
+            px-6
+            py-20
+        "
     >
 
-        <div class="reveal mb-10 text-center">
+        <div
+            class="
+                reveal
+                mb-10
+                text-center
+            "
+        >
 
-            <h2 class="text-2xl font-medium text-white mb-2">
+            <h2
+                class="
+                    text-2xl
+                    font-medium
+                    text-white
+                    mb-2
+                "
+            >
                 Past Experiences
             </h2>
 
-            <p class="text-gray-400 text-sm">
+            <p
+                class="
+                    text-gray-400
+                    text-sm
+                "
+            >
                 Strategic management, design, and growth within the digital space.
             </p>
 
         </div>
 
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
+        <div
+            class="
+                grid
+                grid-cols-1
+                md:grid-cols-2
+                gap-8
+            "
+        >
 
             <!-- DIGITAL GRAPHIC DESIGN -->
 
-            <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
+            <div
+                class="
+                    reveal
+                    glass
+                    p-8
+                    rounded-2xl
+                    relative
+                    overflow-hidden
+                "
+            >
 
                 <div
-                    class="absolute top-0 right-0 w-64 h-64 bg-fuchsia-500/10 blur-[50px] -z-10 rounded-full"
+                    class="
+                        absolute
+                        top-0
+                        right-0
+                        w-64
+                        h-64
+                        bg-fuchsia-500/10
+                        blur-[50px]
+                        -z-10
+                        rounded-full
+                    "
                 ></div>
 
-                <div class="flex justify-between items-baseline mb-4">
 
-                    <h3 class="text-xl font-medium text-white">
+                <div
+                    class="
+                        flex
+                        justify-between
+                        items-baseline
+                        mb-4
+                    "
+                >
+
+                    <h3
+                        class="
+                            text-xl
+                            font-medium
+                            text-white
+                        "
+                    >
                         Digital Graphic Design
                     </h3>
 
+
                     <span
-                        class="text-xs font-medium text-fuchsia-300 bg-fuchsia-500/10 border border-fuchsia-500/20 px-3 py-1 rounded-full"
+                        class="
+                            text-xs
+                            font-medium
+                            text-fuchsia-300
+                            bg-fuchsia-500/10
+                            border
+                            border-fuchsia-500/20
+                            px-3
+                            py-1
+                            rounded-full
+                        "
                     >
                         4 Years
                     </span>
 
                 </div>
 
-                <p class="text-sm text-gray-400 mb-8">
+
+                <p
+                    class="
+                        text-sm
+                        text-gray-400
+                        mb-8
+                    "
+                >
                     Freelance GFX Artist
                 </p>
 
-                <ul class="space-y-4 text-sm text-gray-300">
+
+                <ul
+                    class="
+                        space-y-4
+                        text-sm
+                        text-gray-300
+                    "
+                >
 
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-fuchsia-400 mt-1 mr-3 text-xs"></i>
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-arrow-right
+                                text-fuchsia-400
+                                mt-1
+                                mr-3
+                                text-xs
+                            "
+                        ></i>
+
                         Designed high-conversion thumbnails, custom banners, and site advertisements.
+
                     </li>
 
+
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-fuchsia-400 mt-1 mr-3 text-xs"></i>
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-arrow-right
+                                text-fuchsia-400
+                                mt-1
+                                mr-3
+                                text-xs
+                            "
+                        ></i>
+
                         Developed unique visual branding and tailored social assets for creators.
+
                     </li>
 
+
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-fuchsia-400 mt-1 mr-3 text-xs"></i>
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-arrow-right
+                                text-fuchsia-400
+                                mt-1
+                                mr-3
+                                text-xs
+                            "
+                        ></i>
+
                         Maintained consistent, premium quality across diverse digital deliverables.
+
                     </li>
 
                 </ul>
@@ -748,47 +1629,143 @@
             </div>
 
 
-            <!-- WEBSITE -->
+            <!-- WEBSITE DEVELOPMENT -->
 
-            <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
+            <div
+                class="
+                    reveal
+                    glass
+                    p-8
+                    rounded-2xl
+                    relative
+                    overflow-hidden
+                "
+            >
 
                 <div
-                    class="absolute top-0 left-0 w-64 h-64 bg-violet-500/10 blur-[50px] -z-10 rounded-full"
+                    class="
+                        absolute
+                        top-0
+                        left-0
+                        w-64
+                        h-64
+                        bg-violet-500/10
+                        blur-[50px]
+                        -z-10
+                        rounded-full
+                    "
                 ></div>
 
-                <div class="flex justify-between items-baseline mb-4">
 
-                    <h3 class="text-xl font-medium text-white">
+                <div
+                    class="
+                        flex
+                        justify-between
+                        items-baseline
+                        mb-4
+                    "
+                >
+
+                    <h3
+                        class="
+                            text-xl
+                            font-medium
+                            text-white
+                        "
+                    >
                         Website & UI Development
                     </h3>
 
+
                     <span
-                        class="text-xs font-medium text-violet-300 bg-violet-500/10 border border-violet-500/20 px-3 py-1 rounded-full"
+                        class="
+                            text-xs
+                            font-medium
+                            text-violet-300
+                            bg-violet-500/10
+                            border
+                            border-violet-500/20
+                            px-3
+                            py-1
+                            rounded-full
+                        "
                     >
                         2 Years
                     </span>
 
                 </div>
 
-                <p class="text-sm text-gray-400 mb-8">
+
+                <p
+                    class="
+                        text-sm
+                        text-gray-400
+                        mb-8
+                    "
+                >
                     Full-Stack & Front-End Developer
                 </p>
 
-                <ul class="space-y-4 text-sm text-gray-300">
+
+                <ul
+                    class="
+                        space-y-4
+                        text-sm
+                        text-gray-300
+                    "
+                >
 
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-violet-400 mt-1 mr-3 text-xs"></i>
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-arrow-right
+                                text-violet-400
+                                mt-1
+                                mr-3
+                                text-xs
+                            "
+                        ></i>
+
                         Built complete full-stack web applications and interactive UI components.
+
                     </li>
 
+
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-violet-400 mt-1 mr-3 text-xs"></i>
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-arrow-right
+                                text-violet-400
+                                mt-1
+                                mr-3
+                                text-xs
+                            "
+                        ></i>
+
                         Specialized in crafting sleek front-ends alongside robust backend integrations.
+
                     </li>
 
+
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-violet-400 mt-1 mr-3 text-xs"></i>
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-arrow-right
+                                text-violet-400
+                                mt-1
+                                mr-3
+                                text-xs
+                            "
+                        ></i>
+
                         Created dynamic systems, mockups, and scalable digital experiences.
+
                     </li>
 
                 </ul>
@@ -798,45 +1775,141 @@
 
             <!-- RORUSH -->
 
-            <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
+            <div
+                class="
+                    reveal
+                    glass
+                    p-8
+                    rounded-2xl
+                    relative
+                    overflow-hidden
+                "
+            >
 
                 <div
-                    class="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-[50px] -z-10 rounded-full"
+                    class="
+                        absolute
+                        top-0
+                        right-0
+                        w-64
+                        h-64
+                        bg-purple-500/10
+                        blur-[50px]
+                        -z-10
+                        rounded-full
+                    "
                 ></div>
 
-                <div class="flex justify-between items-baseline mb-4">
 
-                    <h3 class="text-xl font-medium text-white">
+                <div
+                    class="
+                        flex
+                        justify-between
+                        items-baseline
+                        mb-4
+                    "
+                >
+
+                    <h3
+                        class="
+                            text-xl
+                            font-medium
+                            text-white
+                        "
+                    >
                         RoRush
                     </h3>
 
+
                     <span
-                        class="text-xs font-medium text-purple-300 bg-purple-500/10 border border-purple-500/20 px-3 py-1 rounded-full"
+                        class="
+                            text-xs
+                            font-medium
+                            text-purple-300
+                            bg-purple-500/10
+                            border
+                            border-purple-500/20
+                            px-3
+                            py-1
+                            rounded-full
+                        "
                     >
                         2 Years
                     </span>
 
                 </div>
 
-                <p class="text-sm text-gray-400 mb-8">
+
+                <p
+                    class="
+                        text-sm
+                        text-gray-400
+                        mb-8
+                    "
+                >
                     Moderator → Community Manager
                 </p>
 
-                <ul class="space-y-4 text-sm text-gray-300">
+
+                <ul
+                    class="
+                        space-y-4
+                        text-sm
+                        text-gray-300
+                    "
+                >
 
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-purple-400 mt-1 mr-3 text-xs"></i>
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-arrow-right
+                                text-purple-400
+                                mt-1
+                                mr-3
+                                text-xs
+                            "
+                        ></i>
+
                         Managed official social channels and executed targeted promotional campaigns.
+
                     </li>
 
+
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-purple-400 mt-1 mr-3 text-xs"></i>
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-arrow-right
+                                text-purple-400
+                                mt-1
+                                mr-3
+                                text-xs
+                            "
+                        ></i>
+
                         Planned and orchestrated large-scale community events and structured giveaways.
+
                     </li>
 
+
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-purple-400 mt-1 mr-3 text-xs"></i>
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-arrow-right
+                                text-purple-400
+                                mt-1
+                                mr-3
+                                text-xs
+                            "
+                        ></i>
+
                         Directed the moderation staff, established workflows, and maintained platform integrity.
+
                     </li>
 
                 </ul>
@@ -846,39 +1919,124 @@
 
             <!-- STREAMER ADMIN -->
 
-            <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
+            <div
+                class="
+                    reveal
+                    glass
+                    p-8
+                    rounded-2xl
+                    relative
+                    overflow-hidden
+                "
+            >
 
                 <div
-                    class="absolute top-0 left-0 w-64 h-64 bg-indigo-500/10 blur-[50px] -z-10 rounded-full"
+                    class="
+                        absolute
+                        top-0
+                        left-0
+                        w-64
+                        h-64
+                        bg-indigo-500/10
+                        blur-[50px]
+                        -z-10
+                        rounded-full
+                    "
                 ></div>
 
-                <div class="flex justify-between items-baseline mb-4">
 
-                    <h3 class="text-xl font-medium text-white">
+                <div
+                    class="
+                        flex
+                        justify-between
+                        items-baseline
+                        mb-4
+                    "
+                >
+
+                    <h3
+                        class="
+                            text-xl
+                            font-medium
+                            text-white
+                        "
+                    >
                         Various Creators
                     </h3>
 
                 </div>
 
-                <p class="text-sm text-gray-400 mb-8">
+
+                <p
+                    class="
+                        text-sm
+                        text-gray-400
+                        mb-8
+                    "
+                >
                     Streamer Admin & Moderator
                 </p>
 
-                <ul class="space-y-4 text-sm text-gray-300">
+
+                <ul
+                    class="
+                        space-y-4
+                        text-sm
+                        text-gray-300
+                    "
+                >
 
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-indigo-400 mt-1 mr-3 text-xs"></i>
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-arrow-right
+                                text-indigo-400
+                                mt-1
+                                mr-3
+                                text-xs
+                            "
+                        ></i>
+
                         Acted as administrative support and moderation lead for multiple streaming personalities.
+
                     </li>
 
+
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-indigo-400 mt-1 mr-3 text-xs"></i>
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-arrow-right
+                                text-indigo-400
+                                mt-1
+                                mr-3
+                                text-xs
+                            "
+                        ></i>
+
                         Maintained live chat environments, filtered content, and enforced community guidelines.
+
                     </li>
 
+
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-indigo-400 mt-1 mr-3 text-xs"></i>
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-arrow-right
+                                text-indigo-400
+                                mt-1
+                                mr-3
+                                text-xs
+                            "
+                        ></i>
+
                         Assisted in coordinating on-stream events and viewer interactions.
+
                     </li>
 
                 </ul>
@@ -896,26 +2054,67 @@
 
     <section
         id="vouches"
-        class="max-w-6xl w-full mx-auto py-20 relative"
+        class="
+            max-w-6xl
+            w-full
+            mx-auto
+            py-20
+            relative
+        "
     >
 
-        <div class="reveal mb-10 text-center px-6">
+        <div
+            class="
+                reveal
+                mb-10
+                text-center
+                px-6
+            "
+        >
 
-            <h2 class="text-2xl font-medium text-white mb-2">
+            <h2
+                class="
+                    text-2xl
+                    font-medium
+                    text-white
+                    mb-2
+                "
+            >
                 Vouches
             </h2>
 
-            <p class="text-gray-400 text-sm mb-4">
+
+            <p
+                class="
+                    text-gray-400
+                    text-sm
+                    mb-4
+                "
+            >
                 Feedback from clients and creators I've worked with.
             </p>
 
-            <p class="text-gray-600 text-xs mb-4">
+
+            <p
+                class="
+                    text-gray-600
+                    text-xs
+                    mb-4
+                "
+            >
                 Vouches are approved manually — might not be all up to date.
             </p>
 
+
             <div
                 id="vouch-summary"
-                class="inline-flex items-center gap-2 text-sm text-gray-300"
+                class="
+                    inline-flex
+                    items-center
+                    gap-2
+                    text-sm
+                    text-gray-300
+                "
             ></div>
 
         </div>
@@ -923,7 +2122,10 @@
 
         <div
             id="vouch-mask"
-            class="reveal vouch-mask"
+            class="
+                reveal
+                vouch-mask
+            "
         >
 
             <div
@@ -936,7 +2138,14 @@
 
         <p
             id="vouch-empty"
-            class="reveal text-center text-sm text-gray-500 py-8 hidden"
+            class="
+                reveal
+                text-center
+                text-sm
+                text-gray-500
+                py-8
+                hidden
+            "
         >
             No vouches yet — be the first.
         </p>
@@ -950,70 +2159,202 @@
 
     <section
         id="web"
-        class="max-w-6xl w-full mx-auto px-6 py-20 relative"
+        class="
+            max-w-6xl
+            w-full
+            mx-auto
+            px-6
+            py-20
+            relative
+        "
     >
 
-        <div class="reveal mb-10 text-center">
+        <div
+            class="
+                reveal
+                mb-10
+                text-center
+            "
+        >
 
-            <h2 class="text-2xl font-medium text-white mb-2">
+            <h2
+                class="
+                    text-2xl
+                    font-medium
+                    text-white
+                    mb-2
+                "
+            >
                 Website Projects
             </h2>
 
-            <p class="text-gray-400 text-sm">
+
+            <p
+                class="
+                    text-gray-400
+                    text-sm
+                "
+            >
                 Live interactive deployments and UI/UX integrations.
             </p>
 
         </div>
 
 
-        <div class="reveal relative w-full rounded-2xl">
-
+        <div
+            class="
+                reveal
+                relative
+                w-full
+                rounded-2xl
+            "
+        >
 
             <!-- LEFT -->
 
             <button
                 onclick="moveWeb(-1)"
-                class="absolute left-0 top-1/2 -translate-y-1/2 z-30 glass glass-hover p-4 rounded-r-xl text-white shadow-xl"
+                class="
+                    absolute
+                    left-0
+                    top-1/2
+                    -translate-y-1/2
+                    z-30
+                    glass
+                    glass-hover
+                    p-4
+                    rounded-r-xl
+                    text-white
+                    shadow-xl
+                "
             >
 
-                <i class="fa-solid fa-chevron-left"></i>
+                <i
+                    class="fa-solid fa-chevron-left"
+                ></i>
 
             </button>
 
 
-            <div class="w-full overflow-hidden rounded-2xl">
+            <div
+                class="
+                    w-full
+                    overflow-hidden
+                    rounded-2xl
+                "
+            >
 
                 <div
                     id="web-track"
-                    class="flex transition-transform duration-500 ease-in-out w-full"
+                    class="
+                        flex
+                        transition-transform
+                        duration-500
+                        ease-in-out
+                        w-full
+                    "
                 >
 
+                    <!-- HEADED.GG -->
 
-                    <!-- HEADED -->
-
-                    <div class="flex-none w-full glass p-1">
+                    <div
+                        class="
+                            flex-none
+                            w-full
+                            glass
+                            p-1
+                        "
+                    >
 
                         <div
-                            class="bg-[#0a0a0a] rounded-xl overflow-hidden h-full flex flex-col"
+                            class="
+                                bg-[#0a0a0a]
+                                rounded-xl
+                                overflow-hidden
+                                h-full
+                                flex
+                                flex-col
+                            "
                         >
 
                             <div
-                                class="bg-white/5 backdrop-blur-md p-3 flex items-center border-b border-white/5 shrink-0"
+                                class="
+                                    bg-white/5
+                                    backdrop-blur-md
+                                    p-3
+                                    flex
+                                    items-center
+                                    border-b
+                                    border-white/5
+                                    shrink-0
+                                "
                             >
 
-                                <div class="flex gap-2 mr-6 px-2">
+                                <div
+                                    class="
+                                        flex
+                                        gap-2
+                                        mr-6
+                                        px-2
+                                    "
+                                >
 
-                                    <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
-                                    <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                                    <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                                    <div
+                                        class="
+                                            w-3
+                                            h-3
+                                            rounded-full
+                                            bg-red-500/80
+                                        "
+                                    ></div>
+
+                                    <div
+                                        class="
+                                            w-3
+                                            h-3
+                                            rounded-full
+                                            bg-yellow-500/80
+                                        "
+                                    ></div>
+
+                                    <div
+                                        class="
+                                            w-3
+                                            h-3
+                                            rounded-full
+                                            bg-green-500/80
+                                        "
+                                    ></div>
 
                                 </div>
 
+
                                 <div
-                                    class="bg-black/50 text-xs px-4 py-1.5 rounded-md text-gray-400 font-mono border border-white/5 flex items-center gap-2 mx-auto"
+                                    class="
+                                        bg-black/50
+                                        text-xs
+                                        px-4
+                                        py-1.5
+                                        rounded-md
+                                        text-gray-400
+                                        font-mono
+                                        border
+                                        border-white/5
+                                        flex
+                                        items-center
+                                        gap-2
+                                        mx-auto
+                                    "
                                 >
 
-                                    <i class="fa-solid fa-lock text-purple-400 text-[10px]"></i>
+                                    <i
+                                        class="
+                                            fa-solid
+                                            fa-lock
+                                            text-purple-400
+                                            text-[10px]
+                                        "
+                                    ></i>
 
                                     headed.gg
 
@@ -1022,11 +2363,26 @@
                             </div>
 
 
-                            <div class="w-full h-[600px] prevent-scroll-bleed relative">
+                            <div
+                                class="
+                                    w-full
+                                    h-[600px]
+                                    prevent-scroll-bleed
+                                    relative
+                                "
+                            >
 
                                 <iframe
                                     src="https://headed.gg"
-                                    class="absolute inset-0 w-full h-full border-none bg-[#050505] prevent-scroll-bleed"
+                                    class="
+                                        absolute
+                                        inset-0
+                                        w-full
+                                        h-full
+                                        border-none
+                                        bg-[#050505]
+                                        prevent-scroll-bleed
+                                    "
                                 ></iframe>
 
                             </div>
@@ -1036,31 +2392,106 @@
                     </div>
 
 
-                    <!-- SARGE -->
+                    <!-- SARGE PLAY REWARDS -->
 
-                    <div class="flex-none w-full glass p-1">
+                    <div
+                        class="
+                            flex-none
+                            w-full
+                            glass
+                            p-1
+                        "
+                    >
 
                         <div
-                            class="bg-[#0a0a0a] rounded-xl overflow-hidden h-full flex flex-col"
+                            class="
+                                bg-[#0a0a0a]
+                                rounded-xl
+                                overflow-hidden
+                                h-full
+                                flex
+                                flex-col
+                            "
                         >
 
                             <div
-                                class="bg-white/5 backdrop-blur-md p-3 flex items-center border-b border-white/5 shrink-0"
+                                class="
+                                    bg-white/5
+                                    backdrop-blur-md
+                                    p-3
+                                    flex
+                                    items-center
+                                    border-b
+                                    border-white/5
+                                    shrink-0
+                                "
                             >
 
-                                <div class="flex gap-2 mr-6 px-2">
+                                <div
+                                    class="
+                                        flex
+                                        gap-2
+                                        mr-6
+                                        px-2
+                                    "
+                                >
 
-                                    <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
-                                    <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                                    <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                                    <div
+                                        class="
+                                            w-3
+                                            h-3
+                                            rounded-full
+                                            bg-red-500/80
+                                        "
+                                    ></div>
+
+                                    <div
+                                        class="
+                                            w-3
+                                            h-3
+                                            rounded-full
+                                            bg-yellow-500/80
+                                        "
+                                    ></div>
+
+                                    <div
+                                        class="
+                                            w-3
+                                            h-3
+                                            rounded-full
+                                            bg-green-500/80
+                                        "
+                                    ></div>
 
                                 </div>
 
+
                                 <div
-                                    class="bg-black/50 text-xs px-4 py-1.5 rounded-md text-gray-400 font-mono border border-white/5 flex items-center gap-2 mx-auto"
+                                    class="
+                                        bg-black/50
+                                        text-xs
+                                        px-4
+                                        py-1.5
+                                        rounded-md
+                                        text-gray-400
+                                        font-mono
+                                        border
+                                        border-white/5
+                                        flex
+                                        items-center
+                                        gap-2
+                                        mx-auto
+                                    "
                                 >
 
-                                    <i class="fa-solid fa-lock text-purple-400 text-[10px]"></i>
+                                    <i
+                                        class="
+                                            fa-solid
+                                            fa-lock
+                                            text-purple-400
+                                            text-[10px]
+                                        "
+                                    ></i>
 
                                     www.sargeplayrewards.com
 
@@ -1069,11 +2500,26 @@
                             </div>
 
 
-                            <div class="w-full h-[600px] prevent-scroll-bleed relative">
+                            <div
+                                class="
+                                    w-full
+                                    h-[600px]
+                                    prevent-scroll-bleed
+                                    relative
+                                "
+                            >
 
                                 <iframe
                                     src="https://www.sargeplayrewards.com/"
-                                    class="absolute inset-0 w-full h-full border-none bg-[#050505] prevent-scroll-bleed"
+                                    class="
+                                        absolute
+                                        inset-0
+                                        w-full
+                                        h-full
+                                        border-none
+                                        bg-[#050505]
+                                        prevent-scroll-bleed
+                                    "
                                 ></iframe>
 
                             </div>
@@ -1091,10 +2537,24 @@
 
             <button
                 onclick="moveWeb(1)"
-                class="absolute right-0 top-1/2 -translate-y-1/2 z-30 glass glass-hover p-4 rounded-l-xl text-white shadow-xl"
+                class="
+                    absolute
+                    right-0
+                    top-1/2
+                    -translate-y-1/2
+                    z-30
+                    glass
+                    glass-hover
+                    p-4
+                    rounded-l-xl
+                    text-white
+                    shadow-xl
+                "
             >
 
-                <i class="fa-solid fa-chevron-right"></i>
+                <i
+                    class="fa-solid fa-chevron-right"
+                ></i>
 
             </button>
 
@@ -1108,17 +2568,43 @@
          ========================================================= -->
 
     <footer
-        class="reveal max-w-4xl w-full mx-auto px-6 py-12 mt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6"
+        class="
+            reveal
+            max-w-4xl
+            w-full
+            mx-auto
+            px-6
+            py-12
+            mt-10
+            border-t
+            border-white/5
+            flex
+            flex-col
+            md:flex-row
+            justify-between
+            items-center
+            gap-6
+        "
     >
 
         <div
-            class="text-sm text-gray-500 flex items-center gap-2"
+            class="
+                text-sm
+                text-gray-500
+                flex
+                items-center
+                gap-2
+            "
         >
 
             <img
                 src="./acesnaplogonoouter.png"
                 alt="AceSnap logo"
-                class="h-4 w-auto opacity-70"
+                class="
+                    h-4
+                    w-auto
+                    opacity-70
+                "
             >
 
             © 2026 Daniel. All rights reserved.
@@ -1128,12 +2614,27 @@
 
         <button
             onclick="openContactModal()"
-            class="text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-2"
+            class="
+                text-sm
+                font-medium
+                text-gray-300
+                hover:text-white
+                transition-colors
+                flex
+                items-center
+                gap-2
+            "
         >
 
             Get in touch
 
-            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+            <i
+                class="
+                    fa-solid
+                    fa-arrow-up-right-from-square
+                    text-xs
+                "
+            ></i>
 
         </button>
 
@@ -1146,31 +2647,88 @@
 
     <div
         id="contactModal"
-        class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300"
+        class="
+            fixed
+            inset-0
+            z-[100]
+            flex
+            items-center
+            justify-center
+            opacity-0
+            pointer-events-none
+            transition-opacity
+            duration-300
+        "
     >
 
+        <!-- BACKDROP -->
+
         <div
-            class="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
+            class="
+                absolute
+                inset-0
+                bg-black/60
+                backdrop-blur-sm
+                cursor-pointer
+            "
             onclick="closeContactModal()"
         ></div>
 
 
+        <!-- CONTENT -->
+
         <div
-            class="glass p-8 rounded-2xl w-[90%] max-w-md relative z-10 transform scale-95 transition-transform duration-300"
             id="modalContent"
+            class="
+                glass
+                p-8
+                rounded-2xl
+                w-[90%]
+                max-w-md
+                relative
+                z-10
+                transform
+                scale-95
+                transition-transform
+                duration-300
+            "
         >
 
             <button
                 onclick="closeContactModal()"
-                class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition"
+                class="
+                    absolute
+                    top-4
+                    right-4
+                    w-8
+                    h-8
+                    flex
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-white/5
+                    text-gray-400
+                    hover:text-white
+                    hover:bg-white/10
+                    transition
+                "
             >
 
-                <i class="fa-solid fa-xmark"></i>
+                <i
+                    class="fa-solid fa-xmark"
+                ></i>
 
             </button>
 
 
-            <h3 class="text-2xl font-medium text-white mb-6">
+            <h3
+                class="
+                    text-2xl
+                    font-medium
+                    text-white
+                    mb-6
+                "
+            >
                 Let's Connect
             </h3>
 
@@ -1182,25 +2740,69 @@
 
                 <a
                     href="mailto:acesnapbuisness@gmail.com"
-                    class="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-purple-500/30 transition group"
+                    class="
+                        flex
+                        items-center
+                        gap-4
+                        p-4
+                        rounded-xl
+                        border
+                        border-white/5
+                        bg-white/5
+                        hover:bg-white/10
+                        hover:border-purple-500/30
+                        transition
+                        group
+                    "
                 >
 
                     <div
-                        class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 group-hover:bg-purple-500/30 group-hover:scale-110 transition duration-300"
+                        class="
+                            w-10
+                            h-10
+                            rounded-full
+                            bg-purple-500/20
+                            flex
+                            items-center
+                            justify-center
+                            text-purple-400
+                            group-hover:bg-purple-500/30
+                            group-hover:scale-110
+                            transition
+                            duration-300
+                        "
                     >
 
-                        <i class="fa-solid fa-envelope"></i>
+                        <i
+                            class="fa-solid fa-envelope"
+                        ></i>
 
                     </div>
 
 
                     <div>
 
-                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">
+                        <p
+                            class="
+                                text-xs
+                                text-gray-400
+                                font-medium
+                                uppercase
+                                tracking-wider
+                                mb-0.5
+                            "
+                        >
                             Email
                         </p>
 
-                        <p class="text-white font-medium text-sm">
+
+                        <p
+                            class="
+                                text-white
+                                font-medium
+                                text-sm
+                            "
+                        >
                             acesnapbuisness@gmail.com
                         </p>
 
@@ -1212,35 +2814,92 @@
                 <!-- DISCORD -->
 
                 <div
-                    class="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-indigo-500/30 transition group cursor-pointer"
                     onclick="copyDiscord(this)"
+                    class="
+                        flex
+                        items-center
+                        gap-4
+                        p-4
+                        rounded-xl
+                        border
+                        border-white/5
+                        bg-white/5
+                        hover:bg-white/10
+                        hover:border-indigo-500/30
+                        transition
+                        group
+                        cursor-pointer
+                    "
                 >
 
                     <div
-                        class="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-500/30 group-hover:scale-110 transition duration-300"
+                        class="
+                            w-10
+                            h-10
+                            rounded-full
+                            bg-indigo-500/20
+                            flex
+                            items-center
+                            justify-center
+                            text-indigo-400
+                            group-hover:bg-indigo-500/30
+                            group-hover:scale-110
+                            transition
+                            duration-300
+                        "
                     >
 
-                        <i class="fa-brands fa-discord"></i>
+                        <i
+                            class="fa-brands fa-discord"
+                        ></i>
 
                     </div>
 
 
                     <div class="flex-grow">
 
-                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">
+                        <p
+                            class="
+                                text-xs
+                                text-gray-400
+                                font-medium
+                                uppercase
+                                tracking-wider
+                                mb-0.5
+                            "
+                        >
                             Discord
                         </p>
 
-                        <p class="text-white font-medium text-sm">
+
+                        <p
+                            class="
+                                text-white
+                                font-medium
+                                text-sm
+                            "
+                        >
                             acesnapgfx
                         </p>
 
                     </div>
 
 
-                    <div class="text-gray-500 group-hover:text-white transition">
+                    <div
+                        class="
+                            text-gray-500
+                            group-hover:text-white
+                            transition
+                        "
+                    >
 
-                        <i class="fa-regular fa-copy copy-icon"></i>
+                        <i
+                            class="
+                                fa-regular
+                                fa-copy
+                                copy-icon
+                            "
+                        ></i>
 
                     </div>
 
@@ -1252,25 +2911,73 @@
                 <a
                     href="https://t.me/acesnap"
                     target="_blank"
-                    class="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-fuchsia-500/30 transition group"
+                    rel="noopener noreferrer"
+                    class="
+                        flex
+                        items-center
+                        gap-4
+                        p-4
+                        rounded-xl
+                        border
+                        border-white/5
+                        bg-white/5
+                        hover:bg-white/10
+                        hover:border-fuchsia-500/30
+                        transition
+                        group
+                    "
                 >
 
                     <div
-                        class="w-10 h-10 rounded-full bg-fuchsia-500/20 flex items-center justify-center text-fuchsia-400 group-hover:bg-fuchsia-500/30 group-hover:scale-110 transition duration-300"
+                        class="
+                            w-10
+                            h-10
+                            rounded-full
+                            bg-fuchsia-500/20
+                            flex
+                            items-center
+                            justify-center
+                            text-fuchsia-400
+                            group-hover:bg-fuchsia-500/30
+                            group-hover:scale-110
+                            transition
+                            duration-300
+                        "
                     >
 
-                        <i class="fa-brands fa-telegram"></i>
+                        <i
+                            class="
+                                fa-brands
+                                fa-telegram
+                            "
+                        ></i>
 
                     </div>
 
 
                     <div>
 
-                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">
+                        <p
+                            class="
+                                text-xs
+                                text-gray-400
+                                font-medium
+                                uppercase
+                                tracking-wider
+                                mb-0.5
+                            "
+                        >
                             Telegram
                         </p>
 
-                        <p class="text-white font-medium text-sm">
+
+                        <p
+                            class="
+                                text-white
+                                font-medium
+                                text-sm
+                            "
+                        >
                             @acesnap
                         </p>
 
@@ -1297,7 +3004,8 @@
 
         function scrollToSection(id) {
 
-            const section = document.getElementById(id);
+            const section =
+                document.getElementById(id);
 
             if (!section) return;
 
@@ -1309,7 +3017,7 @@
                 offset;
 
             window.scrollTo({
-                top,
+                top: top,
                 behavior: 'smooth'
             });
         }
@@ -1322,52 +3030,81 @@
         function openContactModal() {
 
             const modal =
-                document.getElementById('contactModal');
+                document.getElementById(
+                    'contactModal'
+                );
 
             const content =
-                document.getElementById('modalContent');
+                document.getElementById(
+                    'modalContent'
+                );
+
 
             modal.classList.remove(
                 'opacity-0',
                 'pointer-events-none'
             );
 
-            content.classList.remove('scale-95');
 
-            content.classList.add('scale-100');
+            content.classList.remove(
+                'scale-95'
+            );
+
+
+            content.classList.add(
+                'scale-100'
+            );
         }
 
 
         function closeContactModal() {
 
             const modal =
-                document.getElementById('contactModal');
+                document.getElementById(
+                    'contactModal'
+                );
 
             const content =
-                document.getElementById('modalContent');
+                document.getElementById(
+                    'modalContent'
+                );
+
 
             modal.classList.add(
                 'opacity-0',
                 'pointer-events-none'
             );
 
-            content.classList.remove('scale-100');
 
-            content.classList.add('scale-95');
+            content.classList.remove(
+                'scale-100'
+            );
+
+
+            content.classList.add(
+                'scale-95'
+            );
         }
 
 
         function copyDiscord(element) {
 
-            navigator.clipboard.writeText('acesnapgfx');
+            navigator.clipboard.writeText(
+                'acesnapgfx'
+            );
+
 
             const icon =
-                element.querySelector('.copy-icon');
+                element.querySelector(
+                    '.copy-icon'
+                );
+
 
             icon.classList.remove(
                 'fa-copy',
                 'fa-regular'
             );
+
 
             icon.classList.add(
                 'fa-check',
@@ -1383,6 +3120,7 @@
                     'fa-solid',
                     'text-green-400'
                 );
+
 
                 icon.classList.add(
                     'fa-copy',
@@ -1400,28 +3138,41 @@
         let currentGfx = 0;
 
         const gfxTrack =
-            document.getElementById('gfx-track');
+            document.getElementById(
+                'gfx-track'
+            );
 
         const totalGfxPages = 5;
 
         const gfxProgressBar =
-            document.getElementById('gfx-progress-bar');
+            document.getElementById(
+                'gfx-progress-bar'
+            );
 
         const gfxProgressLabel =
-            document.getElementById('gfx-progress-label');
+            document.getElementById(
+                'gfx-progress-label'
+            );
 
 
         function updateGfxProgress() {
 
             const pct =
-                ((currentGfx + 1) / totalGfxPages) * 100;
+                (
+                    (currentGfx + 1) /
+                    totalGfxPages
+                ) * 100;
+
 
             if (gfxProgressBar) {
+
                 gfxProgressBar.style.width =
                     `${pct}%`;
             }
 
+
             if (gfxProgressLabel) {
+
                 gfxProgressLabel.textContent =
                     `${currentGfx + 1} / ${totalGfxPages} viewed`;
             }
@@ -1432,19 +3183,31 @@
 
             currentGfx += direction;
 
-            if (currentGfx >= totalGfxPages) {
+
+            if (
+                currentGfx >=
+                totalGfxPages
+            ) {
+
                 currentGfx = 0;
             }
 
-            if (currentGfx < 0) {
-                currentGfx = totalGfxPages - 1;
+
+            if (
+                currentGfx < 0
+            ) {
+
+                currentGfx =
+                    totalGfxPages - 1;
             }
+
 
             if (gfxTrack) {
 
                 gfxTrack.style.transform =
                     `translateX(-${currentGfx * 100}%)`;
             }
+
 
             updateGfxProgress();
         }
@@ -1458,7 +3221,9 @@
            ===================================================== */
 
         const gfxSection =
-            document.getElementById('gfx');
+            document.getElementById(
+                'gfx'
+            );
 
         let gfxAutoplay = null;
 
@@ -1466,6 +3231,7 @@
         function startGfxAutoplay() {
 
             stopGfxAutoplay();
+
 
             gfxAutoplay =
                 setInterval(() => {
@@ -1480,7 +3246,9 @@
 
             if (gfxAutoplay) {
 
-                clearInterval(gfxAutoplay);
+                clearInterval(
+                    gfxAutoplay
+                );
 
                 gfxAutoplay = null;
             }
@@ -1493,6 +3261,7 @@
                 'mouseenter',
                 stopGfxAutoplay
             );
+
 
             gfxSection.addEventListener(
                 'mouseleave',
@@ -1517,13 +3286,15 @@
 
 
         /* =====================================================
-           WEB PROJECTS SLIDER
+           WEB PROJECT SLIDER
            ===================================================== */
 
         let currentWeb = 0;
 
         const webTrack =
-            document.getElementById('web-track');
+            document.getElementById(
+                'web-track'
+            );
 
         const totalWebPages = 2;
 
@@ -1532,13 +3303,24 @@
 
             currentWeb += direction;
 
-            if (currentWeb >= totalWebPages) {
+
+            if (
+                currentWeb >=
+                totalWebPages
+            ) {
+
                 currentWeb = 0;
             }
 
-            if (currentWeb < 0) {
-                currentWeb = totalWebPages - 1;
+
+            if (
+                currentWeb < 0
+            ) {
+
+                currentWeb =
+                    totalWebPages - 1;
             }
+
 
             if (webTrack) {
 
@@ -1555,7 +3337,9 @@
         (function () {
 
             const revealEls =
-                document.querySelectorAll('.reveal');
+                document.querySelectorAll(
+                    '.reveal'
+                );
 
 
             if (
@@ -1563,9 +3347,13 @@
                 revealEls.length === 0
             ) {
 
-                revealEls.forEach(el =>
-                    el.classList.add('in-view')
-                );
+                revealEls.forEach(el => {
+
+                    el.classList.add(
+                        'in-view'
+                    );
+
+                });
 
                 return;
             }
@@ -1575,26 +3363,32 @@
                 new IntersectionObserver(
                     (entries) => {
 
-                        entries.forEach(entry => {
+                        entries.forEach(
+                            entry => {
 
-                            entry.target.classList.toggle(
-                                'in-view',
-                                entry.isIntersecting
-                            );
+                                entry.target.classList.toggle(
+                                    'in-view',
+                                    entry.isIntersecting
+                                );
 
-                        });
+                            }
+                        );
 
                     },
                     {
                         threshold: 0.15,
-                        rootMargin: '0px 0px -8% 0px'
+
+                        rootMargin:
+                            '0px 0px -8% 0px'
                     }
                 );
 
 
-            revealEls.forEach(el =>
-                observer.observe(el)
-            );
+            revealEls.forEach(el => {
+
+                observer.observe(el);
+
+            });
 
         })();
 
@@ -1608,28 +3402,37 @@
             {
                 name: "Alen",
                 role: "Discord",
-                quote: "Fast, good quality. Recommend working with him!",
+                quote:
+                    "Fast, good quality. Recommend working with him!",
                 rating: 5,
                 avatar: "",
                 link: ""
             },
 
+
             {
                 name: "Splix",
                 role: "Discord",
-                quote: "Brodie did a website for me before for my leaderboard and also gave me my own bot picker — shit was fire.",
+                quote:
+                    "Brodie did a website for me before for my leaderboard and also gave me my own bot picker — shit was fire.",
                 rating: 5,
-                avatar: "./vouches/splix.webp",
-                link: "https://kick.com/splixgamba"
+                avatar:
+                    "./vouches/splix.webp",
+                link:
+                    "https://kick.com/splixgamba"
             },
+
 
             {
                 name: "headed",
                 role: "Artist",
-                quote: "Professional and outstanding work, good attention to detail and affordable prices",
+                quote:
+                    "Professional and outstanding work, good attention to detail and affordable prices",
                 rating: 5,
-                avatar: "./vouches/headedlogo.webp",
-                link: "https://kick.com/headedd"
+                avatar:
+                    "./vouches/headedlogo.webp",
+                link:
+                    "https://kick.com/headedd"
             }
 
         ];
@@ -1641,20 +3444,41 @@
 
         function escapeHTML(value) {
 
-            return String(value ?? "")
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+            return String(
+                value ?? ""
+            )
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
         }
 
 
         function getInitials(name) {
 
-            return String(name || "")
+            return String(
+                name || ""
+            )
                 .split(" ")
-                .map(part => part[0])
+                .map(
+                    part => part[0]
+                )
                 .join("")
                 .slice(0, 2)
                 .toUpperCase();
@@ -1664,10 +3488,16 @@
         function createAvatarHTML(v) {
 
             const name =
-                escapeHTML(v.name);
+                escapeHTML(
+                    v.name
+                );
 
             const initials =
-                escapeHTML(getInitials(v.name));
+                escapeHTML(
+                    getInitials(
+                        v.name
+                    )
+                );
 
 
             if (v.avatar) {
@@ -1689,7 +3519,21 @@
 
             return `
                 <div
-                    class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-xs font-semibold text-white shrink-0"
+                    class="
+                        w-9
+                        h-9
+                        rounded-full
+                        bg-gradient-to-br
+                        from-purple-500
+                        to-fuchsia-500
+                        flex
+                        items-center
+                        justify-center
+                        text-xs
+                        font-semibold
+                        text-white
+                        shrink-0
+                    "
                 >
                     ${initials}
                 </div>
@@ -1710,10 +3554,22 @@
                     target="_blank"
                     rel="noopener noreferrer"
                     draggable="false"
-                    class="ml-auto text-gray-500 hover:text-purple-300 transition-colors shrink-0"
+                    class="
+                        ml-auto
+                        text-gray-500
+                        hover:text-purple-300
+                        transition-colors
+                        shrink-0
+                    "
                     title="Visit ${escapeHTML(v.name)}"
                 >
-                    <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    <i
+                        class="
+                            fa-solid
+                            fa-arrow-up-right-from-square
+                            text-xs
+                        "
+                    ></i>
                 </a>
             `;
         }
@@ -1726,16 +3582,24 @@
         function renderVouches() {
 
             const track =
-                document.getElementById('vouch-track');
+                document.getElementById(
+                    'vouch-track'
+                );
 
             const mask =
-                document.getElementById('vouch-mask');
+                document.getElementById(
+                    'vouch-mask'
+                );
 
             const emptyMsg =
-                document.getElementById('vouch-empty');
+                document.getElementById(
+                    'vouch-empty'
+                );
 
             const summary =
-                document.getElementById('vouch-summary');
+                document.getElementById(
+                    'vouch-summary'
+                );
 
 
             if (!track) {
@@ -1745,30 +3609,47 @@
 
             /* EMPTY */
 
-            if (VOUCHES.length === 0) {
+            if (
+                VOUCHES.length === 0
+            ) {
 
                 if (summary) {
                     summary.innerHTML = "";
                 }
 
+
                 if (mask) {
-                    mask.classList.add('hidden');
+                    mask.classList.add(
+                        'hidden'
+                    );
                 }
 
+
                 if (emptyMsg) {
-                    emptyMsg.classList.remove('hidden');
+
+                    emptyMsg.classList.remove(
+                        'hidden'
+                    );
                 }
+
 
                 return;
             }
 
 
             if (mask) {
-                mask.classList.remove('hidden');
+
+                mask.classList.remove(
+                    'hidden'
+                );
             }
 
+
             if (emptyMsg) {
-                emptyMsg.classList.add('hidden');
+
+                emptyMsg.classList.add(
+                    'hidden'
+                );
             }
 
 
@@ -1778,14 +3659,23 @@
 
                 const avg =
                     VOUCHES.reduce(
-                        (sum, v) =>
-                            sum + Number(v.rating || 0),
+                        (
+                            sum,
+                            v
+                        ) =>
+                            sum +
+                            Number(
+                                v.rating || 0
+                            ),
                         0
-                    ) / VOUCHES.length;
+                    ) /
+                    VOUCHES.length;
 
 
                 const avgDisplay =
-                    Math.round(avg * 10) / 10;
+                    Math.round(
+                        avg * 10
+                    ) / 10;
 
 
                 const count =
@@ -1798,115 +3688,177 @@
 
                 summary.innerHTML = `
 
-                    <span class="text-purple-400">
+                    <span
+                        class="text-purple-400"
+                    >
                         ${"★".repeat(rounded)}
                         ${"☆".repeat(
-                            Math.max(0, 5 - rounded)
+                            Math.max(
+                                0,
+                                5 - rounded
+                            )
                         )}
                     </span>
 
-                    <span class="text-white font-medium">
+
+                    <span
+                        class="
+                            text-white
+                            font-medium
+                        "
+                    >
                         ${avgDisplay}
                     </span>
 
-                    <span class="text-gray-500">
+
+                    <span
+                        class="
+                            text-gray-500
+                        "
+                    >
                         · ${count}
-                        ${count === 1 ? "vouch" : "vouches"}
+                        ${
+                            count === 1
+                                ? "vouch"
+                                : "vouches"
+                        }
                     </span>
 
                 `;
             }
 
 
-            /* CARDS */
+            /* CARD */
 
-            const cardHTML = (v) => {
+            const cardHTML =
+                (v) => {
 
-                const rating =
-                    Math.max(
-                        0,
-                        Math.min(
-                            5,
-                            Number(v.rating || 0)
-                        )
-                    );
+                    const rating =
+                        Math.max(
+                            0,
+                            Math.min(
+                                5,
+                                Number(
+                                    v.rating || 0
+                                )
+                            )
+                        );
 
 
-                return `
-
-                    <div
-                        class="vouch-card glass rounded-2xl p-6"
-                        data-vouch-card
-                    >
+                    return `
 
                         <div
-                            class="flex gap-0.5 text-purple-400 text-xs mb-4"
+                            class="
+                                vouch-card
+                                glass
+                                rounded-2xl
+                                p-6
+                            "
+                            data-vouch-card
                         >
 
-                            ${"★".repeat(rating)}
+                            <div
+                                class="
+                                    flex
+                                    gap-0.5
+                                    text-purple-400
+                                    text-xs
+                                    mb-4
+                                "
+                            >
 
-                            ${"☆".repeat(
-                                5 - rating
-                            )}
+                                ${"★".repeat(
+                                    rating
+                                )}
 
-                        </div>
-
-
-                        <p
-                            class="text-sm text-gray-300 leading-relaxed mb-6"
-                        >
-                            ${escapeHTML(v.quote)}
-                        </p>
-
-
-                        <div
-                            class="flex items-center gap-3"
-                        >
-
-                            ${createAvatarHTML(v)}
-
-
-                            <div class="min-w-0">
-
-                                <p
-                                    class="text-white text-sm font-medium truncate"
-                                >
-                                    ${escapeHTML(v.name)}
-                                </p>
-
-
-                                <p
-                                    class="text-gray-500 text-xs truncate"
-                                >
-                                    ${escapeHTML(v.role)}
-                                </p>
+                                ${"☆".repeat(
+                                    5 - rating
+                                )}
 
                             </div>
 
 
-                            ${createLinkHTML(v)}
+                            <p
+                                class="
+                                    text-sm
+                                    text-gray-300
+                                    leading-relaxed
+                                    mb-6
+                                "
+                            >
+                                ${escapeHTML(
+                                    v.quote
+                                )}
+                            </p>
+
+
+                            <div
+                                class="
+                                    flex
+                                    items-center
+                                    gap-3
+                                "
+                            >
+
+                                ${createAvatarHTML(v)}
+
+
+                                <div
+                                    class="
+                                        min-w-0
+                                    "
+                                >
+
+                                    <p
+                                        class="
+                                            text-white
+                                            text-sm
+                                            font-medium
+                                            truncate
+                                        "
+                                    >
+                                        ${escapeHTML(
+                                            v.name
+                                        )}
+                                    </p>
+
+
+                                    <p
+                                        class="
+                                            text-gray-500
+                                            text-xs
+                                            truncate
+                                        "
+                                    >
+                                        ${escapeHTML(
+                                            v.role
+                                        )}
+                                    </p>
+
+                                </div>
+
+
+                                ${createLinkHTML(v)}
+
+                            </div>
 
                         </div>
 
-                    </div>
-
-                `;
-            };
+                    `;
+                };
 
 
             const html =
-                VOUCHES.map(cardHTML).join("");
+                VOUCHES
+                    .map(cardHTML)
+                    .join("");
 
 
             /*
              * Duplicate the cards.
              *
-             * This creates:
-             *
-             * Alen | Splix | headed | Qloudd
-             * Alen | Splix | headed | Qloudd
-             *
-             * allowing a seamless infinite movement.
+             * The second copy allows the
+             * carousel to loop continuously.
              */
 
             track.innerHTML =
@@ -1918,19 +3870,18 @@
 
 
             /*
-             * Reset carousel position after
-             * Supabase adds new vouches.
+             * Reset position when new
+             * Supabase vouches arrive.
              */
 
             vouchPosition = 0;
 
-            track.style.transform =
-                "translate3d(0, 0, 0)";
+            updateVouchTransform();
         }
 
 
         /* =====================================================
-           VOUCH CAROUSEL ENGINE
+           VOUCH CAROUSEL
            ===================================================== */
 
         let vouchPosition = 0;
@@ -1951,11 +3902,11 @@
 
 
         /*
-         * Speed in pixels per second.
+         * Pixels per second.
          *
+         * 18 = very slow
          * 22 = slow
          * 30 = medium
-         * 40 = fast
          */
 
         const VOUCH_SCROLL_SPEED = 22;
@@ -1964,20 +3915,19 @@
         function getVouchLoopWidth() {
 
             const track =
-                document.getElementById('vouch-track');
+                document.getElementById(
+                    'vouch-track'
+                );
+
 
             if (!track) {
                 return 0;
             }
 
 
-            /*
-             * Because we duplicate the complete
-             * card list, half of the track is
-             * exactly one complete loop.
-             */
-
-            return track.scrollWidth / 2;
+            return (
+                track.scrollWidth / 2
+            );
         }
 
 
@@ -1992,15 +3942,22 @@
             }
 
 
-            while (vouchPosition <= -loopWidth) {
+            while (
+                vouchPosition <=
+                -loopWidth
+            ) {
 
-                vouchPosition += loopWidth;
+                vouchPosition +=
+                    loopWidth;
             }
 
 
-            while (vouchPosition > 0) {
+            while (
+                vouchPosition > 0
+            ) {
 
-                vouchPosition -= loopWidth;
+                vouchPosition -=
+                    loopWidth;
             }
         }
 
@@ -2008,7 +3965,10 @@
         function updateVouchTransform() {
 
             const track =
-                document.getElementById('vouch-track');
+                document.getElementById(
+                    'vouch-track'
+                );
+
 
             if (!track) {
                 return;
@@ -2016,33 +3976,38 @@
 
 
             track.style.transform =
-                `translate3d(${vouchPosition}px, 0, 0)`;
+                `translate3d(
+                    ${vouchPosition}px,
+                    0,
+                    0
+                )`;
         }
 
 
-        function vouchAnimation(timestamp) {
+        function vouchAnimation(
+            timestamp
+        ) {
 
-            if (vouchLastTime === null) {
-                vouchLastTime = timestamp;
+            if (
+                vouchLastTime === null
+            ) {
+
+                vouchLastTime =
+                    timestamp;
             }
 
 
             const delta =
                 Math.min(
-                    timestamp - vouchLastTime,
+                    timestamp -
+                    vouchLastTime,
                     50
                 );
 
 
-            vouchLastTime = timestamp;
+            vouchLastTime =
+                timestamp;
 
-
-            /*
-             * Don't automatically move while:
-             *
-             * - hovering
-             * - dragging
-             */
 
             if (
                 !vouchHovered &&
@@ -2069,7 +4034,9 @@
 
         function startVouchAnimation() {
 
-            if (vouchAnimationFrame) {
+            if (
+                vouchAnimationFrame
+            ) {
                 return;
             }
 
@@ -2091,54 +4058,61 @@
         function setupVouchDragging() {
 
             const mask =
-                document.getElementById('vouch-mask');
+                document.getElementById(
+                    'vouch-mask'
+                );
 
-            const track =
-                document.getElementById('vouch-track');
 
-
-            if (!mask || !track) {
+            if (!mask) {
                 return;
             }
 
 
             /*
-             * Prevent duplicate listeners if
-             * Supabase causes another render.
+             * Avoid installing the same
+             * pointer listeners twice.
              */
 
             if (
-                mask.dataset.dragReady === "true"
+                mask.dataset.dragReady ===
+                "true"
             ) {
+
                 return;
             }
 
 
-            mask.dataset.dragReady = "true";
+            mask.dataset.dragReady =
+                "true";
 
 
-            /* =================================================
-               MOUSE / TOUCH DOWN
-               ================================================= */
+            /* POINTER DOWN */
 
             mask.addEventListener(
                 'pointerdown',
                 (event) => {
 
                     if (
-                        event.pointerType === 'mouse' &&
+                        event.pointerType ===
+                            'mouse' &&
                         event.button !== 0
                     ) {
+
                         return;
                     }
 
 
-                    vouchDragging = true;
+                    vouchDragging =
+                        true;
 
-                    vouchHasMoved = false;
+
+                    vouchHasMoved =
+                        false;
+
 
                     vouchDragStartX =
                         event.clientX;
+
 
                     vouchDragStartPosition =
                         vouchPosition;
@@ -2159,6 +4133,7 @@
 
 
                     event.preventDefault();
+
                 },
                 {
                     passive: false
@@ -2166,15 +4141,16 @@
             );
 
 
-            /* =================================================
-               DRAG MOVE
-               ================================================= */
+            /* POINTER MOVE */
 
             mask.addEventListener(
                 'pointermove',
                 (event) => {
 
-                    if (!vouchDragging) {
+                    if (
+                        !vouchDragging
+                    ) {
+
                         return;
                     }
 
@@ -2185,22 +4161,14 @@
 
 
                     if (
-                        Math.abs(delta) > 5
+                        Math.abs(delta) >
+                        5
                     ) {
 
-                        vouchHasMoved = true;
+                        vouchHasMoved =
+                            true;
                     }
 
-
-                    /*
-                     * Drag direction:
-                     *
-                     * Move mouse right
-                     * → cards move right
-                     *
-                     * Move mouse left
-                     * → cards move left
-                     */
 
                     vouchPosition =
                         vouchDragStartPosition +
@@ -2213,6 +4181,7 @@
 
 
                     event.preventDefault();
+
                 },
                 {
                     passive: false
@@ -2220,19 +4189,21 @@
             );
 
 
-            /* =================================================
-               DRAG END
-               ================================================= */
+            /* POINTER UP */
 
             const finishDrag =
                 (event) => {
 
-                    if (!vouchDragging) {
+                    if (
+                        !vouchDragging
+                    ) {
+
                         return;
                     }
 
 
-                    vouchDragging = false;
+                    vouchDragging =
+                        false;
 
 
                     mask.classList.remove(
@@ -2248,13 +4219,6 @@
 
                     } catch (error) {}
 
-
-                    /*
-                     * Keep current position.
-                     *
-                     * Automatic movement will
-                     * continue from here.
-                     */
 
                     normalizeVouchPosition();
 
@@ -2274,15 +4238,14 @@
             );
 
 
-            /* =================================================
-               HOVER
-               ================================================= */
+            /* HOVER */
 
             mask.addEventListener(
                 'mouseenter',
                 () => {
 
-                    vouchHovered = true;
+                    vouchHovered =
+                        true;
                 }
             );
 
@@ -2291,27 +4254,32 @@
                 'mouseleave',
                 () => {
 
-                    vouchHovered = false;
+                    vouchHovered =
+                        false;
                 }
             );
 
 
             /*
-             * Don't open links when the user was
-             * actually dragging the carousel.
+             * If the user dragged,
+             * don't accidentally click
+             * the link inside a card.
              */
 
             mask.addEventListener(
                 'click',
                 (event) => {
 
-                    if (vouchHasMoved) {
+                    if (
+                        vouchHasMoved
+                    ) {
 
                         event.preventDefault();
 
                         event.stopPropagation();
 
-                        vouchHasMoved = false;
+                        vouchHasMoved =
+                            false;
                     }
 
                 },
@@ -2321,7 +4289,7 @@
 
 
         /* =====================================================
-           INITIAL VOUCH RENDER
+           INITIAL VOUCH SETUP
            ===================================================== */
 
         renderVouches();
@@ -2342,6 +4310,7 @@
                     'nav-links'
                 );
 
+
             const indicator =
                 document.getElementById(
                     'nav-indicator'
@@ -2352,6 +4321,7 @@
                 !navContainer ||
                 !indicator
             ) {
+
                 return;
             }
 
@@ -2367,7 +4337,8 @@
             const sections =
                 navLinks
                     .map(link => ({
-                        link,
+                        link: link,
+
                         el:
                             document.getElementById(
                                 link.dataset.section
@@ -2378,20 +4349,27 @@
                     );
 
 
-            const NAV_OFFSET = 140;
+            const NAV_OFFSET =
+                140;
 
 
-            function moveIndicatorTo(link) {
+            function moveIndicatorTo(
+                link
+            ) {
 
                 const linkRect =
                     link.getBoundingClientRect();
+
 
                 const containerRect =
                     navContainer.getBoundingClientRect();
 
 
                 indicator.style.left =
-                    `${linkRect.left - containerRect.left}px`;
+                    `${
+                        linkRect.left -
+                        containerRect.left
+                    }px`;
 
 
                 indicator.style.width =
@@ -2402,14 +4380,16 @@
                     '1';
 
 
-                navLinks.forEach(l => {
+                navLinks.forEach(
+                    l => {
 
-                    l.classList.toggle(
-                        'active',
-                        l === link
-                    );
+                        l.classList.toggle(
+                            'active',
+                            l === link
+                        );
 
-                });
+                    }
+                );
             }
 
 
@@ -2419,10 +4399,11 @@
                     '0';
 
 
-                navLinks.forEach(l =>
-                    l.classList.remove(
-                        'active'
-                    )
+                navLinks.forEach(
+                    l =>
+                        l.classList.remove(
+                            'active'
+                        )
                 );
             }
 
@@ -2444,14 +4425,18 @@
 
 
                 sections.forEach(
-                    ({ link, el }) => {
+                    ({
+                        link,
+                        el
+                    }) => {
 
                         if (
                             el.offsetTop <=
                             scrollPos
                         ) {
 
-                            current = link;
+                            current =
+                                link;
                         }
 
                     }
@@ -2505,21 +4490,23 @@
             );
 
 
-            navLinks.forEach(link => {
+            navLinks.forEach(
+                link => {
 
-                link.addEventListener(
-                    'click',
-                    () => {
+                    link.addEventListener(
+                        'click',
+                        () => {
 
-                        setTimeout(
-                            updateActiveSection,
-                            50
-                        );
+                            setTimeout(
+                                updateActiveSection,
+                                50
+                            );
 
-                    }
-                );
+                        }
+                    );
 
-            });
+                }
+            );
 
 
             updateActiveSection();
@@ -2532,9 +4519,7 @@
     <!-- =========================================================
          SUPABASE LIVE VOUCHES
          
-         IMPORTANT:
-         The loader talks directly to the Supabase REST API.
-         The Supabase JS SDK is NOT needed here.
+         Keep your vouches-loader.js in the repository.
          ========================================================= -->
 
     <script
