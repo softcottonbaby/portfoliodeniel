@@ -271,8 +271,12 @@ form.addEventListener('submit', async (e) => {
     document.getElementById('formWrap').classList.add('hidden');
     document.getElementById('successWrap').classList.remove('hidden');
   } catch (err) {
-    console.error(err);
-    showError("Something went wrong submitting that — mind trying again in a moment?");
+    console.error('Vouch submission error:', err);
+
+    // Show the real Supabase error so setup/RLS problems are easy to diagnose.
+    const message = err?.message || err?.error_description || String(err);
+    showError(`Submission failed: ${message}`);
+
     submitBtn.disabled = false;
     submitBtn.textContent = 'Submit vouch';
   }
