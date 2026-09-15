@@ -115,8 +115,9 @@
             display: flex;
             gap: 1.25rem;
             width: max-content;
-            animation: vouch-scroll 50s linear infinite;
             padding: 0 1.5rem;
+            animation: vouch-scroll 75s linear infinite;
+            will-change: transform;
         }
 
         .vouch-track:hover {
@@ -671,21 +672,16 @@
 
             const html = VOUCHES.map(cardHTML).join('');
 
-            // Duplicating the list is what makes the scroll loop seamless,
-            // but with only a few vouches the duplicate is obviously visible.
-            // Below this count, just show them centered and still.
-            const MARQUEE_THRESHOLD = 6;
-            if (VOUCHES.length < MARQUEE_THRESHOLD) {
-                track.innerHTML = html;
-                track.style.animation = 'none';
-                track.classList.add('justify-center');
-                track.style.width = '100%';
-            } else {
-                track.innerHTML = html + html;
-                track.style.animation = '';
-                track.classList.remove('justify-center');
-                track.style.width = '';
-            }
+            // Always duplicate the cards so the marquee works even with
+            // only a few vouches. The second copy makes the loop seamless.
+            track.innerHTML = html + html;
+            track.classList.remove('justify-center');
+            track.style.width = 'max-content';
+
+            // Restart the animation cleanly whenever Supabase finishes loading.
+            track.style.animation = 'none';
+            void track.offsetWidth;
+            track.style.animation = '';
         }
 
         renderVouches();
@@ -761,6 +757,6 @@
 
     <!-- Supabase live vouches -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-    <script src="./vouches-loader.js"></script>
+    <script src="./vouches-loader.js?v=3"></script>
 </body>
 </html>
