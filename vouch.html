@@ -1,212 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leave a Vouch | AceSnap</title>
-    <meta name="robots" content="noindex, nofollow">
-    <link rel="icon" type="image/png" href="./acesnaplogonoouter.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #050505;
-            color: #ededed;
-        }
-        .ambient-glow {
-            position: fixed;
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80vw;
-            height: 60vh;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.18) 0%, rgba(126, 34, 206, 0.12) 40%, rgba(0,0,0,0) 70%);
-            filter: blur(90px);
-            z-index: -1;
-            pointer-events: none;
-        }
-        .glass {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        }
-        input, textarea, select {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #ededed;
-        }
-        input::placeholder, textarea::placeholder {
-            color: #6b7280;
-        }
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: rgba(168, 85, 247, 0.5);
-            background: rgba(255, 255, 255, 0.05);
-        }
-        /* Honeypot field — hidden from real people, bots often fill it anyway */
-        .hp-field {
-            position: absolute;
-            left: -9999px;
-            top: -9999px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leave a Vouch | AceSnap</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="./acesnaplogonoouter.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #050505;
+  color: #ededed;
+}
+.ambient-glow {
+  position: fixed;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80vw;
+  height: 60vh;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.18) 0%, rgba(126, 34, 206, 0.12) 40%, rgba(0,0,0,0) 70%);
+  filter: blur(90px);
+  z-index: -1;
+  pointer-events: none;
+}
+.glass {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+input, textarea, select {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ededed;
+}
+input::placeholder, textarea::placeholder { color: #6b7280; }
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: rgba(168, 85, 247, 0.5);
+  background: rgba(255, 255, 255, 0.05);
+}
+/* Honeypot field — hidden from real people, bots often fill it anyway */
+.hp-field { position: absolute; left: -9999px; top: -9999px; }
+</style>
 </head>
 <body class="antialiased min-h-screen flex items-center justify-center px-6 py-16">
+<div class="ambient-glow"></div>
 
-    <div class="ambient-glow"></div>
+<a href="./index.html" class="fixed top-6 left-6 z-20 glass rounded-full pl-3 pr-4 py-2 flex items-center gap-2 text-sm text-gray-300 hover:text-white hover:border-purple-400/30 transition-colors">
+  <i class="fa-solid fa-arrow-left text-xs"></i>
+  Back to site
+</a>
 
-    <a href="./index.html" class="fixed top-6 left-6 z-20 glass rounded-full pl-3 pr-4 py-2 flex items-center gap-2 text-sm text-gray-300 hover:text-white hover:border-purple-400/30 transition-colors">
-        <i class="fa-solid fa-arrow-left text-xs"></i>
-        Back to site
-    </a>
+<div class="glass rounded-2xl p-8 w-full max-w-md" id="formWrap">
+  <div class="flex items-center gap-2.5 mb-6">
+    <img src="./acesnaplogonoouter.png" alt="AceSnap logo" class="h-7 w-auto">
+    <span class="text-lg font-semibold tracking-wide text-white">Daniel.</span>
+  </div>
 
-    <div class="glass rounded-2xl p-8 w-full max-w-md">
-        <div class="flex items-center gap-2.5 mb-6">
-            <img src="./acesnaplogonoouter.png" alt="AceSnap logo" class="h-7 w-auto">
-            <span class="text-lg font-semibold tracking-wide text-white">Daniel.</span>
-        </div>
+  <h1 class="text-2xl font-medium text-white mb-2">Leave a vouch</h1>
+  <p class="text-sm text-gray-400 mb-8 leading-relaxed">
+    Thanks for taking a second to do this. I read every submission myself
+    before anything goes on the site, so there's no rush.
+  </p>
 
-        <h1 class="text-2xl font-medium text-white mb-2">Leave a vouch</h1>
-        <p class="text-sm text-gray-400 mb-8 leading-relaxed">
-            Thanks for taking a second to do this. I read every submission myself
-            before anything goes on the site, so there's no rush.
-        </p>
+  <form id="vouchForm" class="space-y-4">
+    <!-- Honeypot: leave this field, bots tend to fill it, humans never see it -->
+    <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off">
 
-        <!--
-            SETUP (one-time):
-            1. Go to https://formspree.io and create a free account.
-            2. Create a new form, copy the endpoint it gives you
-               (looks like https://formspree.io/f/xxxxxxxx).
-            3. Replace YOUR_FORM_ID below with that ID.
-            Submissions land straight in your email, including the photo
-            as an attachment. Nothing here touches your site automatically.
-
-            When you approve one:
-            1. Save their photo into a "vouches" folder next to index.html
-               (e.g. vouches/marcus.jpg).
-            2. In index.html's VOUCHES list, set avatar: "./vouches/marcus.jpg"
-               (or leave avatar blank to fall back to their initials).
-        -->
-        <form action="https://formspree.io/f/xzebnkjy" method="POST" enctype="multipart/form-data" class="space-y-4">
-            <!-- Honeypot: leave this field, bots tend to fill it, humans never see it -->
-            <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off">
-
-            <div>
-                <label class="text-xs text-gray-400 font-medium mb-1.5 block">Your name</label>
-                <input type="text" name="name" required placeholder="e.g. Marcus T." class="w-full rounded-xl px-4 py-2.5 text-sm">
-            </div>
-
-            <div>
-                <label class="text-xs text-gray-400 font-medium mb-1.5 block">Where do you know me from?</label>
-                <input type="text" name="context" required placeholder="e.g. RoRush, Discord, a project we worked on" class="w-full rounded-xl px-4 py-2.5 text-sm">
-            </div>
-
-            <div>
-                <label class="text-xs text-gray-400 font-medium mb-1.5 block">Profile picture <span class="text-gray-600">(optional)</span></label>
-                <div class="flex items-center gap-3">
-                    <div id="avatarPreview" class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-600 shrink-0 overflow-hidden">
-                        <i class="fa-solid fa-user text-sm"></i>
-                    </div>
-                    <label class="flex-1 cursor-pointer">
-                        <input type="file" name="avatar" accept="image/*" class="hidden" onchange="previewAvatar(this)">
-                        <span id="avatarFileLabel" class="block w-full rounded-xl px-4 py-2.5 text-sm text-gray-400 hover:text-white hover:border-purple-400/40 transition-colors" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);">
-                            Choose a photo...
-                        </span>
-                    </label>
-                </div>
-            </div>
-
-            <div>
-                <label class="text-xs text-gray-400 font-medium mb-1.5 block">Your channel / site <span class="text-gray-600">(optional — self-promo, we don't judge)</span></label>
-                <input type="url" name="promo_link" placeholder="your Twitch, YouTube, site, socials..." class="w-full rounded-xl px-4 py-2.5 text-sm">
-            </div>
-
-            <div>
-                <label class="text-xs text-gray-400 font-medium mb-1.5 block">Rating</label>
-                <input type="hidden" name="rating" id="ratingInput">
-                <div id="starRating" class="flex gap-2 text-2xl">
-                    <button type="button" class="star text-gray-700 hover:scale-110 transition-transform" data-value="1"><i class="fa-solid fa-star"></i></button>
-                    <button type="button" class="star text-gray-700 hover:scale-110 transition-transform" data-value="2"><i class="fa-solid fa-star"></i></button>
-                    <button type="button" class="star text-gray-700 hover:scale-110 transition-transform" data-value="3"><i class="fa-solid fa-star"></i></button>
-                    <button type="button" class="star text-gray-700 hover:scale-110 transition-transform" data-value="4"><i class="fa-solid fa-star"></i></button>
-                    <button type="button" class="star text-gray-700 hover:scale-110 transition-transform" data-value="5"><i class="fa-solid fa-star"></i></button>
-                </div>
-            </div>
-
-            <div>
-                <label class="text-xs text-gray-400 font-medium mb-1.5 block">Your vouch</label>
-                <textarea name="quote" required rows="4" placeholder="What was it like working with me?" class="w-full rounded-xl px-4 py-2.5 text-sm resize-none"></textarea>
-            </div>
-
-            <div>
-                <label class="text-xs text-gray-400 font-medium mb-1.5 block">Discord or contact (not shown publicly)</label>
-                <input type="text" name="contact" placeholder="so I can verify it's really you" class="w-full rounded-xl px-4 py-2.5 text-sm">
-            </div>
-
-            <button type="submit" class="w-full mt-2 bg-gradient-to-r from-purple-500 to-fuchsia-500 text-white text-sm font-medium py-3 rounded-xl hover:opacity-90 transition-opacity">
-                Submit vouch
-            </button>
-        </form>
-
-        <p class="text-xs text-gray-600 mt-6 text-center">
-            This link isn't public — please don't share it around.
-        </p>
+    <div>
+      <label class="text-xs text-gray-400 font-medium mb-1.5 block">Your name</label>
+      <input type="text" name="name" required placeholder="e.g. Marcus T." class="w-full rounded-xl px-4 py-2.5 text-sm">
     </div>
 
-    <script>
-        function previewAvatar(input) {
-            const preview = document.getElementById('avatarPreview');
-            const label = document.getElementById('avatarFileLabel');
-            const file = input.files && input.files[0];
-            if (!file) return;
+    <div>
+      <label class="text-xs text-gray-400 font-medium mb-1.5 block">Where do you know me from?</label>
+      <input type="text" name="context" required placeholder="e.g. RoRush, Discord, a project we worked on" class="w-full rounded-xl px-4 py-2.5 text-sm">
+    </div>
 
-            label.textContent = file.name;
+    <div>
+      <label class="text-xs text-gray-400 font-medium mb-1.5 block">Profile picture <span class="text-gray-600">(optional)</span></label>
+      <div class="flex items-center gap-3">
+        <div id="avatarPreview" class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-600 shrink-0 overflow-hidden">
+          <i class="fa-solid fa-user text-sm"></i>
+        </div>
+        <label class="flex-1 cursor-pointer">
+          <input type="file" name="avatar" accept="image/*" class="hidden" onchange="previewAvatar(this)">
+          <span id="avatarFileLabel" class="block w-full rounded-xl px-4 py-2.5 text-sm text-gray-400 hover:text-white hover:border-purple-400/40 transition-colors" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);">
+            Choose a photo...
+          </span>
+        </label>
+      </div>
+    </div>
 
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                preview.innerHTML = `<img src="${e.target.result}" alt="Preview" class="w-full h-full object-cover">`;
-            };
-            reader.readAsDataURL(file);
-        }
+    <div>
+      <label class="text-xs text-gray-400 font-medium mb-1.5 block">Your channel / site <span class="text-gray-600">(optional — self-promo, we don't judge)</span></label>
+      <input type="url" name="promo_link" placeholder="your Twitch, YouTube, site, socials..." class="w-full rounded-xl px-4 py-2.5 text-sm">
+    </div>
 
-        // --- Star rating ---
-        (function () {
-            const stars = Array.from(document.querySelectorAll('#starRating .star'));
-            const ratingInput = document.getElementById('ratingInput');
-            let selected = 0;
+    <div>
+      <label class="text-xs text-gray-400 font-medium mb-1.5 block">Rating</label>
+      <input type="hidden" name="rating" id="ratingInput">
+      <div id="starRating" class="flex gap-2 text-2xl">
+        <button type="button" class="star text-gray-700 hover:scale-110 transition-transform" data-value="1"><i class="fa-solid fa-star"></i></button>
+        <button type="button" class="star text-gray-700 hover:scale-110 transition-transform" data-value="2"><i class="fa-solid fa-star"></i></button>
+        <button type="button" class="star text-gray-700 hover:scale-110 transition-transform" data-value="3"><i class="fa-solid fa-star"></i></button>
+        <button type="button" class="star text-gray-700 hover:scale-110 transition-transform" data-value="4"><i class="fa-solid fa-star"></i></button>
+        <button type="button" class="star text-gray-700 hover:scale-110 transition-transform" data-value="5"><i class="fa-solid fa-star"></i></button>
+      </div>
+    </div>
 
-            function paint(upTo) {
-                stars.forEach(star => {
-                    const val = Number(star.dataset.value);
-                    star.classList.toggle('text-purple-400', val <= upTo);
-                    star.classList.toggle('text-gray-700', val > upTo);
-                });
-            }
+    <div>
+      <label class="text-xs text-gray-400 font-medium mb-1.5 block">Your vouch</label>
+      <textarea name="quote" required rows="4" placeholder="What was it like working with me?" class="w-full rounded-xl px-4 py-2.5 text-sm resize-none"></textarea>
+    </div>
 
-            stars.forEach(star => {
-                star.addEventListener('mouseenter', () => paint(Number(star.dataset.value)));
-                star.addEventListener('click', () => {
-                    selected = Number(star.dataset.value);
-                    ratingInput.value = selected;
-                    paint(selected);
-                });
-            });
+    <div>
+      <label class="text-xs text-gray-400 font-medium mb-1.5 block">Discord or contact (not shown publicly)</label>
+      <input type="text" name="contact" placeholder="so I can verify it's really you" class="w-full rounded-xl px-4 py-2.5 text-sm">
+    </div>
 
-            document.getElementById('starRating').addEventListener('mouseleave', () => paint(selected));
+    <p id="formError" class="text-xs text-red-400 hidden"></p>
 
-            document.querySelector('form').addEventListener('submit', (e) => {
-                if (!ratingInput.value) {
-                    e.preventDefault();
-                    document.getElementById('starRating').classList.add('animate-pulse');
-                    setTimeout(() => document.getElementById('starRating').classList.remove('animate-pulse'), 800);
-                }
-            });
-        })();
-    </script>
+    <button type="submit" id="submitBtn" class="w-full mt-2 bg-gradient-to-r from-purple-500 to-fuchsia-500 text-white text-sm font-medium py-3 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50">
+      Submit vouch
+    </button>
+  </form>
 
+  <p class="text-xs text-gray-600 mt-6 text-center">
+    This link isn't public — please don't share it around.
+  </p>
+</div>
+
+<!-- Shown after a successful submit -->
+<div class="glass rounded-2xl p-10 w-full max-w-md hidden text-center" id="successWrap">
+  <div class="w-14 h-14 rounded-full bg-purple-500/15 border border-purple-400/30 flex items-center justify-center mx-auto mb-5">
+    <i class="fa-solid fa-check text-purple-300 text-xl"></i>
+  </div>
+  <h2 class="text-xl font-medium text-white mb-2">Thanks!</h2>
+  <p class="text-sm text-gray-400 leading-relaxed">
+    Your vouch is in. I read every one myself before it goes live on the site.
+  </p>
+  <a href="./index.html" class="inline-block mt-6 text-sm text-purple-300 hover:text-white transition-colors">
+    ← Back to site
+  </a>
+</div>
+
+<script>
+// ---- Supabase setup ----
+const SUPABASE_URL = "https://vqdfbwjcugnbkxyrtnxn.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZxZGZid2pjdWduYmt4eXJ0bnhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0ODg0NzIsImV4cCI6MjEwNTA2NDQ3Mn0.23WNEL6Ztu_cMYZKc-NvI63CCuaHYTmYDI4Nf6f96Q0";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+function previewAvatar(input) {
+  const preview = document.getElementById('avatarPreview');
+  const label = document.getElementById('avatarFileLabel');
+  const file = input.files && input.files[0];
+  if (!file) return;
+  label.textContent = file.name;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    preview.innerHTML = `<img src="${e.target.result}" alt="Preview" class="w-full h-full object-cover">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+// --- Star rating ---
+(function () {
+  const stars = Array.from(document.querySelectorAll('#starRating .star'));
+  const ratingInput = document.getElementById('ratingInput');
+  let selected = 0;
+
+  function paint(upTo) {
+    stars.forEach(star => {
+      const val = Number(star.dataset.value);
+      star.classList.toggle('text-purple-400', val <= upTo);
+      star.classList.toggle('text-gray-700', val > upTo);
+    });
+  }
+
+  stars.forEach(star => {
+    star.addEventListener('mouseenter', () => paint(Number(star.dataset.value)));
+    star.addEventListener('click', () => {
+      selected = Number(star.dataset.value);
+      ratingInput.value = selected;
+      paint(selected);
+    });
+  });
+
+  document.getElementById('starRating').addEventListener('mouseleave', () => paint(selected));
+})();
+
+// --- Submit handler ---
+const form = document.getElementById('vouchForm');
+const submitBtn = document.getElementById('submitBtn');
+const formError = document.getElementById('formError');
+
+function showError(msg) {
+  formError.textContent = msg;
+  formError.classList.remove('hidden');
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  formError.classList.add('hidden');
+
+  const data = new FormData(form);
+
+  // Honeypot — silently pretend success to bots
+  if (data.get('_gotcha')) {
+    document.getElementById('formWrap').classList.add('hidden');
+    document.getElementById('successWrap').classList.remove('hidden');
+    return;
+  }
+
+  const rating = Number(data.get('rating'));
+  if (!rating) {
+    showError('Please pick a star rating.');
+    document.getElementById('starRating').classList.add('animate-pulse');
+    setTimeout(() => document.getElementById('starRating').classList.remove('animate-pulse'), 800);
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting...';
+
+  try {
+    let avatarUrl = null;
+    const avatarFile = data.get('avatar');
+
+    if (avatarFile && avatarFile.size > 0) {
+      const ext = avatarFile.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const { error: uploadError } = await supabaseClient
+        .storage
+        .from('vouch-avatars')
+        .upload(fileName, avatarFile);
+
+      if (uploadError) throw uploadError;
+
+      const { data: urlData } = supabaseClient
+        .storage
+        .from('vouch-avatars')
+        .getPublicUrl(fileName);
+
+      avatarUrl = urlData.publicUrl;
+    }
+
+    const { error: insertError } = await supabaseClient
+      .from('vouches')
+      .insert({
+        name: data.get('name'),
+        role: data.get('context'),
+        quote: data.get('quote'),
+        rating: rating,
+        avatar_url: avatarUrl,
+        link: data.get('promo_link') || null,
+        contact: data.get('contact') || null,
+        status: 'pending'
+      });
+
+    if (insertError) throw insertError;
+
+    document.getElementById('formWrap').classList.add('hidden');
+    document.getElementById('successWrap').classList.remove('hidden');
+  } catch (err) {
+    console.error(err);
+    showError("Something went wrong submitting that — mind trying again in a moment?");
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit vouch';
+  }
+});
+</script>
 </body>
 </html>
