@@ -4,30 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Link Previews / Social Meta Tags -->
     <title>AceSnap Portfolio</title>
+
     <meta name="description" content="Crafting premium digital experiences. ✦ GFX Artist ✦ Full-Stack Web Dev ✦ Community Manager.">
+
     <meta property="og:title" content="AceSnap | Digital Portfolio">
     <meta property="og:description" content="Crafting premium digital experiences. ✦ GFX Artist ✦ Full-Stack Web Dev ✦ Community Manager.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.acesnapportfolio.xyz/">
     <meta property="og:image" content="https://www.acesnapportfolio.xyz/acesnaplogonoouter.png">
+
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="AceSnap | Digital Portfolio">
     <meta name="twitter:description" content="Crafting premium digital experiences. ✦ GFX Artist ✦ Full-Stack Web Dev ✦ Community Manager.">
     <meta name="twitter:image" content="https://www.acesnapportfolio.xyz/acesnaplogonoouter.png">
+
     <link rel="canonical" href="https://www.acesnapportfolio.xyz/">
     <meta name="theme-color" content="#050505">
 
-    <!-- Browser Tab Icon -->
     <link rel="icon" type="image/png" href="./acesnaplogonoouter.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
 
     <style>
 
@@ -65,6 +72,7 @@
 
         .glass {
             background: rgba(255, 255, 255, 0.02);
+
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
 
@@ -78,16 +86,16 @@
 
         .glass-hover:hover {
             background: rgba(255, 255, 255, 0.04);
-
             border: 1px solid rgba(168, 85, 247, 0.25);
         }
 
         .text-gradient {
-            background: linear-gradient(
-                to right,
-                #c084fc,
-                #7c3aed
-            );
+            background:
+                linear-gradient(
+                    to right,
+                    #c084fc,
+                    #7c3aed
+                );
 
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -132,7 +140,7 @@
 
 
         /* =========================================================
-           NAV
+           NAVIGATION
            ========================================================= */
 
         .nav-link.active {
@@ -141,7 +149,7 @@
 
 
         /* =========================================================
-           VOUCHES AREA
+           VOUCHES CONTAINER
            ========================================================= */
 
         .vouch-mask {
@@ -187,7 +195,6 @@
             width: max-content;
 
             padding:
-                1.5rem
                 1.5rem;
 
             will-change: transform;
@@ -196,6 +203,9 @@
 
         /* =========================================================
            VOUCH CARD
+
+           Fixed height means every profile stays at the
+           exact same vertical level regardless of quote length.
            ========================================================= */
 
         .vouch-card {
@@ -204,10 +214,14 @@
             overflow: hidden;
 
             width: 300px;
+            height: 395px;
 
             flex: 0 0 300px;
 
             isolation: isolate;
+
+            display: flex;
+            flex-direction: column;
 
             transition:
                 transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
@@ -220,10 +234,6 @@
 
         /* =========================================================
            MOVING BORDER TRACE
-           
-           The gradient is a conic gradient.
-           --vouch-angle rotates continuously.
-           The mask leaves only the 1.5px border visible.
            ========================================================= */
 
         @property --vouch-angle {
@@ -286,7 +296,6 @@
                 infinite;
         }
 
-
         @keyframes vouch-border-trace {
 
             from {
@@ -301,7 +310,7 @@
 
 
         /* =========================================================
-           HOVER EFFECT
+           VOUCH HOVER
            ========================================================= */
 
         .vouch-card:hover {
@@ -319,7 +328,6 @@
 
             z-index: 30;
         }
-
 
         .vouch-card:hover::after {
 
@@ -344,12 +352,47 @@
 
 
         /* =========================================================
-           VOUCH CARD CONTENT
+           VOUCH CONTENT
            ========================================================= */
 
         .vouch-card > * {
             position: relative;
             z-index: 5;
+        }
+
+
+        /*
+         * Fixed quote area.
+         *
+         * This is what keeps every profile aligned.
+         * Regardless of quote length, the profile starts
+         * at exactly the same vertical position.
+         */
+
+        .vouch-quote {
+            height: 185px;
+
+            overflow: hidden;
+
+            flex-shrink: 0;
+        }
+
+
+        /*
+         * Profile always stays at the bottom.
+         */
+
+        .vouch-profile {
+            margin-top: auto;
+
+            min-height: 48px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 0.75rem;
+
+            flex-shrink: 0;
         }
 
 
@@ -383,10 +426,12 @@
             .vouch-card {
                 width: 280px;
                 flex-basis: 280px;
+                height: 395px;
             }
 
             .vouch-track {
                 gap: 1rem;
+
                 padding-left: 1rem;
                 padding-right: 1rem;
             }
@@ -555,7 +600,6 @@
 
         <div class="reveal relative w-full">
 
-            <!-- LEFT -->
             <button
                 onclick="moveGfx(-1)"
                 class="absolute left-0 top-1/2 -translate-y-1/2 z-20 glass glass-hover w-10 h-10 flex items-center justify-center rounded-full text-white shadow-xl"
@@ -695,8 +739,6 @@
             </div>
 
 
-            <!-- RIGHT -->
-
             <button
                 onclick="moveGfx(1)"
                 class="absolute right-0 top-1/2 -translate-y-1/2 z-20 glass glass-hover w-10 h-10 flex items-center justify-center rounded-full text-white shadow-xl"
@@ -706,8 +748,6 @@
 
         </div>
 
-
-        <!-- PROGRESS -->
 
         <div class="reveal max-w-md mx-auto mt-6 px-12">
 
@@ -760,9 +800,7 @@
 
             <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
 
-                <div
-                    class="absolute top-0 right-0 w-64 h-64 bg-fuchsia-500/10 blur-[50px] -z-10 rounded-full"
-                ></div>
+                <div class="absolute top-0 right-0 w-64 h-64 bg-fuchsia-500/10 blur-[50px] -z-10 rounded-full"></div>
 
                 <div class="flex justify-between items-baseline mb-4">
 
@@ -806,9 +844,7 @@
 
             <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
 
-                <div
-                    class="absolute top-0 left-0 w-64 h-64 bg-violet-500/10 blur-[50px] -z-10 rounded-full"
-                ></div>
+                <div class="absolute top-0 left-0 w-64 h-64 bg-violet-500/10 blur-[50px] -z-10 rounded-full"></div>
 
                 <div class="flex justify-between items-baseline mb-4">
 
@@ -852,9 +888,7 @@
 
             <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
 
-                <div
-                    class="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-[50px] -z-10 rounded-full"
-                ></div>
+                <div class="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-[50px] -z-10 rounded-full"></div>
 
                 <div class="flex justify-between items-baseline mb-4">
 
@@ -898,9 +932,7 @@
 
             <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
 
-                <div
-                    class="absolute top-0 left-0 w-64 h-64 bg-indigo-500/10 blur-[50px] -z-10 rounded-full"
-                ></div>
+                <div class="absolute top-0 left-0 w-64 h-64 bg-indigo-500/10 blur-[50px] -z-10 rounded-full"></div>
 
                 <div class="flex justify-between items-baseline mb-4">
 
@@ -971,8 +1003,6 @@
         </div>
 
 
-        <!-- VOUCH SCROLL -->
-
         <div
             class="reveal vouch-mask"
             id="vouch-mask"
@@ -1020,8 +1050,6 @@
 
         <div class="reveal relative w-full rounded-2xl">
 
-
-            <!-- LEFT -->
 
             <button
                 onclick="moveWeb(-1)"
@@ -1128,8 +1156,6 @@
 
             </div>
 
-
-            <!-- RIGHT -->
 
             <button
                 onclick="moveWeb(1)"
@@ -1327,7 +1353,7 @@
 
 
     <!-- =========================================================
-         SCRIPTS
+         JAVASCRIPT
          ========================================================= -->
 
     <script>
@@ -1339,7 +1365,8 @@
 
         function scrollToSection(id) {
 
-            const section = document.getElementById(id);
+            const section =
+                document.getElementById(id);
 
             if (!section) return;
 
@@ -1351,7 +1378,7 @@
                 offset;
 
             window.scrollTo({
-                top,
+                top: top,
                 behavior: 'smooth'
             });
 
@@ -1370,14 +1397,21 @@
             const content =
                 document.getElementById('modalContent');
 
+
             modal.classList.remove(
                 'opacity-0',
                 'pointer-events-none'
             );
 
-            content.classList.remove('scale-95');
 
-            content.classList.add('scale-100');
+            content.classList.remove(
+                'scale-95'
+            );
+
+
+            content.classList.add(
+                'scale-100'
+            );
 
         }
 
@@ -1390,29 +1424,43 @@
             const content =
                 document.getElementById('modalContent');
 
+
             modal.classList.add(
                 'opacity-0',
                 'pointer-events-none'
             );
 
-            content.classList.remove('scale-100');
 
-            content.classList.add('scale-95');
+            content.classList.remove(
+                'scale-100'
+            );
+
+
+            content.classList.add(
+                'scale-95'
+            );
 
         }
 
 
         function copyDiscord(element) {
 
-            navigator.clipboard.writeText('acesnapgfx');
+            navigator.clipboard.writeText(
+                'acesnapgfx'
+            );
+
 
             const icon =
-                element.querySelector('.copy-icon');
+                element.querySelector(
+                    '.copy-icon'
+                );
+
 
             icon.classList.remove(
                 'fa-copy',
                 'fa-regular'
             );
+
 
             icon.classList.add(
                 'fa-check',
@@ -1428,6 +1476,7 @@
                     'fa-solid',
                     'text-green-400'
                 );
+
 
                 icon.classList.add(
                     'fa-copy',
@@ -1446,30 +1495,44 @@
         let currentGfx = 0;
 
         const gfxTrack =
-            document.getElementById('gfx-track');
+            document.getElementById(
+                'gfx-track'
+            );
 
         const totalGfxPages = 5;
 
         const gfxProgressBar =
-            document.getElementById('gfx-progress-bar');
+            document.getElementById(
+                'gfx-progress-bar'
+            );
 
         const gfxProgressLabel =
-            document.getElementById('gfx-progress-label');
+            document.getElementById(
+                'gfx-progress-label'
+            );
 
 
         function updateGfxProgress() {
 
             const pct =
-                ((currentGfx + 1) / totalGfxPages) * 100;
+                ((currentGfx + 1) /
+                    totalGfxPages) *
+                100;
+
 
             if (gfxProgressBar) {
+
                 gfxProgressBar.style.width =
                     `${pct}%`;
+
             }
 
+
             if (gfxProgressLabel) {
+
                 gfxProgressLabel.textContent =
                     `${currentGfx + 1} / ${totalGfxPages} viewed`;
+
             }
 
         }
@@ -1479,13 +1542,26 @@
 
             currentGfx += direction;
 
-            if (currentGfx >= totalGfxPages) {
+
+            if (
+                currentGfx >=
+                totalGfxPages
+            ) {
+
                 currentGfx = 0;
+
             }
 
-            if (currentGfx < 0) {
-                currentGfx = totalGfxPages - 1;
+
+            if (
+                currentGfx < 0
+            ) {
+
+                currentGfx =
+                    totalGfxPages - 1;
+
             }
+
 
             if (gfxTrack) {
 
@@ -1493,6 +1569,7 @@
                     `translateX(-${currentGfx * 100}%)`;
 
             }
+
 
             updateGfxProgress();
 
@@ -1507,7 +1584,9 @@
            ========================================================= */
 
         const gfxSection =
-            document.getElementById('gfx');
+            document.getElementById(
+                'gfx'
+            );
 
         let gfxAutoplay = null;
 
@@ -1516,11 +1595,13 @@
 
             stopGfxAutoplay();
 
-            gfxAutoplay = setInterval(() => {
 
-                moveGfx(1);
+            gfxAutoplay =
+                setInterval(() => {
 
-            }, 3000);
+                    moveGfx(1);
+
+                }, 3000);
 
         }
 
@@ -1529,7 +1610,9 @@
 
             if (gfxAutoplay) {
 
-                clearInterval(gfxAutoplay);
+                clearInterval(
+                    gfxAutoplay
+                );
 
                 gfxAutoplay = null;
 
@@ -1545,12 +1628,15 @@
                 stopGfxAutoplay
             );
 
+
             gfxSection.addEventListener(
                 'mouseleave',
                 startGfxAutoplay
             );
 
-            gfxSection.querySelectorAll('button')
+
+            gfxSection
+                .querySelectorAll('button')
                 .forEach(btn => {
 
                     btn.addEventListener(
@@ -1573,7 +1659,9 @@
         let currentWeb = 0;
 
         const webTrack =
-            document.getElementById('web-track');
+            document.getElementById(
+                'web-track'
+            );
 
         const totalWebPages = 2;
 
@@ -1582,13 +1670,26 @@
 
             currentWeb += direction;
 
-            if (currentWeb >= totalWebPages) {
+
+            if (
+                currentWeb >=
+                totalWebPages
+            ) {
+
                 currentWeb = 0;
+
             }
 
-            if (currentWeb < 0) {
-                currentWeb = totalWebPages - 1;
+
+            if (
+                currentWeb < 0
+            ) {
+
+                currentWeb =
+                    totalWebPages - 1;
+
             }
+
 
             if (webTrack) {
 
@@ -1607,7 +1708,9 @@
         (function () {
 
             const revealEls =
-                document.querySelectorAll('.reveal');
+                document.querySelectorAll(
+                    '.reveal'
+                );
 
 
             if (
@@ -1617,7 +1720,9 @@
 
                 revealEls.forEach(el => {
 
-                    el.classList.add('in-view');
+                    el.classList.add(
+                        'in-view'
+                    );
 
                 });
 
@@ -1628,21 +1733,25 @@
 
             const observer =
                 new IntersectionObserver(
-                    (entries) => {
+                    entries => {
 
-                        entries.forEach(entry => {
+                        entries.forEach(
+                            entry => {
 
-                            entry.target.classList.toggle(
-                                'in-view',
-                                entry.isIntersecting
-                            );
+                                entry.target.classList.toggle(
+                                    'in-view',
+                                    entry.isIntersecting
+                                );
 
-                        });
+                            }
+                        );
 
                     },
                     {
                         threshold: 0.15,
-                        rootMargin: '0px 0px -8% 0px'
+
+                        rootMargin:
+                            '0px 0px -8% 0px'
                     }
                 );
 
@@ -1699,330 +1808,36 @@
         function escapeHTML(value) {
 
             return String(value ?? '')
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
+                .replace(
+                    /&/g,
+                    '&amp;'
+                )
+                .replace(
+                    /</g,
+                    '&lt;'
+                )
+                .replace(
+                    />/g,
+                    '&gt;'
+                )
+                .replace(
+                    /"/g,
+                    '&quot;'
+                )
+                .replace(
+                    /'/g,
+                    '&#039;'
+                );
 
         }
 
 
         /* =========================================================
-           VOUCH RENDER
+           VOUCH SCROLLER VARIABLES
            ========================================================= */
 
-        function renderVouches() {
-
-            const track =
-                document.getElementById('vouch-track');
-
-            const mask =
-                document.getElementById('vouch-mask');
-
-            const emptyMsg =
-                document.getElementById('vouch-empty');
-
-            const summary =
-                document.getElementById('vouch-summary');
-
-
-            if (!track) return;
-
-
-            if (VOUCHES.length === 0) {
-
-                if (summary) {
-                    summary.innerHTML = '';
-                }
-
-                if (mask) {
-                    mask.classList.add('hidden');
-                }
-
-                if (emptyMsg) {
-                    emptyMsg.classList.remove('hidden');
-                }
-
-                return;
-
-            }
-
-
-            if (mask) {
-                mask.classList.remove('hidden');
-            }
-
-            if (emptyMsg) {
-                emptyMsg.classList.add('hidden');
-            }
-
-
-            /* =====================================================
-               SUMMARY
-               ===================================================== */
-
-            if (summary) {
-
-                const avg =
-                    VOUCHES.reduce(
-                        (sum, v) =>
-                            sum + Number(v.rating || 0),
-                        0
-                    ) / VOUCHES.length;
-
-                const avgDisplay =
-                    Math.round(avg * 10) / 10;
-
-                const count =
-                    VOUCHES.length;
-
-
-                summary.innerHTML = `
-
-                    <span class="text-purple-400">
-                        ${'★'.repeat(Math.round(avg))}
-                        ${'☆'.repeat(
-                            Math.max(
-                                0,
-                                5 - Math.round(avg)
-                            )
-                        )}
-                    </span>
-
-                    <span class="text-white font-medium">
-                        ${avgDisplay}
-                    </span>
-
-                    <span class="text-gray-500">
-                        · ${count}
-                        ${count === 1 ? 'vouch' : 'vouches'}
-                    </span>
-
-                `;
-
-            }
-
-
-            /* =====================================================
-               INITIALS
-               ===================================================== */
-
-            const initials = (name) => {
-
-                return String(name || '')
-                    .trim()
-                    .split(/\s+/)
-                    .map(part => part[0])
-                    .join('')
-                    .slice(0, 2)
-                    .toUpperCase();
-
-            };
-
-
-            /* =====================================================
-               AVATAR
-               ===================================================== */
-
-            const avatarHTML = (v) => {
-
-                const safeName =
-                    escapeHTML(v.name);
-
-                const safeInitials =
-                    escapeHTML(initials(v.name));
-
-
-                if (v.avatar) {
-
-                    return `
-
-                        <img
-                            src="${escapeHTML(v.avatar)}"
-                            alt="${safeName}"
-                            draggable="false"
-                            class="w-9 h-9 rounded-full object-cover shrink-0"
-                            onerror="
-                                this.replaceWith(
-                                    Object.assign(
-                                        document.createElement('div'),
-                                        {
-                                            className:
-                                                'w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-xs font-semibold text-white shrink-0',
-                                            textContent:
-                                                '${safeInitials}'
-                                        }
-                                    )
-                                )
-                            "
-                        >
-
-                    `;
-
-                }
-
-
-                return `
-
-                    <div
-                        class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-xs font-semibold text-white shrink-0"
-                    >
-                        ${safeInitials}
-                    </div>
-
-                `;
-
-            };
-
-
-            /* =====================================================
-               LINK
-               ===================================================== */
-
-            const linkHTML = (v) => {
-
-                if (!v.link) return '';
-
-                return `
-
-                    <a
-                        href="${escapeHTML(v.link)}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        draggable="false"
-                        class="ml-auto text-gray-500 hover:text-purple-300 transition-colors shrink-0"
-                        title="Visit ${escapeHTML(v.name)}"
-                        onclick="event.stopPropagation()"
-                    >
-
-                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-
-                    </a>
-
-                `;
-
-            };
-
-
-            /* =====================================================
-               CARD
-               ===================================================== */
-
-            const cardHTML = (v) => {
-
-                const rating =
-                    Math.max(
-                        0,
-                        Math.min(
-                            5,
-                            Number(v.rating || 0)
-                        )
-                    );
-
-
-                return `
-
-                    <div
-                        class="vouch-card glass rounded-2xl p-6 flex-none"
-                        data-vouch-card="true"
-                    >
-
-                        <div class="flex gap-0.5 text-purple-400 text-xs mb-4">
-
-                            ${'★'.repeat(rating)}
-                            ${'☆'.repeat(
-                                Math.max(
-                                    0,
-                                    5 - rating
-                                )
-                            )}
-
-                        </div>
-
-
-                        <p class="text-sm text-gray-300 leading-relaxed mb-6">
-
-                            ${escapeHTML(v.quote)}
-
-                        </p>
-
-
-                        <div class="flex items-center gap-3">
-
-                            ${avatarHTML(v)}
-
-
-                            <div class="min-w-0">
-
-                                <p class="text-white text-sm font-medium truncate">
-
-                                    ${escapeHTML(v.name)}
-
-                                </p>
-
-                                <p class="text-gray-500 text-xs truncate">
-
-                                    ${escapeHTML(v.role)}
-
-                                </p>
-
-                            </div>
-
-
-                            ${linkHTML(v)}
-
-                        </div>
-
-                    </div>
-
-                `;
-
-            };
-
-
-            const html =
-                VOUCHES
-                    .map(cardHTML)
-                    .join('');
-
-
-            /*
-             * Duplicate the complete set.
-             * The JavaScript below uses the first half as
-             * the seamless looping point.
-             */
-
-            track.innerHTML =
-                html + html;
-
-
-            track.style.width =
-                'max-content';
-
-
-            /*
-             * Reset the scrolling engine because new
-             * Supabase vouches may have just arrived.
-             */
-
-            initVouchScroller();
-
-        }
-
-
-        /* =========================================================
-           VOUCH SCROLLER
-           
-           JavaScript-based instead of CSS marquee so we can:
-           
-           - move slowly
-           - drag manually
-           - continue seamlessly
-           - pause while interacting
-           ========================================================= */
-
-        let vouchScrollerInitialized = false;
+        let vouchScrollerInitialized =
+            false;
 
         let vouchPosition = 0;
 
@@ -2048,27 +1863,37 @@
 
 
         /*
-         * Speed:
-         *
-         * 13px per second = very slow and premium.
-         *
-         * Increase this to 18 or 22 if you want faster movement.
+         * Slow premium scrolling speed.
          */
 
         const VOUCH_SCROLL_SPEED = 13;
 
 
+        /* =========================================================
+           VOUCH WIDTH
+           ========================================================= */
+
         function getVouchHalfWidth() {
 
             const track =
-                document.getElementById('vouch-track');
+                document.getElementById(
+                    'vouch-track'
+                );
 
-            if (!track) return 0;
+
+            if (!track) {
+                return 0;
+            }
+
 
             return track.scrollWidth / 2;
 
         }
 
+
+        /* =========================================================
+           NORMALIZE VOUCH POSITION
+           ========================================================= */
 
         function normalizeVouchPosition() {
 
@@ -2076,13 +1901,18 @@
                 getVouchHalfWidth();
 
 
-            if (vouchHalfWidth <= 0) {
+            if (
+                vouchHalfWidth <= 0
+            ) {
+
                 return;
+
             }
 
 
             while (
-                vouchPosition <= -vouchHalfWidth
+                vouchPosition <=
+                -vouchHalfWidth
             ) {
 
                 vouchPosition +=
@@ -2103,12 +1933,22 @@
         }
 
 
+        /* =========================================================
+           APPLY VOUCH POSITION
+           ========================================================= */
+
         function applyVouchPosition() {
 
             const track =
-                document.getElementById('vouch-track');
+                document.getElementById(
+                    'vouch-track'
+                );
 
-            if (!track) return;
+
+            if (!track) {
+                return;
+            }
+
 
             track.style.transform =
                 `translate3d(${vouchPosition}px, 0, 0)`;
@@ -2116,16 +1956,26 @@
         }
 
 
-        function vouchAnimationLoop(timestamp) {
+        /* =========================================================
+           VOUCH ANIMATION LOOP
+           ========================================================= */
+
+        function vouchAnimationLoop(
+            timestamp
+        ) {
 
             if (!vouchLastTime) {
-                vouchLastTime = timestamp;
+
+                vouchLastTime =
+                    timestamp;
+
             }
 
 
             const delta =
                 Math.min(
-                    timestamp - vouchLastTime,
+                    timestamp -
+                        vouchLastTime,
                     50
                 );
 
@@ -2143,6 +1993,7 @@
                     VOUCH_SCROLL_SPEED *
                     (delta / 1000);
 
+
                 normalizeVouchPosition();
 
                 applyVouchPosition();
@@ -2158,22 +2009,31 @@
         }
 
 
+        /* =========================================================
+           VOUCH SCROLLER INIT
+           ========================================================= */
+
         function initVouchScroller() {
 
             const track =
-                document.getElementById('vouch-track');
+                document.getElementById(
+                    'vouch-track'
+                );
 
             const mask =
-                document.getElementById('vouch-mask');
+                document.getElementById(
+                    'vouch-mask'
+                );
 
-            if (!track || !mask) return;
+
+            if (!track || !mask) {
+                return;
+            }
 
 
-            /*
-             * Stop an old loop.
-             */
-
-            if (vouchAnimationFrame) {
+            if (
+                vouchAnimationFrame
+            ) {
 
                 cancelAnimationFrame(
                     vouchAnimationFrame
@@ -2182,7 +2042,9 @@
             }
 
 
-            if (vouchResumeTimer) {
+            if (
+                vouchResumeTimer
+            ) {
 
                 clearTimeout(
                     vouchResumeTimer
@@ -2204,11 +2066,6 @@
             vouchHovering = false;
 
 
-            /*
-             * Wait one frame so the browser has
-             * calculated the new track width.
-             */
-
             requestAnimationFrame(() => {
 
                 vouchHalfWidth =
@@ -2226,16 +2083,17 @@
             });
 
 
-            /*
-             * Don't add duplicate pointer listeners.
-             */
+            if (
+                vouchScrollerInitialized
+            ) {
 
-            if (vouchScrollerInitialized) {
                 return;
+
             }
 
 
-            vouchScrollerInitialized = true;
+            vouchScrollerInitialized =
+                true;
 
 
             /* =====================================================
@@ -2268,17 +2126,16 @@
 
             mask.addEventListener(
                 'pointerdown',
-                (event) => {
-
-                    /*
-                     * Only primary mouse/touch pointer.
-                     */
+                event => {
 
                     if (
-                        event.pointerType === 'mouse' &&
+                        event.pointerType ===
+                            'mouse' &&
                         event.button !== 0
                     ) {
+
                         return;
+
                     }
 
 
@@ -2293,7 +2150,8 @@
                     vouchDragStartPosition =
                         vouchPosition;
 
-                    vouchWasDragged = false;
+                    vouchWasDragged =
+                        false;
 
 
                     mask.classList.add(
@@ -2322,13 +2180,16 @@
 
             mask.addEventListener(
                 'pointermove',
-                (event) => {
+                event => {
 
                     if (
                         !vouchDragging ||
-                        event.pointerId !== vouchPointerId
+                        event.pointerId !==
+                            vouchPointerId
                     ) {
+
                         return;
+
                     }
 
 
@@ -2341,7 +2202,8 @@
                         Math.abs(deltaX) > 4
                     ) {
 
-                        vouchWasDragged = true;
+                        vouchWasDragged =
+                            true;
 
                     }
 
@@ -2363,54 +2225,60 @@
 
 
             /* =====================================================
-               POINTER UP
+               FINISH DRAG
                ===================================================== */
 
-            const finishVouchDrag = (event) => {
+            const finishVouchDrag =
+                event => {
 
-                if (
-                    !vouchDragging ||
-                    (
-                        event &&
-                        vouchPointerId !== null &&
-                        event.pointerId !== vouchPointerId
-                    )
-                ) {
-                    return;
-                }
+                    if (
+                        !vouchDragging ||
+                        (
+                            event &&
+                            vouchPointerId !==
+                                null &&
+                            event.pointerId !==
+                                vouchPointerId
+                        )
+                    ) {
 
+                        return;
 
-                vouchDragging = false;
-
-                vouchPointerId = null;
-
-                mask.classList.remove(
-                    'dragging'
-                );
+                    }
 
 
-                /*
-                 * Small delay before autoplay resumes.
-                 * This makes dragging feel more deliberate.
-                 */
+                    vouchDragging =
+                        false;
 
-                if (vouchResumeTimer) {
+                    vouchPointerId =
+                        null;
 
-                    clearTimeout(
-                        vouchResumeTimer
+
+                    mask.classList.remove(
+                        'dragging'
                     );
 
-                }
+
+                    if (
+                        vouchResumeTimer
+                    ) {
+
+                        clearTimeout(
+                            vouchResumeTimer
+                        );
+
+                    }
 
 
-                vouchResumeTimer =
-                    setTimeout(() => {
+                    vouchResumeTimer =
+                        setTimeout(() => {
 
-                        vouchResumeTimer = null;
+                            vouchResumeTimer =
+                                null;
 
-                    }, 250);
+                        }, 250);
 
-            };
+                };
 
 
             mask.addEventListener(
@@ -2437,15 +2305,18 @@
 
             mask.addEventListener(
                 'click',
-                (event) => {
+                event => {
 
-                    if (vouchWasDragged) {
+                    if (
+                        vouchWasDragged
+                    ) {
 
                         event.preventDefault();
 
                         event.stopPropagation();
 
-                        vouchWasDragged = false;
+                        vouchWasDragged =
+                            false;
 
                     }
 
@@ -2475,9 +2346,391 @@
         }
 
 
-        /*
-         * Initial render.
-         */
+        /* =========================================================
+           VOUCH RENDER
+           ========================================================= */
+
+        function renderVouches() {
+
+            const track =
+                document.getElementById(
+                    'vouch-track'
+                );
+
+            const mask =
+                document.getElementById(
+                    'vouch-mask'
+                );
+
+            const emptyMsg =
+                document.getElementById(
+                    'vouch-empty'
+                );
+
+            const summary =
+                document.getElementById(
+                    'vouch-summary'
+                );
+
+
+            if (!track) {
+                return;
+            }
+
+
+            if (
+                VOUCHES.length === 0
+            ) {
+
+                if (summary) {
+                    summary.innerHTML = '';
+                }
+
+
+                if (mask) {
+                    mask.classList.add(
+                        'hidden'
+                    );
+                }
+
+
+                if (emptyMsg) {
+                    emptyMsg.classList.remove(
+                        'hidden'
+                    );
+                }
+
+
+                return;
+
+            }
+
+
+            if (mask) {
+
+                mask.classList.remove(
+                    'hidden'
+                );
+
+            }
+
+
+            if (emptyMsg) {
+
+                emptyMsg.classList.add(
+                    'hidden'
+                );
+
+            }
+
+
+            /* =====================================================
+               SUMMARY
+               ===================================================== */
+
+            if (summary) {
+
+                const avg =
+                    VOUCHES.reduce(
+                        (sum, v) =>
+                            sum +
+                            Number(
+                                v.rating || 0
+                            ),
+                        0
+                    ) /
+                    VOUCHES.length;
+
+
+                const avgDisplay =
+                    Math.round(
+                        avg * 10
+                    ) / 10;
+
+
+                const count =
+                    VOUCHES.length;
+
+
+                summary.innerHTML = `
+
+                    <span class="text-purple-400">
+                        ${'★'.repeat(
+                            Math.round(avg)
+                        )}
+
+                        ${'☆'.repeat(
+                            Math.max(
+                                0,
+                                5 -
+                                    Math.round(avg)
+                            )
+                        )}
+                    </span>
+
+                    <span class="text-white font-medium">
+                        ${avgDisplay}
+                    </span>
+
+                    <span class="text-gray-500">
+                        · ${count}
+                        ${count === 1
+                            ? 'vouch'
+                            : 'vouches'}
+                    </span>
+
+                `;
+
+            }
+
+
+            /* =====================================================
+               INITIALS
+               ===================================================== */
+
+            const initials =
+                name => {
+
+                    return String(
+                        name || ''
+                    )
+                        .trim()
+                        .split(/\s+/)
+                        .map(
+                            part =>
+                                part[0]
+                        )
+                        .join('')
+                        .slice(0, 2)
+                        .toUpperCase();
+
+                };
+
+
+            /* =====================================================
+               AVATAR
+               ===================================================== */
+
+            const avatarHTML =
+                v => {
+
+                    const safeName =
+                        escapeHTML(
+                            v.name
+                        );
+
+                    const safeInitials =
+                        escapeHTML(
+                            initials(v.name)
+                        );
+
+
+                    if (v.avatar) {
+
+                        return `
+
+                            <img
+                                src="${escapeHTML(v.avatar)}"
+                                alt="${safeName}"
+                                draggable="false"
+                                class="w-9 h-9 rounded-full object-cover shrink-0"
+                                onerror="
+                                    this.replaceWith(
+                                        Object.assign(
+                                            document.createElement('div'),
+                                            {
+                                                className:
+                                                    'w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-xs font-semibold text-white shrink-0',
+
+                                                textContent:
+                                                    '${safeInitials}'
+                                            }
+                                        )
+                                    )
+                                "
+                            >
+
+                        `;
+
+                    }
+
+
+                    return `
+
+                        <div
+                            class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-xs font-semibold text-white shrink-0"
+                        >
+                            ${safeInitials}
+                        </div>
+
+                    `;
+
+                };
+
+
+            /* =====================================================
+               LINK
+               ===================================================== */
+
+            const linkHTML =
+                v => {
+
+                    if (!v.link) {
+                        return '';
+                    }
+
+
+                    return `
+
+                        <a
+                            href="${escapeHTML(v.link)}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            draggable="false"
+                            class="ml-auto text-gray-500 hover:text-purple-300 transition-colors shrink-0"
+                            title="Visit ${escapeHTML(v.name)}"
+                            onclick="event.stopPropagation()"
+                        >
+
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+
+                        </a>
+
+                    `;
+
+                };
+
+
+            /* =====================================================
+               CARD
+               ===================================================== */
+
+            const cardHTML =
+                v => {
+
+                    const rating =
+                        Math.max(
+                            0,
+                            Math.min(
+                                5,
+                                Number(
+                                    v.rating || 0
+                                )
+                            )
+                        );
+
+
+                    return `
+
+                        <div
+                            class="vouch-card glass rounded-2xl p-6"
+                            data-vouch-card="true"
+                        >
+
+                            <!-- Stars -->
+
+                            <div class="flex gap-0.5 text-purple-400 text-xs mb-4 shrink-0">
+
+                                ${'★'.repeat(
+                                    rating
+                                )}
+
+                                ${'☆'.repeat(
+                                    Math.max(
+                                        0,
+                                        5 -
+                                            rating
+                                    )
+                                )}
+
+                            </div>
+
+
+                            <!-- FIXED QUOTE AREA -->
+
+                            <div class="vouch-quote">
+
+                                <p class="text-sm text-gray-300 leading-relaxed">
+
+                                    ${escapeHTML(
+                                        v.quote
+                                    )}
+
+                                </p>
+
+                            </div>
+
+
+                            <!-- FIXED PROFILE POSITION -->
+
+                            <div class="vouch-profile">
+
+                                ${avatarHTML(v)}
+
+
+                                <div class="min-w-0">
+
+                                    <p class="text-white text-sm font-medium truncate">
+
+                                        ${escapeHTML(
+                                            v.name
+                                        )}
+
+                                    </p>
+
+                                    <p class="text-gray-500 text-xs truncate">
+
+                                        ${escapeHTML(
+                                            v.role
+                                        )}
+
+                                    </p>
+
+                                </div>
+
+
+                                ${linkHTML(v)}
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                };
+
+
+            const html =
+                VOUCHES
+                    .map(cardHTML)
+                    .join('');
+
+
+            /*
+             * Duplicate cards for seamless scrolling.
+             */
+
+            track.innerHTML =
+                html + html;
+
+
+            track.style.width =
+                'max-content';
+
+
+            /*
+             * Restart scrolling after
+             * Supabase finishes loading.
+             */
+
+            initVouchScroller();
+
+        }
+
+
+        /* =========================================================
+           INITIAL VOUCH RENDER
+           ========================================================= */
 
         renderVouches();
 
@@ -2489,14 +2742,23 @@
         (function () {
 
             const navContainer =
-                document.getElementById('nav-links');
+                document.getElementById(
+                    'nav-links'
+                );
 
             const indicator =
-                document.getElementById('nav-indicator');
+                document.getElementById(
+                    'nav-indicator'
+                );
 
 
-            if (!navContainer || !indicator) {
+            if (
+                !navContainer ||
+                !indicator
+            ) {
+
                 return;
+
             }
 
 
@@ -2511,19 +2773,23 @@
             const sections =
                 navLinks
                     .map(link => ({
-                        link,
+                        link: link,
                         el:
                             document.getElementById(
                                 link.dataset.section
                             )
                     }))
-                    .filter(item => item.el);
+                    .filter(
+                        item => item.el
+                    );
 
 
             const NAV_OFFSET = 140;
 
 
-            function moveIndicatorTo(link) {
+            function moveIndicatorTo(
+                link
+            ) {
 
                 const linkRect =
                     link.getBoundingClientRect();
@@ -2533,10 +2799,13 @@
 
 
                 indicator.style.left =
-                    `${linkRect.left - containerRect.left}px`;
+                    `${linkRect.left -
+                        containerRect.left}px`;
+
 
                 indicator.style.width =
                     `${linkRect.width}px`;
+
 
                 indicator.style.opacity =
                     '1';
@@ -2605,7 +2874,9 @@
 
                 if (current) {
 
-                    moveIndicatorTo(current);
+                    moveIndicatorTo(
+                        current
+                    );
 
                 } else {
 
@@ -2634,7 +2905,9 @@
             window.addEventListener(
                 'scroll',
                 onScroll,
-                { passive: true }
+                {
+                    passive: true
+                }
             );
 
 
@@ -2675,10 +2948,12 @@
 
 
     <!-- =========================================================
-         SUPABASE
+         SUPABASE LIVE VOUCHES
          ========================================================= -->
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"
+    ></script>
 
     <script src="./vouches-loader.js?v=3"></script>
 
