@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vouch Admin | AceSnap</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="./acesnaplogonoouter.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #050505;
+  color: #ededed;
+}
+.ambient-glow {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80vw;
+  height: 60vh;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, rgba(126, 34, 206, 0.1) 40%, rgba(0,0,0,0) 70%);
+  filter: blur(90px);
+  z-index: -1;
+  pointer-events: none;
+}
+.glass {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+input {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ededed;
+}
+input::placeholder { color: #6b7280; }
+input:focus {
+  outline: none;
+  border-color: rgba(168, 85, 247, 0.5);
+  background: rgba(255, 255, 255, 0.05);
+}
+</style>
+</head>
+<body class="antialiased min-h-screen px-6 py-16">
+<div class="ambient-glow"></div>
+
+<!-- Login screen -->
+<div id="loginWrap" class="glass rounded-2xl p-8 w-full max-w-sm mx-auto mt-20">
+  <h1 class="text-xl font-medium text-white mb-1">Vouch admin</h1>
+  <p class="text-sm text-gray-500 mb-6">Log in to manage submissions.</p>
+  <form id="loginForm" class="space-y-3">
+    <input type="email" name="email" required placeholder="Email" class="w-full rounded-xl px-4 py-2.5 text-sm">
+    <input type="password" name="password" required placeholder="Password" class="w-full rounded-xl px-4 py-2.5 text-sm">
+    <p id="loginError" class="text-xs text-red-400 hidden"></p>
+    <button type="submit" class="w-full bg-gradient-to-r from-purple-500 to-fuchsia-500 text-white text-sm font-medium py-2.5 rounded-xl hover:opacity-90 transition-opacity">
+      Log in
+    </button>
+  </form>
+</div>
+
+<!-- Dashboard -->
+<div id="dashWrap" class="max-w-3xl mx-auto hidden">
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-xl font-medium text-white">Vouch admin</h1>
+    <button id="logoutBtn" class="text-xs text-gray-500 hover:text-white transition-colors">Log out</button>
+  </div>
+
+  <div class="mb-10">
+    <h2 class="text-sm font-medium text-gray-400 mb-4 uppercase tracking-wider">
+      Pending <span id="pendingCount" class="text-purple-400"></span>
+    </h2>
+    <div id="pendingList" class="space-y-3"></div>
+    <p id="pendingEmpty" class="text-sm text-gray-600 hidden">Nothing waiting on you right now.</p>
+  </div>
+
+  <div>
+    <h2 class="text-sm font-medium text-gray-400 mb-4 uppercase tracking-wider">
+      Live on site <span id="approvedCount" class="text-purple-400"></span>
+    </h2>
+    <div id="approvedList" class="space-y-3"></div>
+    <p id="approvedEmpty" class="text-sm text-gray-600 hidden">Nothing approved yet.</p>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://vqdfbwjcugnbkxyrtnxn.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZxZGZid2pjdWduYmt4eXJ0bnhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0ODg0NzIsImV4cCI6MjEwNTA2NDQ3Mn0.23WNEL6Ztu_cMYZKc-NvI63CCuaHYTmYDI4Nf6f96Q0";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const loginWrap = document.getElementById('loginWrap');
+const dashWrap = document.getElementById('dashWrap');
+const loginForm = document.getElementById('loginForm');
+const loginError = document.getElementById('loginError');
+
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  loginError.classList.add('hidden');
+  const data = new FormData(loginForm);
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email: data.get('email'),
+    password: data.get('password')
+  });
+  if (error) {
+    loginError.textContent = "Couldn't log in — check the email/password.";
+    loginError.classList.remove('hidden');
+    return;
+  }
+  showDashboard();
+});
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await supabaseClient.auth.signOut();
+  location.reload();
+});
+
+async function showDashboard() {
+  loginWrap.classList.add('hidden');
+  dashWrap.classList.remove('hidden');
+  await loadVouches();
+}
+
+const initials = (name) => (name || '?')
+  .split(' ')
+  .map(p => p[0])
+  .join('')
+  .slice(0, 2)
+  .toUpperCase();
+
+function vouchCard(v, { pending }) {
+  const stars = '★'.repeat(v.rating) + '☆'.repeat(Math.max(0, 5 - v.rating));
+  const avatar = v.avatar_url
+    ? `<img src="${v.avatar_url}" class="w-10 h-10 rounded-full object-cover shrink-0">`
+    : `<div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-xs font-semibold text-white shrink-0">${initials(v.name)}</div>`;
+
+  const div = document.createElement('div');
+  div.className = 'glass rounded-xl p-5';
+  div.innerHTML = `
+    <div class="flex items-start gap-3">
+      ${avatar}
+      <div class="min-w-0 flex-1">
+        <div class="flex items-center gap-2 flex-wrap">
+          <p class="text-white text-sm font-medium">${escapeHtml(v.name)}</p>
+          <span class="text-gray-500 text-xs">${escapeHtml(v.role)}</span>
+          <span class="text-purple-400 text-xs">${stars}</span>
+        </div>
+        <p class="text-sm text-gray-300 mt-1.5 leading-relaxed">${escapeHtml(v.quote)}</p>
+        ${v.link ? `<a href="${v.link}" target="_blank" class="text-xs text-purple-300 hover:text-white mt-1.5 inline-block truncate">${escapeHtml(v.link)}</a>` : ''}
+        ${v.contact ? `<p class="text-xs text-gray-600 mt-1.5">Contact: ${escapeHtml(v.contact)}</p>` : ''}
+        <p class="text-xs text-gray-700 mt-1.5">${new Date(v.created_at).toLocaleString()}</p>
+      </div>
+      <div class="flex flex-col gap-2 shrink-0">
+        ${pending ? `<button data-action="approve" class="text-xs px-3 py-1.5 rounded-lg bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 transition-colors">Approve</button>` : ''}
+        <button data-action="delete" class="text-xs px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors">Delete</button>
+      </div>
+    </div>
+  `;
+
+  div.querySelector('[data-action="delete"]').addEventListener('click', async () => {
+    if (!confirm(`Delete this vouch from ${v.name}?`)) return;
+    await supabaseClient.from('vouches').delete().eq('id', v.id);
+    if (v.avatar_url) {
+      const fileName = v.avatar_url.split('/').pop();
+      await supabaseClient.storage.from('vouch-avatars').remove([fileName]).catch(() => {});
+    }
+    await loadVouches();
+  });
+
+  const approveBtn = div.querySelector('[data-action="approve"]');
+  if (approveBtn) {
+    approveBtn.addEventListener('click', async () => {
+      await supabaseClient.from('vouches').update({ status: 'approved' }).eq('id', v.id);
+      await loadVouches();
+    });
+  }
+
+  return div;
+}
+
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML;
+}
+
+async function loadVouches() {
+  const { data, error } = await supabaseClient
+    .from('vouches')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const pending = data.filter(v => v.status === 'pending');
+  const approved = data.filter(v => v.status === 'approved');
+
+  const pendingList = document.getElementById('pendingList');
+  const approvedList = document.getElementById('approvedList');
+  pendingList.innerHTML = '';
+  approvedList.innerHTML = '';
+
+  document.getElementById('pendingCount').textContent = pending.length ? `(${pending.length})` : '';
+  document.getElementById('approvedCount').textContent = approved.length ? `(${approved.length})` : '';
+
+  document.getElementById('pendingEmpty').classList.toggle('hidden', pending.length > 0);
+  document.getElementById('approvedEmpty').classList.toggle('hidden', approved.length > 0);
+
+  pending.forEach(v => pendingList.appendChild(vouchCard(v, { pending: true })));
+  approved.forEach(v => approvedList.appendChild(vouchCard(v, { pending: false })));
+}
+
+// Stay logged in across refreshes
+(async () => {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (session) showDashboard();
+})();
+</script>
+</body>
+</html>
