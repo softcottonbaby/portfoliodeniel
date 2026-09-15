@@ -597,11 +597,8 @@
         })();
 
         // --- Vouches ---
-        // Add real vouches here after you approve them from your private
-        // submission link. Nothing shows on the site until it's added here —
-        // that's the moderation. `avatar` is an image URL (their Discord/Twitter
-        // pfp link works fine); `link` is their channel/site for self-promo —
-        // both are optional, the card falls back gracefully without them.
+        // These original vouches stay on the site.
+        // vouches-loader.js appends approved Supabase vouches to this array.
         const VOUCHES = [
             // Add real vouches here after you approve them from your private
             // submission link. Each one looks like:
@@ -761,5 +758,9 @@
             updateActiveSection();
         })();
     </script>
+
+    <!-- Supabase live vouches -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="./vouches-loader.js"></script>
 </body>
 </html>
