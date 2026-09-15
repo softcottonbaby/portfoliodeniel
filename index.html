@@ -4,32 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Link Previews / Social Meta Tags -->
     <title>AceSnap Portfolio</title>
-
     <meta name="description" content="Crafting premium digital experiences. ✦ GFX Artist ✦ Full-Stack Web Dev ✦ Community Manager.">
-
     <meta property="og:title" content="AceSnap | Digital Portfolio">
     <meta property="og:description" content="Crafting premium digital experiences. ✦ GFX Artist ✦ Full-Stack Web Dev ✦ Community Manager.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.acesnapportfolio.xyz/">
     <meta property="og:image" content="https://www.acesnapportfolio.xyz/acesnaplogonoouter.png">
-
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="AceSnap | Digital Portfolio">
     <meta name="twitter:description" content="Crafting premium digital experiences. ✦ GFX Artist ✦ Full-Stack Web Dev ✦ Community Manager.">
     <meta name="twitter:image" content="https://www.acesnapportfolio.xyz/acesnaplogonoouter.png">
-
     <link rel="canonical" href="https://www.acesnapportfolio.xyz/">
     <meta name="theme-color" content="#050505">
 
+    <!-- Browser Tab Icon -->
     <link rel="icon" type="image/png" href="./acesnaplogonoouter.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
-        rel="stylesheet"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <link
         rel="stylesheet"
@@ -86,7 +81,13 @@
 
         .glass-hover:hover {
             background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(168, 85, 247, 0.25);
+
+            border: 1px solid rgba(
+                168,
+                85,
+                247,
+                0.25
+            );
         }
 
         .text-gradient {
@@ -112,6 +113,7 @@
 
         .reveal {
             opacity: 0;
+
             filter: blur(10px);
 
             transform:
@@ -119,9 +121,26 @@
                 scale(0.97);
 
             transition:
-                opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-                filter 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+                opacity 0.7s cubic-bezier(
+                    0.22,
+                    1,
+                    0.36,
+                    1
+                ),
+
+                filter 0.7s cubic-bezier(
+                    0.22,
+                    1,
+                    0.36,
+                    1
+                ),
+
+                transform 0.7s cubic-bezier(
+                    0.22,
+                    1,
+                    0.36,
+                    1
+                );
 
             will-change:
                 opacity,
@@ -131,11 +150,23 @@
 
         .reveal.in-view {
             opacity: 1;
+
             filter: blur(0px);
 
             transform:
                 translateY(0)
                 scale(1);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .reveal,
+            .reveal.in-view {
+                opacity: 1;
+                filter: none;
+                transform: none;
+                transition: none;
+            }
         }
 
 
@@ -149,38 +180,35 @@
 
 
         /* =========================================================
-           VOUCHES CONTAINER
+           VOUCHES CAROUSEL
            ========================================================= */
 
         .vouch-mask {
+            overflow: hidden;
+
+            width: 100%;
+
             position: relative;
 
-            overflow: hidden;
+            cursor: grab;
 
             -webkit-mask-image:
                 linear-gradient(
                     to right,
-                    transparent,
+                    transparent 0%,
                     black 7%,
                     black 93%,
-                    transparent
+                    transparent 100%
                 );
 
             mask-image:
                 linear-gradient(
                     to right,
-                    transparent,
+                    transparent 0%,
                     black 7%,
                     black 93%,
-                    transparent
+                    transparent 100%
                 );
-
-            cursor: grab;
-
-            touch-action: pan-y;
-
-            user-select: none;
-            -webkit-user-select: none;
         }
 
         .vouch-mask.dragging {
@@ -190,59 +218,120 @@
         .vouch-track {
             display: flex;
 
+            align-items: stretch;
+
             gap: 1.25rem;
 
             width: max-content;
 
             padding:
-                1.5rem;
+                1rem
+                0;
 
             will-change: transform;
+
+            animation:
+                vouch-scroll
+                65s
+                linear
+                infinite;
+        }
+
+        .vouch-track.dragging {
+            animation-play-state: paused !important;
+        }
+
+        .vouch-mask:hover
+        .vouch-track:not(.dragging) {
+            animation-play-state: paused;
         }
 
 
         /* =========================================================
            VOUCH CARD
-
-           Fixed height means every profile stays at the
-           exact same vertical level regardless of quote length.
            ========================================================= */
 
         .vouch-card {
             position: relative;
 
-            overflow: hidden;
+            width: 520px;
 
-            width: 300px;
-            height: 395px;
+            height: 410px;
 
-            flex: 0 0 300px;
+            flex:
+                0 0 520px;
+
+            padding: 2rem;
+
+            display: flex;
+
+            flex-direction: column;
+
+            background:
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(
+                        168,
+                        85,
+                        247,
+                        0.045
+                    ),
+                    transparent 55%
+                ),
+
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.018
+                );
+
+            border:
+                1px solid
+                rgba(
+                    168,
+                    85,
+                    247,
+                    0.16
+                );
+
+            border-radius: 22px;
+
+            overflow: visible;
+
+            transition:
+                transform
+                0.35s
+                cubic-bezier(
+                    0.22,
+                    1,
+                    0.36,
+                    1
+                ),
+
+                background
+                0.35s
+                ease,
+
+                border-color
+                0.35s
+                ease,
+
+                box-shadow
+                0.35s
+                ease;
 
             isolation: isolate;
 
-            display: flex;
-            flex-direction: column;
-
-            transition:
-                transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-                background 0.35s ease,
-                box-shadow 0.35s ease;
-
-            transform-origin: center center;
+            cursor: grab;
         }
 
 
         /* =========================================================
-           MOVING BORDER TRACE
+           MOVING GRADIENT BORDER TRACE
            ========================================================= */
 
-        @property --vouch-angle {
-            syntax: "<angle>";
-            initial-value: 0deg;
-            inherits: false;
-        }
-
-        .vouch-card::after {
+        .vouch-card::before {
             content: "";
 
             position: absolute;
@@ -251,103 +340,195 @@
 
             border-radius: inherit;
 
-            padding: 1.5px;
+            padding: 1px;
 
             background:
                 conic-gradient(
-                    from var(--vouch-angle),
+                    from var(--trace-angle, 0deg),
 
                     transparent 0deg,
-                    transparent 318deg,
 
-                    rgba(168, 85, 247, 0.04) 330deg,
+                    transparent 265deg,
 
-                    rgba(168, 85, 247, 0.20) 340deg,
+                    rgba(
+                        168,
+                        85,
+                        247,
+                        0.04
+                    ) 275deg,
 
-                    rgba(192, 132, 252, 0.65) 348deg,
+                    rgba(
+                        192,
+                        132,
+                        252,
+                        0.95
+                    ) 292deg,
 
-                    rgba(217, 70, 239, 0.95) 354deg,
+                    rgba(
+                        232,
+                        121,
+                        249,
+                        0.9
+                    ) 305deg,
 
-                    rgba(255, 255, 255, 1) 358deg,
+                    rgba(
+                        168,
+                        85,
+                        247,
+                        0.04
+                    ) 322deg,
 
-                    rgba(192, 132, 252, 0.45) 360deg
+                    transparent 340deg,
+
+                    transparent 360deg
                 );
 
             -webkit-mask:
-                linear-gradient(#fff 0 0) content-box,
-                linear-gradient(#fff 0 0);
+                linear-gradient(
+                    #fff 0 0
+                ) content-box,
+
+                linear-gradient(
+                    #fff 0 0
+                );
 
             -webkit-mask-composite: xor;
-
-            mask:
-                linear-gradient(#fff 0 0) content-box,
-                linear-gradient(#fff 0 0);
 
             mask-composite: exclude;
 
             pointer-events: none;
 
-            z-index: 20;
+            z-index: 5;
 
             animation:
-                vouch-border-trace
-                4.8s
+                border-trace
+                5s
                 linear
                 infinite;
         }
 
-        @keyframes vouch-border-trace {
+
+        /* =========================================================
+           TRACE GLOW
+           ========================================================= */
+
+        .vouch-card::after {
+            content: "";
+
+            position: absolute;
+
+            inset: -8px;
+
+            border-radius: 26px;
+
+            background:
+                conic-gradient(
+                    from var(--trace-angle, 0deg),
+
+                    transparent 275deg,
+
+                    rgba(
+                        168,
+                        85,
+                        247,
+                        0.14
+                    ) 300deg,
+
+                    transparent 325deg
+                );
+
+            filter: blur(14px);
+
+            opacity: 0.25;
+
+            z-index: -1;
+
+            pointer-events: none;
+
+            animation:
+                border-trace
+                5s
+                linear
+                infinite;
+        }
+
+
+        @property --trace-angle {
+
+            syntax: "<angle>";
+
+            inherits: false;
+
+            initial-value: 0deg;
+        }
+
+        @keyframes border-trace {
 
             from {
-                --vouch-angle: 0deg;
+                --trace-angle: 0deg;
             }
 
             to {
-                --vouch-angle: 360deg;
+                --trace-angle: 360deg;
             }
-
         }
 
 
         /* =========================================================
-           VOUCH HOVER
+           VOUCH CARD HOVER
            ========================================================= */
 
         .vouch-card:hover {
 
             transform:
                 translateY(-8px)
-                scale(1.055);
+                scale(1.035);
 
             background:
-                rgba(255, 255, 255, 0.045);
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(
+                        168,
+                        85,
+                        247,
+                        0.09
+                    ),
+                    transparent 60%
+                ),
+
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.035
+                );
+
+            border-color:
+                rgba(
+                    168,
+                    85,
+                    247,
+                    0.3
+                );
 
             box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.45),
-                0 0 35px rgba(168, 85, 247, 0.10);
+                0 25px 70px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.45
+                ),
 
-            z-index: 30;
-        }
-
-        .vouch-card:hover::after {
-
-            background:
-                conic-gradient(
-                    from var(--vouch-angle),
-
-                    transparent 0deg,
-                    transparent 315deg,
-
-                    rgba(168, 85, 247, 0.06) 328deg,
-
-                    rgba(192, 132, 252, 0.50) 340deg,
-
-                    rgba(217, 70, 239, 1) 351deg,
-
-                    rgba(255, 255, 255, 1) 357deg,
-
-                    rgba(192, 132, 252, 0.55) 360deg
+                0 0 35px
+                rgba(
+                    168,
+                    85,
+                    247,
+                    0.08
                 );
+
+            z-index: 20;
         }
 
 
@@ -355,94 +536,111 @@
            VOUCH CONTENT
            ========================================================= */
 
-        .vouch-card > * {
-            position: relative;
-            z-index: 5;
-        }
-
-
-        /*
-         * Fixed quote area.
-         *
-         * This is what keeps every profile aligned.
-         * Regardless of quote length, the profile starts
-         * at exactly the same vertical position.
-         */
-
-        .vouch-quote {
-            height: 185px;
-
-            overflow: hidden;
-
+        .vouch-stars {
             flex-shrink: 0;
         }
 
+        .vouch-quote {
+            flex: 1;
 
-        /*
-         * Profile always stays at the bottom.
-         */
+            min-height: 0;
+        }
 
         .vouch-profile {
             margin-top: auto;
 
-            min-height: 48px;
-
-            display: flex;
-            align-items: center;
-
-            gap: 0.75rem;
+            padding-top: 1.5rem;
 
             flex-shrink: 0;
         }
 
 
         /* =========================================================
-           REDUCED MOTION
+           VOUCH ANIMATION
            ========================================================= */
 
-        @media (prefers-reduced-motion: reduce) {
+        @keyframes vouch-scroll {
 
-            .reveal,
-            .reveal.in-view {
-                opacity: 1;
-                filter: none;
-                transform: none;
-                transition: none;
+            from {
+                transform:
+                    translate3d(
+                        0,
+                        0,
+                        0
+                    );
             }
 
-            .vouch-card::after {
-                animation: none;
+            to {
+                transform:
+                    translate3d(
+                        -50%,
+                        0,
+                        0
+                    );
             }
-
         }
 
 
         /* =========================================================
-           MOBILE
+           MOBILE VOUCHES
            ========================================================= */
 
-        @media (max-width: 640px) {
-
-            .vouch-card {
-                width: 280px;
-                flex-basis: 280px;
-                height: 395px;
-            }
+        @media (max-width: 700px) {
 
             .vouch-track {
                 gap: 1rem;
-
-                padding-left: 1rem;
-                padding-right: 1rem;
             }
 
+            .vouch-card {
+
+                width: 330px;
+
+                flex-basis: 330px;
+
+                height: 370px;
+
+                padding: 1.5rem;
+            }
+
+            .vouch-card:hover {
+
+                transform:
+                    translateY(-5px)
+                    scale(1.02);
+            }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .vouch-track {
+                animation: none;
+            }
+
+            .vouch-card::before,
+            .vouch-card::after {
+                animation: none;
+            }
+        }
+
 
     </style>
 </head>
 
 
-<body class="antialiased selection:bg-purple-500/30 selection:text-white min-h-screen flex flex-col relative">
+<body
+    class="antialiased
+           selection:bg-purple-500/30
+           selection:text-white
+           min-h-screen
+           flex
+           flex-col
+           relative"
+>
+
+
+    <!-- =========================================================
+         AMBIENT BACKGROUND
+         ========================================================= -->
 
     <div class="ambient-glow"></div>
 
@@ -451,11 +649,32 @@
          FLOATING NAVBAR
          ========================================================= -->
 
-    <div class="fixed top-6 left-0 right-0 z-50 px-4">
+    <div
+        class="fixed
+               top-6
+               left-0
+               right-0
+               z-50
+               px-4"
+    >
 
-        <nav class="max-w-4xl mx-auto glass rounded-full px-6 py-4 flex justify-between items-center">
+        <nav
+            class="max-w-4xl
+                   mx-auto
+                   glass
+                   rounded-full
+                   px-6
+                   py-4
+                   flex
+                   justify-between
+                   items-center"
+        >
 
-            <div class="flex items-center gap-2.5">
+            <div
+                class="flex
+                       items-center
+                       gap-2.5"
+            >
 
                 <img
                     src="./acesnaplogonoouter.png"
@@ -463,7 +682,12 @@
                     class="h-7 w-auto"
                 >
 
-                <span class="text-lg font-semibold tracking-wide text-white">
+                <span
+                    class="text-lg
+                           font-semibold
+                           tracking-wide
+                           text-white"
+                >
                     Daniel.
                 </span>
 
@@ -472,49 +696,96 @@
 
             <div
                 id="nav-links"
-                class="hidden md:flex gap-8 text-sm font-medium text-gray-400 relative"
+                class="hidden
+                       md:flex
+                       gap-8
+                       text-sm
+                       font-medium
+                       text-gray-400
+                       relative"
             >
 
                 <a
                     href="#"
                     data-section="gfx"
-                    onclick="event.preventDefault(); scrollToSection('gfx');"
-                    class="nav-link hover:text-white transition-colors pb-1"
+                    onclick="
+                        event.preventDefault();
+                        scrollToSection('gfx');
+                    "
+                    class="nav-link
+                           hover:text-white
+                           transition-colors
+                           pb-1"
                 >
                     Design
                 </a>
 
+
                 <a
                     href="#"
                     data-section="experiences"
-                    onclick="event.preventDefault(); scrollToSection('experiences');"
-                    class="nav-link hover:text-white transition-colors pb-1"
+                    onclick="
+                        event.preventDefault();
+                        scrollToSection('experiences');
+                    "
+                    class="nav-link
+                           hover:text-white
+                           transition-colors
+                           pb-1"
                 >
                     Experiences
                 </a>
 
+
                 <a
                     href="#"
                     data-section="vouches"
-                    onclick="event.preventDefault(); scrollToSection('vouches');"
-                    class="nav-link hover:text-white transition-colors pb-1"
+                    onclick="
+                        event.preventDefault();
+                        scrollToSection('vouches');
+                    "
+                    class="nav-link
+                           hover:text-white
+                           transition-colors
+                           pb-1"
                 >
                     Vouches
                 </a>
 
+
                 <a
                     href="#"
                     data-section="web"
-                    onclick="event.preventDefault(); scrollToSection('web');"
-                    class="nav-link hover:text-white transition-colors pb-1"
+                    onclick="
+                        event.preventDefault();
+                        scrollToSection('web');
+                    "
+                    class="nav-link
+                           hover:text-white
+                           transition-colors
+                           pb-1"
                 >
                     Projects
                 </a>
 
+
                 <span
                     id="nav-indicator"
-                    class="absolute bottom-0 h-[2px] rounded-full bg-gradient-to-r from-purple-500 to-fuchsia-400 opacity-0 transition-all duration-300 ease-out"
-                    style="left: 0; width: 0;"
+                    class="absolute
+                           bottom-0
+                           h-[2px]
+                           rounded-full
+                           bg-gradient-to-r
+                           from-purple-500
+                           to-fuchsia-400
+                           opacity-0
+                           transition-all
+                           duration-300
+                           ease-out"
+                    style="
+                        left: 0;
+                        width: 0;
+                    "
                 ></span>
 
             </div>
@@ -522,14 +793,41 @@
 
             <button
                 onclick="openContactModal()"
-                class="group relative overflow-hidden text-sm font-medium text-white bg-white/5 border border-white/10 hover:border-purple-400/40 px-4 py-2 rounded-full transition-colors duration-300"
+                class="group
+                       relative
+                       overflow-hidden
+                       text-sm
+                       font-medium
+                       text-white
+                       bg-white/5
+                       border
+                       border-white/10
+                       hover:border-purple-400/40
+                       px-4
+                       py-2
+                       rounded-full
+                       transition-colors
+                       duration-300"
             >
 
                 <span
-                    class="absolute inset-0 bg-gradient-to-r from-purple-500 to-fuchsia-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out"
+                    class="absolute
+                           inset-0
+                           bg-gradient-to-r
+                           from-purple-500
+                           to-fuchsia-500
+                           origin-left
+                           scale-x-0
+                           group-hover:scale-x-100
+                           transition-transform
+                           duration-500
+                           ease-out"
                 ></span>
 
-                <span class="relative z-10">
+                <span
+                    class="relative
+                           z-10"
+                >
                     Contact
                 </span>
 
@@ -544,20 +842,46 @@
          HERO
          ========================================================= -->
 
-    <header class="max-w-4xl mx-auto px-6 pt-48 pb-32 text-center w-full">
+    <header
+        class="max-w-4xl
+               mx-auto
+               px-6
+               pt-48
+               pb-32
+               text-center
+               w-full"
+    >
 
         <div
-            class="reveal inline-block mb-6 px-4 py-1.5 glass rounded-full text-xs font-medium text-purple-300 border-purple-500/20"
+            class="reveal
+                   inline-block
+                   mb-6
+                   px-4
+                   py-1.5
+                   glass
+                   rounded-full
+                   text-xs
+                   font-medium
+                   text-purple-300
+                   border-purple-500/20"
         >
             Available for new projects
         </div>
 
 
         <h1
-            class="reveal text-5xl md:text-6xl font-medium mb-6 text-white leading-tight tracking-tight"
+            class="reveal
+                   text-5xl
+                   md:text-6xl
+                   font-medium
+                   mb-6
+                   text-white
+                   leading-tight
+                   tracking-tight"
         >
 
-            Digital designer, manager & <br>
+            Digital designer, manager &
+            <br>
 
             <span class="text-gradient">
                 full-stack developer.
@@ -567,7 +891,13 @@
 
 
         <p
-            class="reveal text-lg text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto"
+            class="reveal
+                   text-lg
+                   text-gray-400
+                   mb-10
+                   leading-relaxed
+                   max-w-2xl
+                   mx-auto"
         >
             Operating as AceSnap. Specializing in high-conversion graphics,
             scalable community infrastructure, and web applications.
@@ -582,58 +912,145 @@
 
     <section
         id="gfx"
-        class="max-w-4xl w-full mx-auto px-6 py-20 relative"
+        class="max-w-4xl
+               w-full
+               mx-auto
+               px-6
+               py-20
+               relative"
     >
 
-        <div class="reveal mb-10 text-center">
+        <div
+            class="reveal
+                   mb-10
+                   text-center"
+        >
 
-            <h2 class="text-2xl font-medium text-white mb-2">
+            <h2
+                class="text-2xl
+                       font-medium
+                       text-white
+                       mb-2"
+            >
                 Design Portfolio
             </h2>
 
-            <p class="text-gray-400 text-sm">
-                Thumbnails, custom banners, site advertisements, and social assets.
+            <p
+                class="text-gray-400
+                       text-sm"
+            >
+                Thumbnails, custom banners, site advertisements,
+                and social assets.
             </p>
 
         </div>
 
 
-        <div class="reveal relative w-full">
+        <div
+            class="reveal
+                   relative
+                   w-full"
+        >
+
+            <!-- Left Arrow -->
 
             <button
                 onclick="moveGfx(-1)"
-                class="absolute left-0 top-1/2 -translate-y-1/2 z-20 glass glass-hover w-10 h-10 flex items-center justify-center rounded-full text-white shadow-xl"
+                class="absolute
+                       left-0
+                       top-1/2
+                       -translate-y-1/2
+                       z-20
+                       glass
+                       glass-hover
+                       w-10
+                       h-10
+                       flex
+                       items-center
+                       justify-center
+                       rounded-full
+                       text-white
+                       shadow-xl"
             >
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
 
 
-            <div class="w-full overflow-hidden rounded-2xl">
+            <!-- Slider -->
+
+            <div
+                class="w-full
+                       overflow-hidden
+                       rounded-2xl"
+            >
 
                 <div
                     id="gfx-track"
-                    class="flex transition-transform duration-500 ease-in-out w-full"
+                    class="flex
+                           transition-transform
+                           duration-500
+                           ease-in-out
+                           w-full"
                 >
 
-                    <!-- GROUP 1 -->
 
-                    <div class="flex-none w-full flex gap-4 px-12">
+                    <!-- Group 1 -->
 
-                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                    <div
+                        class="flex-none
+                               w-full
+                               flex
+                               gap-4
+                               px-12"
+                    >
+
+                        <div
+                            class="w-1/2
+                                   glass
+                                   glass-hover
+                                   rounded-2xl
+                                   p-2
+                                   cursor-pointer
+                                   flex
+                                   items-center
+                                   justify-center
+                                   overflow-hidden"
+                        >
 
                             <img
                                 src="./casesbanner.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="w-full
+                                       h-auto
+                                       rounded-xl
+                                       opacity-80
+                                       hover:opacity-100
+                                       transition-opacity"
                             >
 
                         </div>
 
 
-                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                        <div
+                            class="w-1/2
+                                   glass
+                                   glass-hover
+                                   rounded-2xl
+                                   p-2
+                                   cursor-pointer
+                                   flex
+                                   items-center
+                                   justify-center
+                                   overflow-hidden"
+                        >
 
                             <img
                                 src="./howthiskeepshappening.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="w-full
+                                       h-auto
+                                       rounded-xl
+                                       opacity-80
+                                       hover:opacity-100
+                                       transition-opacity"
                             >
 
                         </div>
@@ -641,25 +1058,63 @@
                     </div>
 
 
-                    <!-- GROUP 2 -->
+                    <!-- Group 2 -->
 
-                    <div class="flex-none w-full flex gap-4 px-12">
+                    <div
+                        class="flex-none
+                               w-full
+                               flex
+                               gap-4
+                               px-12"
+                    >
 
-                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                        <div
+                            class="w-1/2
+                                   glass
+                                   glass-hover
+                                   rounded-2xl
+                                   p-2
+                                   cursor-pointer
+                                   flex
+                                   items-center
+                                   justify-center
+                                   overflow-hidden"
+                        >
 
                             <img
                                 src="./mineschallenge.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="w-full
+                                       h-auto
+                                       rounded-xl
+                                       opacity-80
+                                       hover:opacity-100
+                                       transition-opacity"
                             >
 
                         </div>
 
 
-                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                        <div
+                            class="w-1/2
+                                   glass
+                                   glass-hover
+                                   rounded-2xl
+                                   p-2
+                                   cursor-pointer
+                                   flex
+                                   items-center
+                                   justify-center
+                                   overflow-hidden"
+                        >
 
                             <img
                                 src="./robertobanner.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="w-full
+                                       h-auto
+                                       rounded-xl
+                                       opacity-80
+                                       hover:opacity-100
+                                       transition-opacity"
                             >
 
                         </div>
@@ -667,25 +1122,63 @@
                     </div>
 
 
-                    <!-- GROUP 3 -->
+                    <!-- Group 3 -->
 
-                    <div class="flex-none w-full flex gap-4 px-12">
+                    <div
+                        class="flex-none
+                               w-full
+                               flex
+                               gap-4
+                               px-12"
+                    >
 
-                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                        <div
+                            class="w-1/2
+                                   glass
+                                   glass-hover
+                                   rounded-2xl
+                                   p-2
+                                   cursor-pointer
+                                   flex
+                                   items-center
+                                   justify-center
+                                   overflow-hidden"
+                        >
 
                             <img
                                 src="./sorhexbanner.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="w-full
+                                       h-auto
+                                       rounded-xl
+                                       opacity-80
+                                       hover:opacity-100
+                                       transition-opacity"
                             >
 
                         </div>
 
 
-                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                        <div
+                            class="w-1/2
+                                   glass
+                                   glass-hover
+                                   rounded-2xl
+                                   p-2
+                                   cursor-pointer
+                                   flex
+                                   items-center
+                                   justify-center
+                                   overflow-hidden"
+                        >
 
                             <img
                                 src="./thumbnail1.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="w-full
+                                       h-auto
+                                       rounded-xl
+                                       opacity-80
+                                       hover:opacity-100
+                                       transition-opacity"
                             >
 
                         </div>
@@ -693,25 +1186,63 @@
                     </div>
 
 
-                    <!-- GROUP 4 -->
+                    <!-- Group 4 -->
 
-                    <div class="flex-none w-full flex gap-4 px-12">
+                    <div
+                        class="flex-none
+                               w-full
+                               flex
+                               gap-4
+                               px-12"
+                    >
 
-                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                        <div
+                            class="w-1/2
+                                   glass
+                                   glass-hover
+                                   rounded-2xl
+                                   p-2
+                                   cursor-pointer
+                                   flex
+                                   items-center
+                                   justify-center
+                                   overflow-hidden"
+                        >
 
                             <img
                                 src="./joshy4.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="w-full
+                                       h-auto
+                                       rounded-xl
+                                       opacity-80
+                                       hover:opacity-100
+                                       transition-opacity"
                             >
 
                         </div>
 
 
-                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                        <div
+                            class="w-1/2
+                                   glass
+                                   glass-hover
+                                   rounded-2xl
+                                   p-2
+                                   cursor-pointer
+                                   flex
+                                   items-center
+                                   justify-center
+                                   overflow-hidden"
+                        >
 
                             <img
                                 src="./shopannouncement.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="w-full
+                                       h-auto
+                                       rounded-xl
+                                       opacity-80
+                                       hover:opacity-100
+                                       transition-opacity"
                             >
 
                         </div>
@@ -719,15 +1250,37 @@
                     </div>
 
 
-                    <!-- GROUP 5 -->
+                    <!-- Group 5 -->
 
-                    <div class="flex-none w-full flex gap-4 px-12">
+                    <div
+                        class="flex-none
+                               w-full
+                               flex
+                               gap-4
+                               px-12"
+                    >
 
-                        <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
+                        <div
+                            class="w-1/2
+                                   glass
+                                   glass-hover
+                                   rounded-2xl
+                                   p-2
+                                   cursor-pointer
+                                   flex
+                                   items-center
+                                   justify-center
+                                   overflow-hidden"
+                        >
 
                             <img
                                 src="./leaderboardheaded.png"
-                                class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                                class="w-full
+                                       h-auto
+                                       rounded-xl
+                                       opacity-80
+                                       hover:opacity-100
+                                       transition-opacity"
                             >
 
                         </div>
@@ -739,9 +1292,25 @@
             </div>
 
 
+            <!-- Right Arrow -->
+
             <button
                 onclick="moveGfx(1)"
-                class="absolute right-0 top-1/2 -translate-y-1/2 z-20 glass glass-hover w-10 h-10 flex items-center justify-center rounded-full text-white shadow-xl"
+                class="absolute
+                       right-0
+                       top-1/2
+                       -translate-y-1/2
+                       z-20
+                       glass
+                       glass-hover
+                       w-10
+                       h-10
+                       flex
+                       items-center
+                       justify-center
+                       rounded-full
+                       text-white
+                       shadow-xl"
             >
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
@@ -749,21 +1318,47 @@
         </div>
 
 
-        <div class="reveal max-w-md mx-auto mt-6 px-12">
+        <!-- Progress -->
 
-            <div class="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
+        <div
+            class="reveal
+                   max-w-md
+                   mx-auto
+                   mt-6
+                   px-12"
+        >
+
+            <div
+                class="w-full
+                       h-1.5
+                       rounded-full
+                       bg-white/5
+                       overflow-hidden"
+            >
 
                 <div
                     id="gfx-progress-bar"
-                    class="h-full rounded-full bg-gradient-to-r from-purple-500 to-fuchsia-400 transition-all duration-500 ease-out"
+                    class="h-full
+                           rounded-full
+                           bg-gradient-to-r
+                           from-purple-500
+                           to-fuchsia-400
+                           transition-all
+                           duration-500
+                           ease-out"
                     style="width: 0%;"
                 ></div>
 
             </div>
 
+
             <p
                 id="gfx-progress-label"
-                class="text-center text-xs text-gray-500 mt-2 tracking-wide"
+                class="text-center
+                       text-xs
+                       text-gray-500
+                       mt-2
+                       tracking-wide"
             ></p>
 
         </div>
@@ -777,62 +1372,160 @@
 
     <section
         id="experiences"
-        class="max-w-6xl w-full mx-auto px-6 py-20"
+        class="max-w-6xl
+               w-full
+               mx-auto
+               px-6
+               py-20"
     >
 
-        <div class="reveal mb-10 text-center">
+        <div
+            class="reveal
+                   mb-10
+                   text-center"
+        >
 
-            <h2 class="text-2xl font-medium text-white mb-2">
+            <h2
+                class="text-2xl
+                       font-medium
+                       text-white
+                       mb-2"
+            >
                 Past Experiences
             </h2>
 
-            <p class="text-gray-400 text-sm">
-                Strategic management, design, and growth within the digital space.
+            <p
+                class="text-gray-400
+                       text-sm"
+            >
+                Strategic management, design, and growth
+                within the digital space.
             </p>
 
         </div>
 
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div
+            class="grid
+                   grid-cols-1
+                   md:grid-cols-2
+                   gap-8"
+        >
 
 
-            <!-- DIGITAL GRAPHIC DESIGN -->
+            <!-- Digital Graphic Design -->
 
-            <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
+            <div
+                class="reveal
+                       glass
+                       p-8
+                       rounded-2xl
+                       relative
+                       overflow-hidden"
+            >
 
-                <div class="absolute top-0 right-0 w-64 h-64 bg-fuchsia-500/10 blur-[50px] -z-10 rounded-full"></div>
+                <div
+                    class="absolute
+                           top-0
+                           right-0
+                           w-64
+                           h-64
+                           bg-fuchsia-500/10
+                           blur-[50px]
+                           -z-10
+                           rounded-full"
+                ></div>
 
-                <div class="flex justify-between items-baseline mb-4">
 
-                    <h3 class="text-xl font-medium text-white">
+                <div
+                    class="flex
+                           justify-between
+                           items-baseline
+                           mb-4"
+                >
+
+                    <h3
+                        class="text-xl
+                               font-medium
+                               text-white"
+                    >
                         Digital Graphic Design
                     </h3>
 
-                    <span class="text-xs font-medium text-fuchsia-300 bg-fuchsia-500/10 border border-fuchsia-500/20 px-3 py-1 rounded-full">
+                    <span
+                        class="text-xs
+                               font-medium
+                               text-fuchsia-300
+                               bg-fuchsia-500/10
+                               border
+                               border-fuchsia-500/20
+                               px-3
+                               py-1
+                               rounded-full"
+                    >
                         4 Years
                     </span>
 
                 </div>
 
-                <p class="text-sm text-gray-400 mb-8">
+
+                <p
+                    class="text-sm
+                           text-gray-400
+                           mb-8"
+                >
                     Freelance GFX Artist
                 </p>
 
-                <ul class="space-y-4 text-sm text-gray-300">
+
+                <ul
+                    class="space-y-4
+                           text-sm
+                           text-gray-300"
+                >
 
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-fuchsia-400 mt-1 mr-3 text-xs"></i>
-                        Designed high-conversion thumbnails, custom banners, and site advertisements.
+                        <i
+                            class="fa-solid
+                                   fa-arrow-right
+                                   text-fuchsia-400
+                                   mt-1
+                                   mr-3
+                                   text-xs"
+                        ></i>
+
+                        Designed high-conversion thumbnails,
+                        custom banners, and site advertisements.
                     </li>
 
-                    <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-fuchsia-400 mt-1 mr-3 text-xs"></i>
-                        Developed unique visual branding and tailored social assets for creators.
-                    </li>
 
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-fuchsia-400 mt-1 mr-3 text-xs"></i>
-                        Maintained consistent, premium quality across diverse digital deliverables.
+                        <i
+                            class="fa-solid
+                                   fa-arrow-right
+                                   text-fuchsia-400
+                                   mt-1
+                                   mr-3
+                                   text-xs"
+                        ></i>
+
+                        Developed unique visual branding
+                        and tailored social assets for creators.
+                    </li>
+
+
+                    <li class="flex items-start">
+                        <i
+                            class="fa-solid
+                                   fa-arrow-right
+                                   text-fuchsia-400
+                                   mt-1
+                                   mr-3
+                                   text-xs"
+                        ></i>
+
+                        Maintained consistent, premium quality
+                        across diverse digital deliverables.
                     </li>
 
                 </ul>
@@ -840,43 +1533,120 @@
             </div>
 
 
-            <!-- WEBSITE DEVELOPMENT -->
+            <!-- Website & UI Development -->
 
-            <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
+            <div
+                class="reveal
+                       glass
+                       p-8
+                       rounded-2xl
+                       relative
+                       overflow-hidden"
+            >
 
-                <div class="absolute top-0 left-0 w-64 h-64 bg-violet-500/10 blur-[50px] -z-10 rounded-full"></div>
+                <div
+                    class="absolute
+                           top-0
+                           left-0
+                           w-64
+                           h-64
+                           bg-violet-500/10
+                           blur-[50px]
+                           -z-10
+                           rounded-full"
+                ></div>
 
-                <div class="flex justify-between items-baseline mb-4">
 
-                    <h3 class="text-xl font-medium text-white">
+                <div
+                    class="flex
+                           justify-between
+                           items-baseline
+                           mb-4"
+                >
+
+                    <h3
+                        class="text-xl
+                               font-medium
+                               text-white"
+                    >
                         Website & UI Development
                     </h3>
 
-                    <span class="text-xs font-medium text-violet-300 bg-violet-500/10 border border-violet-500/20 px-3 py-1 rounded-full">
+
+                    <span
+                        class="text-xs
+                               font-medium
+                               text-violet-300
+                               bg-violet-500/10
+                               border
+                               border-violet-500/20
+                               px-3
+                               py-1
+                               rounded-full"
+                    >
                         2 Years
                     </span>
 
                 </div>
 
-                <p class="text-sm text-gray-400 mb-8">
+
+                <p
+                    class="text-sm
+                           text-gray-400
+                           mb-8"
+                >
                     Full-Stack & Front-End Developer
                 </p>
 
-                <ul class="space-y-4 text-sm text-gray-300">
+
+                <ul
+                    class="space-y-4
+                           text-sm
+                           text-gray-300"
+                >
 
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-violet-400 mt-1 mr-3 text-xs"></i>
-                        Built complete full-stack web applications and interactive UI components.
+                        <i
+                            class="fa-solid
+                                   fa-arrow-right
+                                   text-violet-400
+                                   mt-1
+                                   mr-3
+                                   text-xs"
+                        ></i>
+
+                        Built complete full-stack web applications
+                        and interactive UI components.
                     </li>
 
-                    <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-violet-400 mt-1 mr-3 text-xs"></i>
-                        Specialized in crafting sleek front-ends alongside robust backend integrations.
-                    </li>
 
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-violet-400 mt-1 mr-3 text-xs"></i>
-                        Created dynamic systems, mockups, and scalable digital experiences.
+                        <i
+                            class="fa-solid
+                                   fa-arrow-right
+                                   text-violet-400
+                                   mt-1
+                                   mr-3
+                                   text-xs"
+                        ></i>
+
+                        Specialized in crafting sleek front-ends
+                        alongside robust backend integrations.
+                    </li>
+
+
+                    <li class="flex items-start">
+                        <i
+                            class="fa-solid
+                                   fa-arrow-right
+                                   text-violet-400
+                                   mt-1
+                                   mr-3
+                                   text-xs"
+                        ></i>
+
+                        Created dynamic systems, mockups,
+                        and scalable digital experiences.
                     </li>
 
                 </ul>
@@ -884,43 +1654,121 @@
             </div>
 
 
-            <!-- RORUSH -->
+            <!-- RoRush -->
 
-            <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
+            <div
+                class="reveal
+                       glass
+                       p-8
+                       rounded-2xl
+                       relative
+                       overflow-hidden"
+            >
 
-                <div class="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-[50px] -z-10 rounded-full"></div>
+                <div
+                    class="absolute
+                           top-0
+                           right-0
+                           w-64
+                           h-64
+                           bg-purple-500/10
+                           blur-[50px]
+                           -z-10
+                           rounded-full"
+                ></div>
 
-                <div class="flex justify-between items-baseline mb-4">
 
-                    <h3 class="text-xl font-medium text-white">
+                <div
+                    class="flex
+                           justify-between
+                           items-baseline
+                           mb-4"
+                >
+
+                    <h3
+                        class="text-xl
+                               font-medium
+                               text-white"
+                    >
                         RoRush
                     </h3>
 
-                    <span class="text-xs font-medium text-purple-300 bg-purple-500/10 border border-purple-500/20 px-3 py-1 rounded-full">
+
+                    <span
+                        class="text-xs
+                               font-medium
+                               text-purple-300
+                               bg-purple-500/10
+                               border
+                               border-purple-500/20
+                               px-3
+                               py-1
+                               rounded-full"
+                    >
                         2 Years
                     </span>
 
                 </div>
 
-                <p class="text-sm text-gray-400 mb-8">
+
+                <p
+                    class="text-sm
+                           text-gray-400
+                           mb-8"
+                >
                     Moderator → Community Manager
                 </p>
 
-                <ul class="space-y-4 text-sm text-gray-300">
+
+                <ul
+                    class="space-y-4
+                           text-sm
+                           text-gray-300"
+                >
 
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-purple-400 mt-1 mr-3 text-xs"></i>
-                        Managed official social channels and executed targeted promotional campaigns.
+                        <i
+                            class="fa-solid
+                                   fa-arrow-right
+                                   text-purple-400
+                                   mt-1
+                                   mr-3
+                                   text-xs"
+                        ></i>
+
+                        Managed official social channels
+                        and executed targeted promotional campaigns.
                     </li>
 
-                    <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-purple-400 mt-1 mr-3 text-xs"></i>
-                        Planned and orchestrated large-scale community events and structured giveaways.
-                    </li>
 
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-purple-400 mt-1 mr-3 text-xs"></i>
-                        Directed the moderation staff, established workflows, and maintained platform integrity.
+                        <i
+                            class="fa-solid
+                                   fa-arrow-right
+                                   text-purple-400
+                                   mt-1
+                                   mr-3
+                                   text-xs"
+                        ></i>
+
+                        Planned and orchestrated large-scale
+                        community events and structured giveaways.
+                    </li>
+
+
+                    <li class="flex items-start">
+                        <i
+                            class="fa-solid
+                                   fa-arrow-right
+                                   text-purple-400
+                                   mt-1
+                                   mr-3
+                                   text-xs"
+                        ></i>
+
+                        Directed the moderation staff,
+                        established workflows,
+                        and maintained platform integrity.
                     </li>
 
                 </ul>
@@ -928,39 +1776,113 @@
             </div>
 
 
-            <!-- STREAMER ADMIN -->
+            <!-- Various Creators -->
 
-            <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
+            <div
+                class="reveal
+                       glass
+                       p-8
+                       rounded-2xl
+                       relative
+                       overflow-hidden"
+            >
 
-                <div class="absolute top-0 left-0 w-64 h-64 bg-indigo-500/10 blur-[50px] -z-10 rounded-full"></div>
+                <div
+                    class="absolute
+                           top-0
+                           left-0
+                           w-64
+                           h-64
+                           bg-indigo-500/10
+                           blur-[50px]
+                           -z-10
+                           rounded-full"
+                ></div>
 
-                <div class="flex justify-between items-baseline mb-4">
 
-                    <h3 class="text-xl font-medium text-white">
+                <div
+                    class="flex
+                           justify-between
+                           items-baseline
+                           mb-4"
+                >
+
+                    <h3
+                        class="text-xl
+                               font-medium
+                               text-white"
+                    >
                         Various Creators
                     </h3>
 
                 </div>
 
-                <p class="text-sm text-gray-400 mb-8">
+
+                <p
+                    class="text-sm
+                           text-gray-400
+                           mb-8"
+                >
                     Streamer Admin & Moderator
                 </p>
 
-                <ul class="space-y-4 text-sm text-gray-300">
+
+                <ul
+                    class="space-y-4
+                           text-sm
+                           text-gray-300"
+                >
 
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-indigo-400 mt-1 mr-3 text-xs"></i>
-                        Acted as administrative support and moderation lead for multiple streaming personalities.
+
+                        <i
+                            class="fa-solid
+                                   fa-arrow-right
+                                   text-indigo-400
+                                   mt-1
+                                   mr-3
+                                   text-xs"
+                        ></i>
+
+                        Acted as administrative support
+                        and moderation lead for multiple
+                        streaming personalities.
+
                     </li>
 
-                    <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-indigo-400 mt-1 mr-3 text-xs"></i>
-                        Maintained live chat environments, filtered content, and enforced community guidelines.
-                    </li>
 
                     <li class="flex items-start">
-                        <i class="fa-solid fa-arrow-right text-indigo-400 mt-1 mr-3 text-xs"></i>
-                        Assisted in coordinating on-stream events and viewer interactions.
+
+                        <i
+                            class="fa-solid
+                                   fa-arrow-right
+                                   text-indigo-400
+                                   mt-1
+                                   mr-3
+                                   text-xs"
+                        ></i>
+
+                        Maintained live chat environments,
+                        filtered content,
+                        and enforced community guidelines.
+
+                    </li>
+
+
+                    <li class="flex items-start">
+
+                        <i
+                            class="fa-solid
+                                   fa-arrow-right
+                                   text-indigo-400
+                                   mt-1
+                                   mr-3
+                                   text-xs"
+                        ></i>
+
+                        Assisted in coordinating on-stream
+                        events and viewer interactions.
+
                     </li>
 
                 </ul>
@@ -978,34 +1900,63 @@
 
     <section
         id="vouches"
-        class="max-w-6xl w-full mx-auto py-20 relative"
+        class="max-w-6xl
+               w-full
+               mx-auto
+               py-20
+               relative"
     >
 
-        <div class="reveal mb-10 text-center px-6">
+        <div
+            class="reveal
+                   mb-10
+                   text-center
+                   px-6"
+        >
 
-            <h2 class="text-2xl font-medium text-white mb-2">
+            <h2
+                class="text-2xl
+                       font-medium
+                       text-white
+                       mb-2"
+            >
                 Vouches
             </h2>
 
-            <p class="text-gray-400 text-sm mb-4">
+
+            <p
+                class="text-gray-400
+                       text-sm
+                       mb-4"
+            >
                 Feedback from clients and creators I've worked with.
             </p>
 
-            <p class="text-gray-600 text-xs mb-4">
+
+            <p
+                class="text-gray-600
+                       text-xs
+                       mb-4"
+            >
                 Vouches are approved manually — might not be all up to date.
             </p>
 
+
             <div
                 id="vouch-summary"
-                class="inline-flex items-center gap-2 text-sm text-gray-300"
+                class="inline-flex
+                       items-center
+                       gap-2
+                       text-sm
+                       text-gray-300"
             ></div>
 
         </div>
 
 
         <div
-            class="reveal vouch-mask"
-            id="vouch-mask"
+            class="reveal
+                   vouch-mask"
         >
 
             <div
@@ -1018,7 +1969,12 @@
 
         <p
             id="vouch-empty"
-            class="reveal text-center text-sm text-gray-500 py-8 hidden"
+            class="reveal
+                   text-center
+                   text-sm
+                   text-gray-500
+                   py-8
+                   hidden"
         >
             No vouches yet — be the first.
         </p>
@@ -1032,63 +1988,165 @@
 
     <section
         id="web"
-        class="max-w-6xl w-full mx-auto px-6 py-20 relative"
+        class="max-w-6xl
+               w-full
+               mx-auto
+               px-6
+               py-20
+               relative"
     >
 
-        <div class="reveal mb-10 text-center">
+        <div
+            class="reveal
+                   mb-10
+                   text-center"
+        >
 
-            <h2 class="text-2xl font-medium text-white mb-2">
+            <h2
+                class="text-2xl
+                       font-medium
+                       text-white
+                       mb-2"
+            >
                 Website Projects
             </h2>
 
-            <p class="text-gray-400 text-sm">
+
+            <p
+                class="text-gray-400
+                       text-sm"
+            >
                 Live interactive deployments and UI/UX integrations.
             </p>
 
         </div>
 
 
-        <div class="reveal relative w-full rounded-2xl">
+        <div
+            class="reveal
+                   relative
+                   w-full
+                   rounded-2xl"
+        >
 
+            <!-- Left Arrow -->
 
             <button
                 onclick="moveWeb(-1)"
-                class="absolute left-0 top-1/2 -translate-y-1/2 z-30 glass glass-hover p-4 rounded-r-xl text-white shadow-xl"
+                class="absolute
+                       left-0
+                       top-1/2
+                       -translate-y-1/2
+                       z-30
+                       glass
+                       glass-hover
+                       p-4
+                       rounded-r-xl
+                       text-white
+                       shadow-xl"
             >
-
                 <i class="fa-solid fa-chevron-left"></i>
-
             </button>
 
 
-            <div class="w-full overflow-hidden rounded-2xl">
+            <div
+                class="w-full
+                       overflow-hidden
+                       rounded-2xl"
+            >
 
                 <div
                     id="web-track"
-                    class="flex transition-transform duration-500 ease-in-out w-full"
+                    class="flex
+                           transition-transform
+                           duration-500
+                           ease-in-out
+                           w-full"
                 >
 
 
-                    <!-- HEADED.GG -->
+                    <!-- Headed.gg -->
 
-                    <div class="flex-none w-full glass p-1">
+                    <div
+                        class="flex-none
+                               w-full
+                               glass
+                               p-1"
+                    >
 
-                        <div class="bg-[#0a0a0a] rounded-xl overflow-hidden h-full flex flex-col">
+                        <div
+                            class="bg-[#0a0a0a]
+                                   rounded-xl
+                                   overflow-hidden
+                                   h-full
+                                   flex
+                                   flex-col"
+                        >
 
-                            <div class="bg-white/5 backdrop-blur-md p-3 flex items-center border-b border-white/5 shrink-0">
+                            <div
+                                class="bg-white/5
+                                       backdrop-blur-md
+                                       p-3
+                                       flex
+                                       items-center
+                                       border-b
+                                       border-white/5
+                                       shrink-0"
+                            >
 
-                                <div class="flex gap-2 mr-6 px-2">
+                                <div
+                                    class="flex
+                                           gap-2
+                                           mr-6
+                                           px-2"
+                                >
 
-                                    <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
-                                    <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                                    <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                                    <div
+                                        class="w-3
+                                               h-3
+                                               rounded-full
+                                               bg-red-500/80"
+                                    ></div>
+
+                                    <div
+                                        class="w-3
+                                               h-3
+                                               rounded-full
+                                               bg-yellow-500/80"
+                                    ></div>
+
+                                    <div
+                                        class="w-3
+                                               h-3
+                                               rounded-full
+                                               bg-green-500/80"
+                                    ></div>
 
                                 </div>
 
 
-                                <div class="bg-black/50 text-xs px-4 py-1.5 rounded-md text-gray-400 font-mono border border-white/5 flex items-center gap-2 mx-auto">
+                                <div
+                                    class="bg-black/50
+                                           text-xs
+                                           px-4
+                                           py-1.5
+                                           rounded-md
+                                           text-gray-400
+                                           font-mono
+                                           border
+                                           border-white/5
+                                           flex
+                                           items-center
+                                           gap-2
+                                           mx-auto"
+                                >
 
-                                    <i class="fa-solid fa-lock text-purple-400 text-[10px]"></i>
+                                    <i
+                                        class="fa-solid
+                                               fa-lock
+                                               text-purple-400
+                                               text-[10px]"
+                                    ></i>
 
                                     headed.gg
 
@@ -1097,11 +2155,22 @@
                             </div>
 
 
-                            <div class="w-full h-[600px] prevent-scroll-bleed relative">
+                            <div
+                                class="w-full
+                                       h-[600px]
+                                       prevent-scroll-bleed
+                                       relative"
+                            >
 
                                 <iframe
                                     src="https://headed.gg"
-                                    class="absolute inset-0 w-full h-full border-none bg-[#050505] prevent-scroll-bleed"
+                                    class="absolute
+                                           inset-0
+                                           w-full
+                                           h-full
+                                           border-none
+                                           bg-[#050505]
+                                           prevent-scroll-bleed"
                                 ></iframe>
 
                             </div>
@@ -1111,26 +2180,88 @@
                     </div>
 
 
-                    <!-- SARGEPLAYREWARDS -->
+                    <!-- SargePlayRewards -->
 
-                    <div class="flex-none w-full glass p-1">
+                    <div
+                        class="flex-none
+                               w-full
+                               glass
+                               p-1"
+                    >
 
-                        <div class="bg-[#0a0a0a] rounded-xl overflow-hidden h-full flex flex-col">
+                        <div
+                            class="bg-[#0a0a0a]
+                                   rounded-xl
+                                   overflow-hidden
+                                   h-full
+                                   flex
+                                   flex-col"
+                        >
 
-                            <div class="bg-white/5 backdrop-blur-md p-3 flex items-center border-b border-white/5 shrink-0">
+                            <div
+                                class="bg-white/5
+                                       backdrop-blur-md
+                                       p-3
+                                       flex
+                                       items-center
+                                       border-b
+                                       border-white/5
+                                       shrink-0"
+                            >
 
-                                <div class="flex gap-2 mr-6 px-2">
+                                <div
+                                    class="flex
+                                           gap-2
+                                           mr-6
+                                           px-2"
+                                >
 
-                                    <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
-                                    <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                                    <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                                    <div
+                                        class="w-3
+                                               h-3
+                                               rounded-full
+                                               bg-red-500/80"
+                                    ></div>
+
+                                    <div
+                                        class="w-3
+                                               h-3
+                                               rounded-full
+                                               bg-yellow-500/80"
+                                    ></div>
+
+                                    <div
+                                        class="w-3
+                                               h-3
+                                               rounded-full
+                                               bg-green-500/80"
+                                    ></div>
 
                                 </div>
 
 
-                                <div class="bg-black/50 text-xs px-4 py-1.5 rounded-md text-gray-400 font-mono border border-white/5 flex items-center gap-2 mx-auto">
+                                <div
+                                    class="bg-black/50
+                                           text-xs
+                                           px-4
+                                           py-1.5
+                                           rounded-md
+                                           text-gray-400
+                                           font-mono
+                                           border
+                                           border-white/5
+                                           flex
+                                           items-center
+                                           gap-2
+                                           mx-auto"
+                                >
 
-                                    <i class="fa-solid fa-lock text-purple-400 text-[10px]"></i>
+                                    <i
+                                        class="fa-solid
+                                               fa-lock
+                                               text-purple-400
+                                               text-[10px]"
+                                    ></i>
 
                                     www.sargeplayrewards.com
 
@@ -1139,11 +2270,22 @@
                             </div>
 
 
-                            <div class="w-full h-[600px] prevent-scroll-bleed relative">
+                            <div
+                                class="w-full
+                                       h-[600px]
+                                       prevent-scroll-bleed
+                                       relative"
+                            >
 
                                 <iframe
                                     src="https://www.sargeplayrewards.com/"
-                                    class="absolute inset-0 w-full h-full border-none bg-[#050505] prevent-scroll-bleed"
+                                    class="absolute
+                                           inset-0
+                                           w-full
+                                           h-full
+                                           border-none
+                                           bg-[#050505]
+                                           prevent-scroll-bleed"
                                 ></iframe>
 
                             </div>
@@ -1157,9 +2299,21 @@
             </div>
 
 
+            <!-- Right Arrow -->
+
             <button
                 onclick="moveWeb(1)"
-                class="absolute right-0 top-1/2 -translate-y-1/2 z-30 glass glass-hover p-4 rounded-l-xl text-white shadow-xl"
+                class="absolute
+                       right-0
+                       top-1/2
+                       -translate-y-1/2
+                       z-30
+                       glass
+                       glass-hover
+                       p-4
+                       rounded-l-xl
+                       text-white
+                       shadow-xl"
             >
 
                 <i class="fa-solid fa-chevron-right"></i>
@@ -1176,10 +2330,30 @@
          ========================================================= -->
 
     <footer
-        class="reveal max-w-4xl w-full mx-auto px-6 py-12 mt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6"
+        class="reveal
+               max-w-4xl
+               w-full
+               mx-auto
+               px-6
+               py-12
+               mt-10
+               border-t
+               border-white/5
+               flex
+               flex-col
+               md:flex-row
+               justify-between
+               items-center
+               gap-6"
     >
 
-        <div class="text-sm text-gray-500 flex items-center gap-2">
+        <div
+            class="text-sm
+                   text-gray-500
+                   flex
+                   items-center
+                   gap-2"
+        >
 
             <img
                 src="./acesnaplogonoouter.png"
@@ -1194,12 +2368,23 @@
 
         <button
             onclick="openContactModal()"
-            class="text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-2"
+            class="text-sm
+                   font-medium
+                   text-gray-300
+                   hover:text-white
+                   transition-colors
+                   flex
+                   items-center
+                   gap-2"
         >
 
             Get in touch
 
-            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+            <i
+                class="fa-solid
+                       fa-arrow-up-right-from-square
+                       text-xs"
+            ></i>
 
         </button>
 
@@ -1212,23 +2397,63 @@
 
     <div
         id="contactModal"
-        class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300"
+        class="fixed
+               inset-0
+               z-[100]
+               flex
+               items-center
+               justify-center
+               opacity-0
+               pointer-events-none
+               transition-opacity
+               duration-300"
     >
 
+        <!-- Backdrop -->
+
         <div
-            class="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
+            class="absolute
+                   inset-0
+                   bg-black/60
+                   backdrop-blur-sm
+                   cursor-pointer"
             onclick="closeContactModal()"
         ></div>
 
 
+        <!-- Modal -->
+
         <div
-            class="glass p-8 rounded-2xl w-[90%] max-w-md relative z-10 transform scale-95 transition-transform duration-300"
+            class="glass
+                   p-8
+                   rounded-2xl
+                   w-[90%]
+                   max-w-md
+                   relative
+                   z-10
+                   transform
+                   scale-95
+                   transition-transform
+                   duration-300"
             id="modalContent"
         >
 
             <button
                 onclick="closeContactModal()"
-                class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition"
+                class="absolute
+                       top-4
+                       right-4
+                       w-8
+                       h-8
+                       flex
+                       items-center
+                       justify-center
+                       rounded-full
+                       bg-white/5
+                       text-gray-400
+                       hover:text-white
+                       hover:bg-white/10
+                       transition"
             >
 
                 <i class="fa-solid fa-xmark"></i>
@@ -1236,7 +2461,12 @@
             </button>
 
 
-            <h3 class="text-2xl font-medium text-white mb-6">
+            <h3
+                class="text-2xl
+                       font-medium
+                       text-white
+                       mb-6"
+            >
                 Let's Connect
             </h3>
 
@@ -1244,29 +2474,65 @@
             <div class="space-y-3">
 
 
-                <!-- EMAIL -->
+                <!-- Email -->
 
                 <a
                     href="mailto:acesnapbuisness@gmail.com"
-                    class="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-purple-500/30 transition group"
+                    class="flex
+                           items-center
+                           gap-4
+                           p-4
+                           rounded-xl
+                           border
+                           border-white/5
+                           bg-white/5
+                           hover:bg-white/10
+                           hover:border-purple-500/30
+                           transition
+                           group"
                 >
 
                     <div
-                        class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 group-hover:bg-purple-500/30 group-hover:scale-110 transition duration-300"
+                        class="w-10
+                               h-10
+                               rounded-full
+                               bg-purple-500/20
+                               flex
+                               items-center
+                               justify-center
+                               text-purple-400
+                               group-hover:bg-purple-500/30
+                               group-hover:scale-110
+                               transition
+                               duration-300"
                     >
 
-                        <i class="fa-solid fa-envelope"></i>
+                        <i
+                            class="fa-solid
+                                   fa-envelope"
+                        ></i>
 
                     </div>
 
 
                     <div>
 
-                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">
+                        <p
+                            class="text-xs
+                                   text-gray-400
+                                   font-medium
+                                   uppercase
+                                   tracking-wider
+                                   mb-0.5"
+                        >
                             Email
                         </p>
 
-                        <p class="text-white font-medium text-sm">
+                        <p
+                            class="text-white
+                                   font-medium
+                                   text-sm"
+                        >
                             acesnapbuisness@gmail.com
                         </p>
 
@@ -1275,69 +2541,149 @@
                 </a>
 
 
-                <!-- DISCORD -->
+                <!-- Discord -->
 
                 <div
-                    class="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-indigo-500/30 transition group cursor-pointer"
+                    class="flex
+                           items-center
+                           gap-4
+                           p-4
+                           rounded-xl
+                           border
+                           border-white/5
+                           bg-white/5
+                           hover:bg-white/10
+                           hover:border-indigo-500/30
+                           transition
+                           group
+                           cursor-pointer"
                     onclick="copyDiscord(this)"
                 >
 
                     <div
-                        class="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-500/30 group-hover:scale-110 transition duration-300"
+                        class="w-10
+                               h-10
+                               rounded-full
+                               bg-indigo-500/20
+                               flex
+                               items-center
+                               justify-center
+                               text-indigo-400
+                               group-hover:bg-indigo-500/30
+                               group-hover:scale-110
+                               transition
+                               duration-300"
                     >
 
-                        <i class="fa-brands fa-discord"></i>
+                        <i
+                            class="fa-brands
+                                   fa-discord"
+                        ></i>
 
                     </div>
 
 
                     <div class="flex-grow">
 
-                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">
+                        <p
+                            class="text-xs
+                                   text-gray-400
+                                   font-medium
+                                   uppercase
+                                   tracking-wider
+                                   mb-0.5"
+                        >
                             Discord
                         </p>
 
-                        <p class="text-white font-medium text-sm">
+                        <p
+                            class="text-white
+                                   font-medium
+                                   text-sm"
+                        >
                             acesnapgfx
                         </p>
 
                     </div>
 
 
-                    <div class="text-gray-500 group-hover:text-white transition">
+                    <div
+                        class="text-gray-500
+                               group-hover:text-white
+                               transition"
+                    >
 
-                        <i class="fa-regular fa-copy copy-icon"></i>
+                        <i
+                            class="fa-regular
+                                   fa-copy
+                                   copy-icon"
+                        ></i>
 
                     </div>
 
                 </div>
 
 
-                <!-- TELEGRAM -->
+                <!-- Telegram -->
 
                 <a
                     href="https://t.me/acesnap"
                     target="_blank"
-                    rel="noopener noreferrer"
-                    class="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-fuchsia-500/30 transition group"
+                    class="flex
+                           items-center
+                           gap-4
+                           p-4
+                           rounded-xl
+                           border
+                           border-white/5
+                           bg-white/5
+                           hover:bg-white/10
+                           hover:border-fuchsia-500/30
+                           transition
+                           group"
                 >
 
                     <div
-                        class="w-10 h-10 rounded-full bg-fuchsia-500/20 flex items-center justify-center text-fuchsia-400 group-hover:bg-fuchsia-500/30 group-hover:scale-110 transition duration-300"
+                        class="w-10
+                               h-10
+                               rounded-full
+                               bg-fuchsia-500/20
+                               flex
+                               items-center
+                               justify-center
+                               text-fuchsia-400
+                               group-hover:bg-fuchsia-500/30
+                               group-hover:scale-110
+                               transition
+                               duration-300"
                     >
 
-                        <i class="fa-brands fa-telegram"></i>
+                        <i
+                            class="fa-brands
+                                   fa-telegram"
+                        ></i>
 
                     </div>
 
 
                     <div>
 
-                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">
+                        <p
+                            class="text-xs
+                                   text-gray-400
+                                   font-medium
+                                   uppercase
+                                   tracking-wider
+                                   mb-0.5"
+                        >
                             Telegram
                         </p>
 
-                        <p class="text-white font-medium text-sm">
+                        <p
+                            class="text-white
+                                   font-medium
+                                   text-sm"
+                        >
                             @acesnap
                         </p>
 
@@ -1360,7 +2706,7 @@
 
 
         /* =========================================================
-           NAVIGATION
+           SECTION SCROLL
            ========================================================= */
 
         function scrollToSection(id) {
@@ -1373,15 +2719,16 @@
             const offset = 90;
 
             const top =
-                section.getBoundingClientRect().top +
-                window.pageYOffset -
+                section.getBoundingClientRect().top
+                +
+                window.pageYOffset
+                -
                 offset;
 
             window.scrollTo({
-                top: top,
+                top,
                 behavior: 'smooth'
             });
-
         }
 
 
@@ -1392,54 +2739,54 @@
         function openContactModal() {
 
             const modal =
-                document.getElementById('contactModal');
+                document.getElementById(
+                    'contactModal'
+                );
 
             const content =
-                document.getElementById('modalContent');
-
+                document.getElementById(
+                    'modalContent'
+                );
 
             modal.classList.remove(
                 'opacity-0',
                 'pointer-events-none'
             );
 
-
             content.classList.remove(
                 'scale-95'
             );
 
-
             content.classList.add(
                 'scale-100'
             );
-
         }
 
 
         function closeContactModal() {
 
             const modal =
-                document.getElementById('contactModal');
+                document.getElementById(
+                    'contactModal'
+                );
 
             const content =
-                document.getElementById('modalContent');
-
+                document.getElementById(
+                    'modalContent'
+                );
 
             modal.classList.add(
                 'opacity-0',
                 'pointer-events-none'
             );
 
-
             content.classList.remove(
                 'scale-100'
             );
 
-
             content.classList.add(
                 'scale-95'
             );
-
         }
 
 
@@ -1449,18 +2796,15 @@
                 'acesnapgfx'
             );
 
-
             const icon =
                 element.querySelector(
                     '.copy-icon'
                 );
 
-
             icon.classList.remove(
                 'fa-copy',
                 'fa-regular'
             );
-
 
             icon.classList.add(
                 'fa-check',
@@ -1477,14 +2821,12 @@
                     'text-green-400'
                 );
 
-
                 icon.classList.add(
                     'fa-copy',
                     'fa-regular'
                 );
 
             }, 2000);
-
         }
 
 
@@ -1515,16 +2857,18 @@
         function updateGfxProgress() {
 
             const pct =
-                ((currentGfx + 1) /
-                    totalGfxPages) *
+                (
+                    (currentGfx + 1)
+                    /
+                    totalGfxPages
+                )
+                *
                 100;
-
 
             if (gfxProgressBar) {
 
                 gfxProgressBar.style.width =
                     `${pct}%`;
-
             }
 
 
@@ -1532,9 +2876,7 @@
 
                 gfxProgressLabel.textContent =
                     `${currentGfx + 1} / ${totalGfxPages} viewed`;
-
             }
-
         }
 
 
@@ -1542,24 +2884,19 @@
 
             currentGfx += direction;
 
-
             if (
                 currentGfx >=
                 totalGfxPages
             ) {
-
                 currentGfx = 0;
-
             }
 
 
             if (
                 currentGfx < 0
             ) {
-
                 currentGfx =
                     totalGfxPages - 1;
-
             }
 
 
@@ -1567,12 +2904,9 @@
 
                 gfxTrack.style.transform =
                     `translateX(-${currentGfx * 100}%)`;
-
             }
 
-
             updateGfxProgress();
-
         }
 
 
@@ -1595,14 +2929,11 @@
 
             stopGfxAutoplay();
 
-
             gfxAutoplay =
-                setInterval(() => {
-
-                    moveGfx(1);
-
-                }, 3000);
-
+                setInterval(
+                    () => moveGfx(1),
+                    3000
+                );
         }
 
 
@@ -1615,9 +2946,7 @@
                 );
 
                 gfxAutoplay = null;
-
             }
-
         }
 
 
@@ -1627,7 +2956,6 @@
                 'mouseenter',
                 stopGfxAutoplay
             );
-
 
             gfxSection.addEventListener(
                 'mouseleave',
@@ -1645,7 +2973,6 @@
                     );
 
                 });
-
         }
 
 
@@ -1653,7 +2980,7 @@
 
 
         /* =========================================================
-           WEBSITE PROJECT SLIDER
+           WEB PROJECTS SLIDER
            ========================================================= */
 
         let currentWeb = 0;
@@ -1670,24 +2997,19 @@
 
             currentWeb += direction;
 
-
             if (
                 currentWeb >=
                 totalWebPages
             ) {
-
                 currentWeb = 0;
-
             }
 
 
             if (
                 currentWeb < 0
             ) {
-
                 currentWeb =
                     totalWebPages - 1;
-
             }
 
 
@@ -1695,9 +3017,7 @@
 
                 webTrack.style.transform =
                     `translateX(-${currentWeb * 100}%)`;
-
             }
-
         }
 
 
@@ -1714,26 +3034,25 @@
 
 
             if (
-                !('IntersectionObserver' in window) ||
+                !('IntersectionObserver' in window)
+                ||
                 revealEls.length === 0
             ) {
 
-                revealEls.forEach(el => {
-
-                    el.classList.add(
-                        'in-view'
-                    );
-
-                });
+                revealEls.forEach(
+                    el =>
+                        el.classList.add(
+                            'in-view'
+                        )
+                );
 
                 return;
-
             }
 
 
             const observer =
                 new IntersectionObserver(
-                    entries => {
+                    (entries) => {
 
                         entries.forEach(
                             entry => {
@@ -1756,17 +3075,16 @@
                 );
 
 
-            revealEls.forEach(el => {
-
-                observer.observe(el);
-
-            });
+            revealEls.forEach(
+                el =>
+                    observer.observe(el)
+            );
 
         })();
 
 
         /* =========================================================
-           VOUCHES
+           VOUCHES DATA
            ========================================================= */
 
         const VOUCHES = [
@@ -1774,580 +3092,44 @@
             {
                 name: "Alen",
                 role: "Discord",
-                quote: "Fast, good quality. Recommend working with him!",
+                quote:
+                    "Fast, good quality. Recommend working with him!",
                 rating: 5,
                 avatar: "",
                 link: ""
             },
 
+
             {
                 name: "Splix",
                 role: "Discord",
-                quote: "Brodie did a website for me before for my leaderboard and also gave me my own bot picker — shit was fire.",
+                quote:
+                    "Brodie did a website for me before for my leaderboard and also gave me my own bot picker — shit was fire.",
                 rating: 5,
-                avatar: "./vouches/splix.webp",
-                link: "https://kick.com/splixgamba"
+                avatar:
+                    "./vouches/splix.webp",
+                link:
+                    "https://kick.com/splixgamba"
             },
+
 
             {
                 name: "headed",
                 role: "Artist",
-                quote: "Professional and outstanding work, good attention to detail and affordable prices",
+                quote:
+                    "Professional and outstanding work, good attention to detail and affordable prices",
                 rating: 5,
-                avatar: "./vouches/headedlogo.webp",
-                link: "https://kick.com/headedd"
+                avatar:
+                    "./vouches/headedlogo.webp",
+                link:
+                    "https://kick.com/headedd"
             }
 
         ];
 
 
         /* =========================================================
-           HTML ESCAPE
-           ========================================================= */
-
-        function escapeHTML(value) {
-
-            return String(value ?? '')
-                .replace(
-                    /&/g,
-                    '&amp;'
-                )
-                .replace(
-                    /</g,
-                    '&lt;'
-                )
-                .replace(
-                    />/g,
-                    '&gt;'
-                )
-                .replace(
-                    /"/g,
-                    '&quot;'
-                )
-                .replace(
-                    /'/g,
-                    '&#039;'
-                );
-
-        }
-
-
-        /* =========================================================
-           VOUCH SCROLLER VARIABLES
-           ========================================================= */
-
-        let vouchScrollerInitialized =
-            false;
-
-        let vouchPosition = 0;
-
-        let vouchAnimationFrame = null;
-
-        let vouchLastTime = 0;
-
-        let vouchHalfWidth = 0;
-
-        let vouchDragging = false;
-
-        let vouchPointerId = null;
-
-        let vouchDragStartX = 0;
-
-        let vouchDragStartPosition = 0;
-
-        let vouchWasDragged = false;
-
-        let vouchResumeTimer = null;
-
-        let vouchHovering = false;
-
-
-        /*
-         * Slow premium scrolling speed.
-         */
-
-        const VOUCH_SCROLL_SPEED = 13;
-
-
-        /* =========================================================
-           VOUCH WIDTH
-           ========================================================= */
-
-        function getVouchHalfWidth() {
-
-            const track =
-                document.getElementById(
-                    'vouch-track'
-                );
-
-
-            if (!track) {
-                return 0;
-            }
-
-
-            return track.scrollWidth / 2;
-
-        }
-
-
-        /* =========================================================
-           NORMALIZE VOUCH POSITION
-           ========================================================= */
-
-        function normalizeVouchPosition() {
-
-            vouchHalfWidth =
-                getVouchHalfWidth();
-
-
-            if (
-                vouchHalfWidth <= 0
-            ) {
-
-                return;
-
-            }
-
-
-            while (
-                vouchPosition <=
-                -vouchHalfWidth
-            ) {
-
-                vouchPosition +=
-                    vouchHalfWidth;
-
-            }
-
-
-            while (
-                vouchPosition > 0
-            ) {
-
-                vouchPosition -=
-                    vouchHalfWidth;
-
-            }
-
-        }
-
-
-        /* =========================================================
-           APPLY VOUCH POSITION
-           ========================================================= */
-
-        function applyVouchPosition() {
-
-            const track =
-                document.getElementById(
-                    'vouch-track'
-                );
-
-
-            if (!track) {
-                return;
-            }
-
-
-            track.style.transform =
-                `translate3d(${vouchPosition}px, 0, 0)`;
-
-        }
-
-
-        /* =========================================================
-           VOUCH ANIMATION LOOP
-           ========================================================= */
-
-        function vouchAnimationLoop(
-            timestamp
-        ) {
-
-            if (!vouchLastTime) {
-
-                vouchLastTime =
-                    timestamp;
-
-            }
-
-
-            const delta =
-                Math.min(
-                    timestamp -
-                        vouchLastTime,
-                    50
-                );
-
-
-            vouchLastTime =
-                timestamp;
-
-
-            if (
-                !vouchDragging &&
-                !vouchHovering
-            ) {
-
-                vouchPosition -=
-                    VOUCH_SCROLL_SPEED *
-                    (delta / 1000);
-
-
-                normalizeVouchPosition();
-
-                applyVouchPosition();
-
-            }
-
-
-            vouchAnimationFrame =
-                requestAnimationFrame(
-                    vouchAnimationLoop
-                );
-
-        }
-
-
-        /* =========================================================
-           VOUCH SCROLLER INIT
-           ========================================================= */
-
-        function initVouchScroller() {
-
-            const track =
-                document.getElementById(
-                    'vouch-track'
-                );
-
-            const mask =
-                document.getElementById(
-                    'vouch-mask'
-                );
-
-
-            if (!track || !mask) {
-                return;
-            }
-
-
-            if (
-                vouchAnimationFrame
-            ) {
-
-                cancelAnimationFrame(
-                    vouchAnimationFrame
-                );
-
-            }
-
-
-            if (
-                vouchResumeTimer
-            ) {
-
-                clearTimeout(
-                    vouchResumeTimer
-                );
-
-            }
-
-
-            vouchPosition = 0;
-
-            vouchLastTime = 0;
-
-            vouchDragging = false;
-
-            vouchPointerId = null;
-
-            vouchWasDragged = false;
-
-            vouchHovering = false;
-
-
-            requestAnimationFrame(() => {
-
-                vouchHalfWidth =
-                    getVouchHalfWidth();
-
-
-                applyVouchPosition();
-
-
-                vouchAnimationFrame =
-                    requestAnimationFrame(
-                        vouchAnimationLoop
-                    );
-
-            });
-
-
-            if (
-                vouchScrollerInitialized
-            ) {
-
-                return;
-
-            }
-
-
-            vouchScrollerInitialized =
-                true;
-
-
-            /* =====================================================
-               HOVER
-               ===================================================== */
-
-            mask.addEventListener(
-                'mouseenter',
-                () => {
-
-                    vouchHovering = true;
-
-                }
-            );
-
-
-            mask.addEventListener(
-                'mouseleave',
-                () => {
-
-                    vouchHovering = false;
-
-                }
-            );
-
-
-            /* =====================================================
-               POINTER DOWN
-               ===================================================== */
-
-            mask.addEventListener(
-                'pointerdown',
-                event => {
-
-                    if (
-                        event.pointerType ===
-                            'mouse' &&
-                        event.button !== 0
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    vouchDragging = true;
-
-                    vouchPointerId =
-                        event.pointerId;
-
-                    vouchDragStartX =
-                        event.clientX;
-
-                    vouchDragStartPosition =
-                        vouchPosition;
-
-                    vouchWasDragged =
-                        false;
-
-
-                    mask.classList.add(
-                        'dragging'
-                    );
-
-
-                    try {
-
-                        mask.setPointerCapture(
-                            event.pointerId
-                        );
-
-                    } catch (_) {}
-
-
-                    event.preventDefault();
-
-                }
-            );
-
-
-            /* =====================================================
-               POINTER MOVE
-               ===================================================== */
-
-            mask.addEventListener(
-                'pointermove',
-                event => {
-
-                    if (
-                        !vouchDragging ||
-                        event.pointerId !==
-                            vouchPointerId
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    const deltaX =
-                        event.clientX -
-                        vouchDragStartX;
-
-
-                    if (
-                        Math.abs(deltaX) > 4
-                    ) {
-
-                        vouchWasDragged =
-                            true;
-
-                    }
-
-
-                    vouchPosition =
-                        vouchDragStartPosition +
-                        deltaX;
-
-
-                    normalizeVouchPosition();
-
-                    applyVouchPosition();
-
-
-                    event.preventDefault();
-
-                }
-            );
-
-
-            /* =====================================================
-               FINISH DRAG
-               ===================================================== */
-
-            const finishVouchDrag =
-                event => {
-
-                    if (
-                        !vouchDragging ||
-                        (
-                            event &&
-                            vouchPointerId !==
-                                null &&
-                            event.pointerId !==
-                                vouchPointerId
-                        )
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    vouchDragging =
-                        false;
-
-                    vouchPointerId =
-                        null;
-
-
-                    mask.classList.remove(
-                        'dragging'
-                    );
-
-
-                    if (
-                        vouchResumeTimer
-                    ) {
-
-                        clearTimeout(
-                            vouchResumeTimer
-                        );
-
-                    }
-
-
-                    vouchResumeTimer =
-                        setTimeout(() => {
-
-                            vouchResumeTimer =
-                                null;
-
-                        }, 250);
-
-                };
-
-
-            mask.addEventListener(
-                'pointerup',
-                finishVouchDrag
-            );
-
-
-            mask.addEventListener(
-                'pointercancel',
-                finishVouchDrag
-            );
-
-
-            mask.addEventListener(
-                'lostpointercapture',
-                finishVouchDrag
-            );
-
-
-            /* =====================================================
-               PREVENT LINK CLICK AFTER DRAG
-               ===================================================== */
-
-            mask.addEventListener(
-                'click',
-                event => {
-
-                    if (
-                        vouchWasDragged
-                    ) {
-
-                        event.preventDefault();
-
-                        event.stopPropagation();
-
-                        vouchWasDragged =
-                            false;
-
-                    }
-
-                },
-                true
-            );
-
-
-            /* =====================================================
-               RESIZE
-               ===================================================== */
-
-            window.addEventListener(
-                'resize',
-                () => {
-
-                    vouchHalfWidth =
-                        getVouchHalfWidth();
-
-                    normalizeVouchPosition();
-
-                    applyVouchPosition();
-
-                }
-            );
-
-        }
-
-
-        /* =========================================================
-           VOUCH RENDER
+           RENDER VOUCHES
            ========================================================= */
 
         function renderVouches() {
@@ -2358,8 +3140,8 @@
                 );
 
             const mask =
-                document.getElementById(
-                    'vouch-mask'
+                document.querySelector(
+                    '.vouch-mask'
                 );
 
             const emptyMsg =
@@ -2373,21 +3155,23 @@
                 );
 
 
-            if (!track) {
-                return;
-            }
+            if (!track) return;
 
+
+            /* No vouches */
 
             if (
                 VOUCHES.length === 0
             ) {
 
                 if (summary) {
+
                     summary.innerHTML = '';
                 }
 
 
                 if (mask) {
+
                     mask.classList.add(
                         'hidden'
                     );
@@ -2395,14 +3179,13 @@
 
 
                 if (emptyMsg) {
+
                     emptyMsg.classList.remove(
                         'hidden'
                     );
                 }
 
-
                 return;
-
             }
 
 
@@ -2411,7 +3194,6 @@
                 mask.classList.remove(
                     'hidden'
                 );
-
             }
 
 
@@ -2420,7 +3202,6 @@
                 emptyMsg.classList.add(
                     'hidden'
                 );
-
             }
 
 
@@ -2433,19 +3214,19 @@
                 const avg =
                     VOUCHES.reduce(
                         (sum, v) =>
-                            sum +
-                            Number(
-                                v.rating || 0
-                            ),
+                            sum + v.rating,
                         0
-                    ) /
+                    )
+                    /
                     VOUCHES.length;
 
 
                 const avgDisplay =
                     Math.round(
                         avg * 10
-                    ) / 10;
+                    )
+                    /
+                    10;
 
 
                 const count =
@@ -2454,33 +3235,43 @@
 
                 summary.innerHTML = `
 
-                    <span class="text-purple-400">
-                        ${'★'.repeat(
-                            Math.round(avg)
-                        )}
-
-                        ${'☆'.repeat(
-                            Math.max(
-                                0,
-                                5 -
-                                    Math.round(avg)
+                    <span
+                        class="text-purple-400"
+                    >
+                        ${
+                            '★'.repeat(
+                                Math.round(avg)
                             )
-                        )}
+                        }${
+                            '☆'.repeat(
+                                Math.max(
+                                    0,
+                                    5 -
+                                    Math.round(avg)
+                                )
+                            )
+                        }
                     </span>
 
-                    <span class="text-white font-medium">
+                    <span
+                        class="text-white
+                               font-medium"
+                    >
                         ${avgDisplay}
                     </span>
 
-                    <span class="text-gray-500">
+                    <span
+                        class="text-gray-500"
+                    >
                         · ${count}
-                        ${count === 1
-                            ? 'vouch'
-                            : 'vouches'}
+                        ${
+                            count === 1
+                                ? 'vouch'
+                                : 'vouches'
+                        }
                     </span>
 
                 `;
-
             }
 
 
@@ -2489,13 +3280,10 @@
                ===================================================== */
 
             const initials =
-                name => {
+                (name) =>
 
-                    return String(
-                        name || ''
-                    )
-                        .trim()
-                        .split(/\s+/)
+                    name
+                        .split(' ')
                         .map(
                             part =>
                                 part[0]
@@ -2504,36 +3292,29 @@
                         .slice(0, 2)
                         .toUpperCase();
 
-                };
-
 
             /* =====================================================
                AVATAR
                ===================================================== */
 
             const avatarHTML =
-                v => {
-
-                    const safeName =
-                        escapeHTML(
-                            v.name
-                        );
-
-                    const safeInitials =
-                        escapeHTML(
-                            initials(v.name)
-                        );
-
+                (v) => {
 
                     if (v.avatar) {
 
                         return `
 
                             <img
-                                src="${escapeHTML(v.avatar)}"
-                                alt="${safeName}"
-                                draggable="false"
-                                class="w-9 h-9 rounded-full object-cover shrink-0"
+                                src="${v.avatar}"
+                                alt="${v.name}"
+                                class="
+                                    w-9
+                                    h-9
+                                    rounded-full
+                                    object-cover
+                                    shrink-0
+                                "
+
                                 onerror="
                                     this.replaceWith(
                                         Object.assign(
@@ -2543,7 +3324,7 @@
                                                     'w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-xs font-semibold text-white shrink-0',
 
                                                 textContent:
-                                                    '${safeInitials}'
+                                                    '${initials(v.name)}'
                                             }
                                         )
                                     )
@@ -2558,47 +3339,68 @@
                     return `
 
                         <div
-                            class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-xs font-semibold text-white shrink-0"
+                            class="
+                                w-9
+                                h-9
+                                rounded-full
+                                bg-gradient-to-br
+                                from-purple-500
+                                to-fuchsia-500
+                                flex
+                                items-center
+                                justify-center
+                                text-xs
+                                font-semibold
+                                text-white
+                                shrink-0
+                            "
                         >
-                            ${safeInitials}
+                            ${initials(v.name)}
                         </div>
 
                     `;
-
                 };
 
 
             /* =====================================================
-               LINK
+               EXTERNAL LINK
                ===================================================== */
 
             const linkHTML =
-                v => {
+                (v) =>
 
-                    if (!v.link) {
-                        return '';
-                    }
+                    v.link
 
+                        ? `
 
-                    return `
+                            <a
+                                href="${v.link}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                draggable="false"
+                                class="
+                                    ml-auto
+                                    text-gray-500
+                                    hover:text-purple-300
+                                    transition-colors
+                                    shrink-0
+                                "
+                                title="Visit ${v.name}"
+                            >
 
-                        <a
-                            href="${escapeHTML(v.link)}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            draggable="false"
-                            class="ml-auto text-gray-500 hover:text-purple-300 transition-colors shrink-0"
-                            title="Visit ${escapeHTML(v.name)}"
-                            onclick="event.stopPropagation()"
-                        >
+                                <i
+                                    class="
+                                        fa-solid
+                                        fa-arrow-up-right-from-square
+                                        text-xs
+                                    "
+                                ></i>
 
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </a>
 
-                        </a>
+                        `
 
-                    `;
-
-                };
+                        : '';
 
 
             /* =====================================================
@@ -2606,99 +3408,117 @@
                ===================================================== */
 
             const cardHTML =
-                v => {
+                (v) => `
 
-                    const rating =
-                        Math.max(
-                            0,
-                            Math.min(
-                                5,
-                                Number(
-                                    v.rating || 0
-                                )
-                            )
-                        );
+                    <div
+                        class="vouch-card"
+                    >
 
 
-                    return `
+                        <!-- Stars -->
 
                         <div
-                            class="vouch-card glass rounded-2xl p-6"
-                            data-vouch-card="true"
+                            class="
+                                vouch-stars
+                                flex
+                                gap-0.5
+                                text-purple-400
+                                text-sm
+                                mb-6
+                            "
                         >
 
-                            <!-- Stars -->
+                            ${
+                                '★'.repeat(
+                                    v.rating
+                                )
+                            }
 
-                            <div class="flex gap-0.5 text-purple-400 text-xs mb-4 shrink-0">
-
-                                ${'★'.repeat(
-                                    rating
-                                )}
-
-                                ${'☆'.repeat(
+                            ${
+                                '☆'.repeat(
                                     Math.max(
                                         0,
-                                        5 -
-                                            rating
+                                        5 - v.rating
                                     )
-                                )}
+                                )
+                            }
 
-                            </div>
+                        </div>
 
 
-                            <!-- FIXED QUOTE AREA -->
+                        <!-- Quote -->
 
-                            <div class="vouch-quote">
+                        <p
+                            class="
+                                vouch-quote
+                                text-[15px]
+                                text-gray-300
+                                leading-relaxed
+                            "
+                        >
+                            ${v.quote}
+                        </p>
 
-                                <p class="text-sm text-gray-300 leading-relaxed">
 
-                                    ${escapeHTML(
-                                        v.quote
-                                    )}
+                        <!-- Profile -->
 
+                        <div
+                            class="
+                                vouch-profile
+                                flex
+                                items-center
+                                gap-3
+                                mt-auto
+                                pt-6
+                            "
+                        >
+
+                            ${avatarHTML(v)}
+
+
+                            <div
+                                class="
+                                    min-w-0
+                                "
+                            >
+
+                                <p
+                                    class="
+                                        text-white
+                                        text-sm
+                                        font-medium
+                                        truncate
+                                    "
+                                >
+                                    ${v.name}
+                                </p>
+
+
+                                <p
+                                    class="
+                                        text-gray-500
+                                        text-xs
+                                        truncate
+                                    "
+                                >
+                                    ${v.role}
                                 </p>
 
                             </div>
 
 
-                            <!-- FIXED PROFILE POSITION -->
-
-                            <div class="vouch-profile">
-
-                                ${avatarHTML(v)}
-
-
-                                <div class="min-w-0">
-
-                                    <p class="text-white text-sm font-medium truncate">
-
-                                        ${escapeHTML(
-                                            v.name
-                                        )}
-
-                                    </p>
-
-                                    <p class="text-gray-500 text-xs truncate">
-
-                                        ${escapeHTML(
-                                            v.role
-                                        )}
-
-                                    </p>
-
-                                </div>
-
-
-                                ${linkHTML(v)}
-
-                            </div>
+                            ${linkHTML(v)}
 
                         </div>
 
-                    `;
+                    </div>
 
-                };
+                `;
 
+
+            /* =====================================================
+               DUPLICATE FOR INFINITE LOOP
+               ===================================================== */
 
             const html =
                 VOUCHES
@@ -2706,12 +3526,13 @@
                     .join('');
 
 
-            /*
-             * Duplicate cards for seamless scrolling.
-             */
-
             track.innerHTML =
                 html + html;
+
+
+            track.classList.remove(
+                'justify-center'
+            );
 
 
             track.style.width =
@@ -2719,20 +3540,473 @@
 
 
             /*
-             * Restart scrolling after
-             * Supabase finishes loading.
+             * Restart the marquee cleanly
+             * whenever Supabase updates VOUCHES.
              */
 
-            initVouchScroller();
+            track.style.animation =
+                'none';
+
+            void track.offsetWidth;
+
+            track.style.animation =
+                'vouch-scroll 65s linear infinite';
 
         }
 
 
+        renderVouches();
+
+
         /* =========================================================
-           INITIAL VOUCH RENDER
+           VOUCH DRAGGING
            ========================================================= */
 
-        renderVouches();
+        (function setupVouchDragging() {
+
+            const mask =
+                document.querySelector(
+                    '.vouch-mask'
+                );
+
+            const track =
+                document.getElementById(
+                    'vouch-track'
+                );
+
+
+            if (!mask || !track) return;
+
+
+            let isDragging = false;
+
+            let startX = 0;
+
+            let startTransform = 0;
+
+
+            /*
+             * Get the current X position
+             * from the browser's transform matrix.
+             */
+
+            function getTranslateX() {
+
+                const style =
+                    window.getComputedStyle(
+                        track
+                    );
+
+
+                const transform =
+                    style.transform;
+
+
+                if (
+                    !transform
+                    ||
+                    transform === 'none'
+                ) {
+                    return 0;
+                }
+
+
+                try {
+
+                    const matrix =
+                        new DOMMatrixReadOnly(
+                            transform
+                        );
+
+                    return matrix.m41;
+
+                } catch {
+
+                    return 0;
+                }
+            }
+
+
+            /*
+             * Calculate the width of one
+             * complete copy of the cards.
+             */
+
+            function getLoopWidth() {
+
+                return (
+                    track.scrollWidth / 2
+                );
+            }
+
+
+            /*
+             * Keep manually dragged position
+             * inside the infinite loop.
+             */
+
+            function normalizePosition(
+                x
+            ) {
+
+                const loopWidth =
+                    getLoopWidth();
+
+
+                if (
+                    !loopWidth ||
+                    loopWidth <= 0
+                ) {
+                    return x;
+                }
+
+
+                while (
+                    x > 0
+                ) {
+                    x -= loopWidth;
+                }
+
+
+                while (
+                    x <= -loopWidth
+                ) {
+                    x += loopWidth;
+                }
+
+
+                return x;
+            }
+
+
+            /*
+             * Start dragging.
+             */
+
+            function startDrag(
+                clientX
+            ) {
+
+                isDragging = true;
+
+                startX = clientX;
+
+                startTransform =
+                    getTranslateX();
+
+
+                /*
+                 * Freeze the CSS animation
+                 * at its current position.
+                 */
+
+                track.style.animation =
+                    'none';
+
+
+                track.style.transform =
+                    `translate3d(
+                        ${startTransform}px,
+                        0,
+                        0
+                    )`;
+
+
+                track.classList.add(
+                    'dragging'
+                );
+
+                mask.classList.add(
+                    'dragging'
+                );
+            }
+
+
+            /*
+             * Move while dragging.
+             */
+
+            function drag(
+                clientX
+            ) {
+
+                if (!isDragging) return;
+
+
+                const difference =
+                    clientX -
+                    startX;
+
+
+                const newX =
+                    startTransform +
+                    difference;
+
+
+                track.style.transform =
+                    `translate3d(
+                        ${newX}px,
+                        0,
+                        0
+                    )`;
+            }
+
+
+            /*
+             * Resume the automatic marquee
+             * from the manually selected position.
+             */
+
+            function endDrag() {
+
+                if (!isDragging) return;
+
+
+                isDragging = false;
+
+
+                let currentX =
+                    getTranslateX();
+
+
+                currentX =
+                    normalizePosition(
+                        currentX
+                    );
+
+
+                track.classList.remove(
+                    'dragging'
+                );
+
+                mask.classList.remove(
+                    'dragging'
+                );
+
+
+                /*
+                 * Calculate the correct negative
+                 * animation delay so the CSS
+                 * animation continues from exactly
+                 * where the user released the card.
+                 */
+
+                const loopWidth =
+                    getLoopWidth();
+
+
+                if (
+                    loopWidth > 0
+                ) {
+
+                    const progress =
+                        Math.abs(
+                            currentX
+                        )
+                        /
+                        loopWidth;
+
+
+                    const duration =
+                        65;
+
+
+                    const delay =
+                        -(
+                            progress *
+                            duration
+                        );
+
+
+                    track.style.transform =
+                        '';
+
+
+                    track.style.animation =
+                        'none';
+
+
+                    void track.offsetWidth;
+
+
+                    track.style.animation =
+                        `vouch-scroll ${duration}s linear infinite`;
+
+
+                    track.style.animationDelay =
+                        `${delay}s`;
+
+                } else {
+
+                    track.style.transform =
+                        `translate3d(
+                            ${currentX}px,
+                            0,
+                            0
+                        )`;
+
+                }
+
+            }
+
+
+            /* =====================================================
+               MOUSE
+               ===================================================== */
+
+            mask.addEventListener(
+                'mousedown',
+                (event) => {
+
+                    if (
+                        event.button !== 0
+                    ) {
+                        return;
+                    }
+
+
+                    /*
+                     * Don't start dragging when
+                     * clicking an external link.
+                     */
+
+                    if (
+                        event.target.closest(
+                            'a'
+                        )
+                    ) {
+                        return;
+                    }
+
+
+                    startDrag(
+                        event.clientX
+                    );
+
+
+                    event.preventDefault();
+
+                }
+            );
+
+
+            window.addEventListener(
+                'mousemove',
+                (event) => {
+
+                    if (
+                        !isDragging
+                    ) {
+                        return;
+                    }
+
+
+                    drag(
+                        event.clientX
+                    );
+
+                }
+            );
+
+
+            window.addEventListener(
+                'mouseup',
+                () => {
+
+                    if (
+                        isDragging
+                    ) {
+
+                        endDrag();
+                    }
+
+                }
+            );
+
+
+            /* =====================================================
+               TOUCH
+               ===================================================== */
+
+            mask.addEventListener(
+                'touchstart',
+                (event) => {
+
+                    if (
+                        !event.touches.length
+                    ) {
+                        return;
+                    }
+
+
+                    startDrag(
+                        event.touches[0].clientX
+                    );
+
+                },
+                {
+                    passive: true
+                }
+            );
+
+
+            mask.addEventListener(
+                'touchmove',
+                (event) => {
+
+                    if (
+                        !isDragging
+                        ||
+                        !event.touches.length
+                    ) {
+                        return;
+                    }
+
+
+                    drag(
+                        event.touches[0].clientX
+                    );
+
+                },
+                {
+                    passive: true
+                }
+            );
+
+
+            mask.addEventListener(
+                'touchend',
+                () => {
+
+                    if (
+                        isDragging
+                    ) {
+
+                        endDrag();
+                    }
+
+                },
+                {
+                    passive: true
+                }
+            );
+
+
+            /*
+             * Prevent image/link dragging from
+             * interfering with the carousel.
+             */
+
+            mask.addEventListener(
+                'dragstart',
+                event => {
+
+                    event.preventDefault();
+
+                }
+            );
+
+        })();
 
 
         /* =========================================================
@@ -2756,9 +4030,7 @@
                 !navContainer ||
                 !indicator
             ) {
-
                 return;
-
             }
 
 
@@ -2773,11 +4045,14 @@
             const sections =
                 navLinks
                     .map(link => ({
-                        link: link,
+
+                        link,
+
                         el:
                             document.getElementById(
                                 link.dataset.section
                             )
+
                     }))
                     .filter(
                         item => item.el
@@ -2794,13 +4069,16 @@
                 const linkRect =
                     link.getBoundingClientRect();
 
+
                 const containerRect =
                     navContainer.getBoundingClientRect();
 
 
                 indicator.style.left =
-                    `${linkRect.left -
-                        containerRect.left}px`;
+                    `${
+                        linkRect.left -
+                        containerRect.left
+                    }px`;
 
 
                 indicator.style.width =
@@ -2811,15 +4089,13 @@
                     '1';
 
 
-                navLinks.forEach(l => {
-
-                    l.classList.toggle(
-                        'active',
-                        l === link
-                    );
-
-                });
-
+                navLinks.forEach(
+                    l =>
+                        l.classList.toggle(
+                            'active',
+                            l === link
+                        )
+                );
             }
 
 
@@ -2829,14 +4105,12 @@
                     '0';
 
 
-                navLinks.forEach(l => {
-
-                    l.classList.remove(
-                        'active'
-                    );
-
-                });
-
+                navLinks.forEach(
+                    l =>
+                        l.classList.remove(
+                            'active'
+                        )
+                );
             }
 
 
@@ -2857,15 +4131,18 @@
 
 
                 sections.forEach(
-                    ({ link, el }) => {
+                    ({
+                        link,
+                        el
+                    }) => {
 
                         if (
                             el.offsetTop <=
                             scrollPos
                         ) {
 
-                            current = link;
-
+                            current =
+                                link;
                         }
 
                     }
@@ -2896,9 +4173,7 @@
                     );
 
                     ticking = true;
-
                 }
-
             }
 
 
@@ -2923,21 +4198,23 @@
             );
 
 
-            navLinks.forEach(link => {
+            navLinks.forEach(
+                link => {
 
-                link.addEventListener(
-                    'click',
-                    () => {
+                    link.addEventListener(
+                        'click',
+                        () => {
 
-                        setTimeout(
-                            updateActiveSection,
-                            50
-                        );
+                            setTimeout(
+                                updateActiveSection,
+                                50
+                            );
 
-                    }
-                );
+                        }
+                    );
 
-            });
+                }
+            );
 
 
             updateActiveSection();
@@ -2955,8 +4232,10 @@
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"
     ></script>
 
-    <script src="./vouches-loader.js?v=3"></script>
 
+    <script
+        src="./vouches-loader.js?v=3"
+    ></script>
 
 </body>
 </html>
