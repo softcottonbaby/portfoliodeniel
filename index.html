@@ -458,6 +458,40 @@ body {
 .gal-open-btn { display: inline-flex; align-items: center; gap: .6rem; padding: .75rem 1.4rem; border-radius: 999px; font-size: .9rem; font-weight: 500; color: #fff; border: 1.5px solid transparent; background: linear-gradient(#0c0a10, #0c0a10) padding-box, conic-gradient(from var(--gal-a), rgba(255,255,255,.1) 0 66%, #c084fc 82%, #ffffff 89%, rgba(255,255,255,.1)) border-box; animation: galShimmer 3s linear infinite; transition: transform .3s cubic-bezier(.22,1,.36,1); }
 .gal-open-btn:hover { transform: translateY(-2px); background: linear-gradient(#17121f, #17121f) padding-box, conic-gradient(from var(--gal-a), rgba(255,255,255,.14) 0 66%, #c084fc 82%, #ffffff 89%, rgba(255,255,255,.14)) border-box; }
 @keyframes galShimmer { to { --gal-a: 360deg; } }
+.slot-open-btn { display: inline-flex; align-items: center; gap: .6rem; padding: .75rem 1.4rem; border-radius: 999px; font-size: .9rem; font-weight: 500; color: #fff; border: 1.5px solid transparent; background: linear-gradient(#0c0a10, #0c0a10) padding-box, conic-gradient(from var(--gal-a), rgba(255,255,255,.1) 0 66%, #f59e0b 82%, #fde68a 89%, rgba(255,255,255,.1)) border-box; animation: galShimmer 3s linear infinite; animation-delay: -1.5s; transition: transform .3s cubic-bezier(.22,1,.36,1); }
+.slot-open-btn:hover { transform: translateY(-2px); background: linear-gradient(#17130b, #17130b) padding-box, conic-gradient(from var(--gal-a), rgba(255,255,255,.14) 0 66%, #f59e0b 82%, #fde68a 89%, rgba(255,255,255,.14)) border-box; }
+.slot-open-btn i { color: #fbbf24; transition: transform .5s cubic-bezier(.22,1,.36,1); }
+.slot-open-btn:hover i { transform: rotate(-20deg) scale(1.1); }
+.slot-modal { position: fixed; inset: 0; z-index: 90; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; padding: 4.5rem 1rem 2rem; background: radial-gradient(60% 50% at 50% 48%, rgba(245,158,11,.10), transparent 70%), radial-gradient(80% 70% at 50% 40%, rgba(124,58,237,.18), transparent 70%), #050506; opacity: 0; pointer-events: none; transition: opacity .3s ease; overflow-y: auto; }
+.slot-modal.open { opacity: 1; pointer-events: auto; }
+.slot-head { text-align: center; transform: translateY(10px); opacity: 0; transition: transform .6s cubic-bezier(.22,1,.36,1) .05s, opacity .5s ease .05s; }
+.slot-modal.open .slot-head { transform: none; opacity: 1; }
+.slot-head h2 { color: #fff; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600; letter-spacing: -.02em; }
+.slot-head p { color: #9ca3af; font-size: .925rem; margin-top: .35rem; }
+.slot-stage { position: relative; width: min(1100px, 100%); height: min(56vh, 520px); flex: none; }
+.slot-stage canvas { position: relative; z-index: 1; display: block; width: 100%; height: 100%; touch-action: manipulation; opacity: 0; transform: scale(.94); transition: opacity .7s ease, transform .9s cubic-bezier(.22,1,.36,1); }
+.slot-modal.ready .slot-stage canvas { opacity: 1; transform: none; }
+.slot-shadow { position: absolute; left: 22%; right: 22%; bottom: 9%; height: 34px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.85), transparent); filter: blur(8px); opacity: 0; transition: opacity .7s ease; }
+.slot-modal.ready .slot-shadow { opacity: 1; }
+.slot-loader { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: .6rem; color: #9ca3af; font-size: .875rem; pointer-events: none; transition: opacity .3s; }
+.slot-loader i { color: #fbbf24; }
+.slot-modal.ready .slot-loader { opacity: 0; }
+.slot-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .75rem; min-height: 3.25rem; }
+.slot-pull { display: inline-flex; align-items: center; gap: .55rem; padding: .85rem 1.6rem; border-radius: 999px; font-size: .925rem; font-weight: 600; color: #2a1300; background: linear-gradient(180deg, #fde68a, #f59e0b); box-shadow: 0 10px 30px rgba(245,158,11,.25), inset 0 1px 0 rgba(255,255,255,.6); transition: transform .25s cubic-bezier(.22,1,.36,1), filter .25s, opacity .25s; }
+.slot-pull:hover { transform: translateY(-2px); filter: brightness(1.06); }
+.slot-pull:active { transform: translateY(1px); }
+.slot-pull[aria-busy="true"] { opacity: .55; pointer-events: none; }
+.slot-result { display: flex; align-items: center; gap: .75rem; padding: .4rem .45rem .4rem 1rem; border-radius: 999px; background: rgba(255,255,255,.04); border: 1px solid rgba(251,191,36,.3); opacity: 0; transform: translateY(8px) scale(.96); pointer-events: none; transition: opacity .45s ease, transform .55s cubic-bezier(.34,1.56,.64,1); }
+.slot-result.show { opacity: 1; transform: none; pointer-events: auto; }
+.slot-result .slot-win { font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #fbbf24; }
+.slot-result b { color: #fff; font-weight: 500; font-size: .9rem; max-width: 14rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.slot-result button { padding: .5rem 1rem; border-radius: 999px; font-size: .8rem; font-weight: 500; color: #fff; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); transition: background .2s, border-color .2s; }
+.slot-result button:hover { background: rgba(251,191,36,.15); border-color: rgba(251,191,36,.45); }
+.slot-burst { position: absolute; left: 50%; top: 50%; z-index: 2; pointer-events: none; }
+.slot-burst i { position: absolute; width: var(--s); height: var(--s); border-radius: 2px; background: var(--c); animation: slotBurst 1.1s cubic-bezier(.15,.7,.3,1) forwards; }
+@keyframes slotBurst { 0% { transform: translate(0,0) rotate(0); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; } }
+.slot-close { position: absolute; top: 1rem; right: 1rem; }
+@media (max-width: 640px) { .slot-stage { height: 30vh; } .slot-result { flex-wrap: wrap; justify-content: center; border-radius: 1.25rem; padding: .6rem .75rem; } }
 .gal-open-count { font-size: .72rem; color: #e9d5ff; background: rgba(255,255,255,.08); padding: .1rem .5rem; border-radius: 999px; }
 .gal-modal[data-mode="folders"] #galTabs, .gal-modal[data-mode="folders"] #galGrid, .gal-modal[data-mode="folders"] #galBack { display: none; }
 .gal-modal[data-mode="type"] #galFolders { display: none; }
@@ -587,7 +621,8 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .cf-item, .hire-pill, .faq-a, .faq-q i { transition: none; }
-  .gal-open-btn { animation: none; }
+  .gal-open-btn, .slot-open-btn { animation: none; }
+  .slot-stage canvas, .slot-result { transition: opacity .2s ease; transform: none; }
 }
 
 .tilt-card { transition: transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s ease; will-change: transform; position: relative; box-shadow: 0 18px 40px rgba(0,0,0,.45), 0 0 0 rgba(168,85,247,0), 0 0 0 rgba(192,38,211,0); }
@@ -671,6 +706,7 @@ body {
   .vouch-track { gap: 1rem; padding-left: 1rem; padding-right: 1rem; }
 }
 </style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
 
 <body class="antialiased selection:bg-purple-500/30 selection:text-white min-h-screen flex flex-col relative">
@@ -926,11 +962,15 @@ body {
         <p id="gfx-progress-label" class="text-center text-xs text-gray-500 mt-2 tracking-wide"></p>
     </div>
 
-    <div class="reveal mt-8 flex justify-center">
+    <div class="reveal mt-8 flex flex-wrap justify-center gap-3">
         <button type="button" onclick="openGallery()" class="gal-open-btn">
             <i class="fa-solid fa-table-cells-large"></i>
             <span data-i18n="gfx.view">View gallery</span>
             <span id="galTotal" class="gal-open-count"></span>
+        </button>
+        <button type="button" onclick="openSlot()" class="slot-open-btn">
+            <i class="fa-solid fa-dice"></i>
+            <span data-i18n="gfx.random">View random</span>
         </button>
     </div>
 </section>
@@ -1116,6 +1156,28 @@ body {
     <button type="button" class="gal-close gal-view-close" onclick="closeGalleryView()" aria-label="Close design"><i class="fa-solid fa-xmark"></i></button>
 </div>
 
+<div id="slotModal" class="slot-modal" role="dialog" aria-modal="true" aria-labelledby="slotTitle" aria-hidden="true">
+    <button type="button" class="gal-close slot-close" onclick="closeSlot()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    <div class="slot-head">
+        <h2 id="slotTitle" data-i18n="slot.title">Feeling lucky?</h2>
+        <p data-i18n="slot.hint">Pull the lever to land on a random design.</p>
+    </div>
+    <div class="slot-stage" id="slotStage">
+        <div class="slot-shadow"></div>
+        <canvas aria-label="3D slot machine" role="img"></canvas>
+        <div class="slot-loader"><i class="fa-solid fa-circle-notch fa-spin"></i><span data-i18n="slot.loading">Loading the machine...</span></div>
+        <div class="slot-burst" id="slotBurst"></div>
+    </div>
+    <div class="slot-actions">
+        <button type="button" id="slotPull" class="slot-pull" onclick="pullSlot()"><i class="fa-solid fa-hand-pointer"></i><span id="slotPullLabel">Pull the lever</span></button>
+        <div class="slot-result" id="slotResult" aria-live="polite">
+            <span class="slot-win">Jackpot</span>
+            <b id="slotName"></b>
+            <button type="button" onclick="viewSlotWin()" data-i18n="slot.view">View design</button>
+        </div>
+    </div>
+</div>
+
 <div id="contactModal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer" onclick="closeContactModal()"></div>
 
@@ -1204,7 +1266,8 @@ const I18N = {
     ],
     'how.hint': '<span class="hidden md:inline">Passa sopra</span><span class="md:hidden">Tocca</span> un passo per scoprirlo',
     'how.cta': 'Inizia dal passo 1',
-    'gfx.title': 'Portfolio grafico', 'gfx.sub': 'Miniature, banner personalizzati, pubblicità per siti e grafiche social.', 'gfx.view': 'Vedi galleria',
+    'gfx.title': 'Portfolio grafico', 'gfx.sub': 'Miniature, banner personalizzati, pubblicità per siti e grafiche social.', 'gfx.view': 'Vedi galleria', 'gfx.random': 'Design a caso',
+    'slot.title': 'Ti senti fortunato?', 'slot.hint': 'Tira la leva e scopri un design a caso.', 'slot.pull': 'Tira la leva', 'slot.again': 'Gira ancora', 'slot.spinning': 'Gira...', 'slot.view': 'Vedi il design', 'slot.loading': 'Carico la slot...',
     'gal.title': 'Galleria',
     'gal.n': n => `${n} design`,
     'gal.count': (n, m) => `${n} design in ${m} cartelle`,
@@ -1254,7 +1317,8 @@ const I18N = {
     ],
     'how.hint': '<span class="hidden md:inline">Najedź na</span><span class="md:hidden">Dotknij</span> krok, aby go poznać',
     'how.cta': 'Zacznij od kroku 1',
-    'gfx.title': 'Portfolio graficzne', 'gfx.sub': 'Miniaturki, banery na zamówienie, reklamy na strony i grafiki do social mediów.', 'gfx.view': 'Zobacz galerię',
+    'gfx.title': 'Portfolio graficzne', 'gfx.sub': 'Miniaturki, banery na zamówienie, reklamy na strony i grafiki do social mediów.', 'gfx.view': 'Zobacz galerię', 'gfx.random': 'Losowy projekt',
+    'slot.title': 'Masz dziś szczęście?', 'slot.hint': 'Pociągnij dźwignię i wylosuj projekt.', 'slot.pull': 'Pociągnij dźwignię', 'slot.again': 'Zakręć jeszcze raz', 'slot.spinning': 'Kręci się...', 'slot.view': 'Zobacz projekt', 'slot.loading': 'Ładowanie maszyny...',
     'gal.title': 'Galeria',
     'gal.n': n => `${n} ${I18N_PL_PLURAL(n, 'projekt', 'projekty', 'projektów')}`,
     'gal.count': (n, m) => `${n} ${I18N_PL_PLURAL(n, 'projekt', 'projekty', 'projektów')} w ${m} folderach`,
@@ -2417,7 +2481,7 @@ function stepGalleryView(d) {
 }
 function closeGalleryView() {
   galViewIndex = -1;
-  if (!galModal.classList.contains('open')) document.body.style.overflow = '';
+  if (!galModal.classList.contains('open') && !document.getElementById('slotModal').classList.contains('open')) document.body.style.overflow = '';
   galView.classList.remove('open');
   galView.setAttribute('aria-hidden', 'true');
 }
@@ -2433,6 +2497,81 @@ document.addEventListener('keydown', e => {
   else if (galViewIndex >= 0 && e.key === 'ArrowRight') stepGalleryView(1);
   else if (galViewIndex >= 0 && e.key === 'ArrowLeft') stepGalleryView(-1);
 });
+</script>
+<script>
+const slotModal = document.getElementById('slotModal');
+const slotStage = document.getElementById('slotStage');
+let slotApi = null, slotLoading = null, slotFailed = false, slotWin = null, slotLastFocus = null, slotState = 'idle';
+function slotItems() { return galleryTypes.flatMap(t => t.items.map(it => ({ file: it[0], name: it[1] }))); }
+function slotLabel() {
+  const el = document.getElementById('slotPullLabel');
+  el.textContent = slotState === 'spin' ? tr('slot.spinning', 'Spinning...') : slotState === 'won' ? tr('slot.again', 'Spin again') : tr('slot.pull', 'Pull the lever');
+  document.getElementById('slotPull').setAttribute('aria-busy', slotState === 'spin' ? 'true' : 'false');
+}
+onLangChange(slotLabel);
+function slotBurst() {
+  const box = document.getElementById('slotBurst');
+  box.innerHTML = '';
+  const cols = ['#fde68a', '#fbbf24', '#f59e0b', '#ffffff', '#c084fc'];
+  for (let i = 0; i < 46; i++) {
+    const a = Math.random() * Math.PI * 2, d = 140 + Math.random() * 260;
+    const p = document.createElement('i');
+    p.style.cssText = `--x:${Math.cos(a) * d}px;--y:${Math.sin(a) * d * .7}px;--r:${Math.random() * 540 - 270}deg;--s:${4 + Math.random() * 6}px;--c:${cols[i % cols.length]};animation-delay:${Math.random() * .08}s`;
+    box.appendChild(p);
+  }
+  setTimeout(() => { box.innerHTML = ''; }, 1400);
+}
+function slotRandomFallback() {
+  const items = slotItems();
+  const it = items[Math.floor(Math.random() * items.length)];
+  closeSlot();
+  openDesignFromCarousel(it.file);
+}
+function openSlot() {
+  slotLastFocus = document.activeElement;
+  slotModal.classList.add('open');
+  slotModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  slotLabel();
+  if (slotApi) slotApi.setActive(true);
+  else if (!slotLoading) {
+    slotLoading = import('./slot.js')
+      .then(m => m.mount(slotStage, slotItems(), {
+        onStart() { slotState = 'spin'; slotLabel(); document.getElementById('slotResult').classList.remove('show'); },
+        onReelStop() { if (navigator.vibrate) navigator.vibrate(12); },
+        onResult(it) {
+          slotWin = it; slotState = 'won'; slotLabel();
+          document.getElementById('slotName').textContent = it.name;
+          document.getElementById('slotResult').classList.add('show');
+          slotBurst();
+          if (!slotModal.classList.contains('open')) slotApi.setActive(false);
+        }
+      }))
+      .then(api => {
+        slotApi = api;
+        slotModal.classList.add('ready');
+        if (!slotModal.classList.contains('open')) api.setActive(false);
+      })
+      .catch(() => { slotFailed = true; slotModal.classList.add('ready'); });
+  }
+  setTimeout(() => document.getElementById('slotPull').focus(), 60);
+}
+function closeSlot() {
+  slotModal.classList.remove('open');
+  slotModal.setAttribute('aria-hidden', 'true');
+  if (galViewIndex < 0) document.body.style.overflow = '';
+  if (slotApi && !slotApi.busy) slotApi.setActive(false);
+  if (slotLastFocus) slotLastFocus.focus();
+}
+function pullSlot() {
+  if (slotFailed) return slotRandomFallback();
+  if (slotApi) slotApi.pull();
+}
+function viewSlotWin() { if (slotWin) openDesignFromCarousel(slotWin.file); }
+window.addEventListener('keydown', e => {
+  if (!slotModal.classList.contains('open') || galViewIndex >= 0) return;
+  if (e.key === 'Escape') closeSlot();
+}, true);
 </script>
 <script>
 (function () {
