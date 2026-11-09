@@ -462,17 +462,33 @@ body {
 .slot-open-btn:hover { transform: translateY(-2px); background: linear-gradient(#17130b, #17130b) padding-box, conic-gradient(from var(--gal-a), rgba(255,255,255,.14) 0 66%, #f59e0b 82%, #fde68a 89%, rgba(255,255,255,.14)) border-box; }
 .slot-open-btn i { color: #fbbf24; transition: transform .5s cubic-bezier(.22,1,.36,1); }
 .slot-open-btn:hover i { transform: rotate(-20deg) scale(1.1); }
-.slot-modal { position: fixed; inset: 0; z-index: 90; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; padding: 4.5rem 1rem 2rem; background: radial-gradient(60% 50% at 50% 48%, rgba(245,158,11,.10), transparent 70%), radial-gradient(80% 70% at 50% 40%, rgba(124,58,237,.18), transparent 70%), #050506; opacity: 0; pointer-events: none; transition: opacity .3s ease; overflow-y: auto; }
+.slot-modal { position: fixed; inset: 0; z-index: 90; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4.25rem 1rem 1.75rem; background: #050506; opacity: 0; pointer-events: none; transition: opacity .3s ease; overflow: hidden; }
 .slot-modal.open { opacity: 1; pointer-events: auto; }
 .slot-head { text-align: center; transform: translateY(10px); opacity: 0; transition: transform .6s cubic-bezier(.22,1,.36,1) .05s, opacity .5s ease .05s; }
 .slot-modal.open .slot-head { transform: none; opacity: 1; }
 .slot-head h2 { color: #fff; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600; letter-spacing: -.02em; }
 .slot-head p { color: #9ca3af; font-size: .925rem; margin-top: .35rem; }
-.slot-stage { position: relative; width: min(1100px, 100%); height: min(56vh, 520px); flex: none; }
-.slot-stage canvas { position: relative; z-index: 1; display: block; width: 100%; height: 100%; touch-action: manipulation; opacity: 0; transform: scale(.94); transition: opacity .7s ease, transform .9s cubic-bezier(.22,1,.36,1); }
-.slot-modal.ready .slot-stage canvas { opacity: 1; transform: none; }
-.slot-shadow { position: absolute; left: 22%; right: 22%; bottom: 9%; height: 34px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.85), transparent); filter: blur(8px); opacity: 0; transition: opacity .7s ease; }
-.slot-modal.ready .slot-shadow { opacity: 1; }
+.slot-stage { position: absolute; inset: 0; z-index: 0; }
+.slot-space { position: relative; z-index: 1; flex: 1 1 auto; width: 100%; min-height: 200px; max-height: 600px; pointer-events: none; }
+.slot-head, .slot-actions { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .7rem; }
+.slot-close, .slot-sound { z-index: 3; }
+.slot-stage canvas { position: relative; z-index: 1; display: block; width: 100%; height: 100%; touch-action: manipulation; opacity: 0; transition: opacity .3s ease; }
+.slot-modal.ready .slot-stage canvas { opacity: 1; }
+.slot-fx { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; mix-blend-mode: screen; }
+.slot-aura { position: absolute; left: -38vmin; top: -30vmin; width: 76vmin; height: 60vmin; border-radius: 50%; background: radial-gradient(closest-side, rgba(251,191,36,.16), rgba(245,158,11,.06) 55%, transparent); opacity: 0; transform: scale(.3); }
+.slot-rays { position: absolute; left: -60vmin; top: -60vmin; width: 120vmin; height: 120vmin; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(253,230,138,.10) 0 4deg, transparent 4deg 15deg); -webkit-mask: radial-gradient(closest-side, transparent 30%, #000 45%, transparent 78%); mask: radial-gradient(closest-side, transparent 30%, #000 45%, transparent 78%); opacity: 0; }
+.slot-wave { position: absolute; left: -16vmin; top: -16vmin; width: 32vmin; height: 32vmin; border-radius: 50%; border: 2px solid rgba(253,230,138,.9); box-shadow: 0 0 30px rgba(251,191,36,.6), inset 0 0 30px rgba(251,191,36,.4); opacity: 0; }
+.slot-wave.w2 { border-width: 1px; }
+.slot-modal.intro .slot-aura { animation: slotAura 1.8s cubic-bezier(.22,1,.36,1) forwards, slotBreath 4s ease-in-out 1.8s infinite; }
+.slot-modal.intro .slot-rays { animation: slotRaysIn 1.4s ease .7s forwards, slotSpinRays 60s linear infinite; }
+.slot-modal.landed .slot-wave { animation: slotWave 1.1s cubic-bezier(.15,.7,.3,1) forwards; }
+.slot-modal.landed .slot-wave.w2 { animation-delay: .15s; }
+@keyframes slotAura { 0% { opacity: 0; transform: scale(.3); } 55% { opacity: 1; transform: scale(1.15); } 100% { opacity: .85; transform: scale(1); } }
+@keyframes slotBreath { 50% { opacity: .6; transform: scale(.95); } }
+@keyframes slotRaysIn { to { opacity: 1; } }
+@keyframes slotSpinRays { to { transform: rotate(360deg); } }
+@keyframes slotWave { 0% { opacity: 1; transform: scale(.2); } 100% { opacity: 0; transform: scale(3.2); } }
+.slot-sound { position: absolute; top: 1rem; left: 1rem; }
 .slot-loader { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: .6rem; color: #9ca3af; font-size: .875rem; pointer-events: none; transition: opacity .3s; }
 .slot-loader i { color: #fbbf24; }
 .slot-modal.ready .slot-loader { opacity: 0; }
@@ -491,7 +507,7 @@ body {
 .slot-burst i { position: absolute; width: var(--s); height: var(--s); border-radius: 2px; background: var(--c); animation: slotBurst 1.1s cubic-bezier(.15,.7,.3,1) forwards; }
 @keyframes slotBurst { 0% { transform: translate(0,0) rotate(0); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; } }
 .slot-close { position: absolute; top: 1rem; right: 1rem; }
-@media (max-width: 640px) { .slot-stage { height: 30vh; } .slot-result { flex-wrap: wrap; justify-content: center; border-radius: 1.25rem; padding: .6rem .75rem; } }
+@media (max-width: 640px) { .slot-space { max-height: 42vh; } .slot-result { flex-wrap: wrap; justify-content: center; border-radius: 1.25rem; padding: .6rem .75rem; } }
 .gal-open-count { font-size: .72rem; color: #e9d5ff; background: rgba(255,255,255,.08); padding: .1rem .5rem; border-radius: 999px; }
 .gal-modal[data-mode="folders"] #galTabs, .gal-modal[data-mode="folders"] #galGrid, .gal-modal[data-mode="folders"] #galBack { display: none; }
 .gal-modal[data-mode="type"] #galFolders { display: none; }
@@ -623,6 +639,8 @@ body {
   .cf-item, .hire-pill, .faq-a, .faq-q i { transition: none; }
   .gal-open-btn, .slot-open-btn { animation: none; }
   .slot-stage canvas, .slot-result { transition: opacity .2s ease; transform: none; }
+  .slot-modal.intro .slot-aura, .slot-modal.intro .slot-rays, .slot-modal.landed .slot-wave { animation: none; opacity: .6; transform: none; }
+  .slot-wave { display: none; }
 }
 
 .tilt-card { transition: transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s ease; will-change: transform; position: relative; box-shadow: 0 18px 40px rgba(0,0,0,.45), 0 0 0 rgba(168,85,247,0), 0 0 0 rgba(192,38,211,0); }
@@ -1157,14 +1175,15 @@ body {
 </div>
 
 <div id="slotModal" class="slot-modal" role="dialog" aria-modal="true" aria-labelledby="slotTitle" aria-hidden="true">
+    <div class="slot-stage" id="slotStage"><canvas aria-label="3D slot machine" role="img"></canvas></div>
     <button type="button" class="gal-close slot-close" onclick="closeSlot()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    <button type="button" class="gal-close slot-sound" id="slotSound" onclick="toggleSlotSound()" aria-label="Sound on" aria-pressed="true"><i class="fa-solid fa-volume-high"></i></button>
     <div class="slot-head">
         <h2 id="slotTitle" data-i18n="slot.title">Feeling lucky?</h2>
         <p data-i18n="slot.hint">Pull the lever to land on a random design.</p>
     </div>
-    <div class="slot-stage" id="slotStage">
-        <div class="slot-shadow"></div>
-        <canvas aria-label="3D slot machine" role="img"></canvas>
+    <div class="slot-space" id="slotSpace">
+        <div class="slot-fx" aria-hidden="true"><div class="slot-rays"></div><div class="slot-aura"></div><div class="slot-wave"></div><div class="slot-wave w2"></div></div>
         <div class="slot-loader"><i class="fa-solid fa-circle-notch fa-spin"></i><span data-i18n="slot.loading">Loading the machine...</span></div>
         <div class="slot-burst" id="slotBurst"></div>
     </div>
@@ -2501,7 +2520,27 @@ document.addEventListener('keydown', e => {
 <script>
 const slotModal = document.getElementById('slotModal');
 const slotStage = document.getElementById('slotStage');
-let slotApi = null, slotLoading = null, slotFailed = false, slotWin = null, slotLastFocus = null, slotState = 'idle';
+const slotSpace = document.getElementById('slotSpace');
+let slotApi = null, slotLoading = null, slotFailed = false, slotWin = null, slotLastFocus = null, slotState = 'idle', slotAudio = null, slotAutoOpen = 0;
+let slotMuted = false;
+try { slotMuted = localStorage.getItem('slotMuted') === '1'; } catch (e) {}
+function paintSlotSound() {
+  const b = document.getElementById('slotSound');
+  b.innerHTML = `<i class="fa-solid ${slotMuted ? 'fa-volume-xmark' : 'fa-volume-high'}"></i>`;
+  b.setAttribute('aria-pressed', slotMuted ? 'false' : 'true');
+  b.setAttribute('aria-label', slotMuted ? 'Sound off' : 'Sound on');
+}
+function toggleSlotSound() {
+  slotMuted = !slotMuted;
+  try { localStorage.setItem('slotMuted', slotMuted ? '1' : '0'); } catch (e) {}
+  paintSlotSound();
+  if (slotApi) slotApi.setMuted(slotMuted);
+}
+function slotIntroFx() {
+  slotModal.classList.remove('intro', 'landed');
+  void slotModal.offsetWidth;
+  slotModal.classList.add('intro');
+}
 function slotItems() { return galleryTypes.flatMap(t => t.items.map(it => ({ file: it[0], name: it[1] }))); }
 function slotLabel() {
   const el = document.getElementById('slotPullLabel');
@@ -2533,17 +2572,30 @@ function openSlot() {
   slotModal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
   slotLabel();
+  paintSlotSound();
+  if (!slotAudio && !slotMuted) {
+    const C = window.AudioContext || window.webkitAudioContext;
+    if (C) { try { slotAudio = new C(); slotAudio.resume(); } catch (e) { slotAudio = null; } }
+  }
   if (slotApi) slotApi.setActive(true);
   else if (!slotLoading) {
     slotLoading = import('./slot.js')
       .then(m => m.mount(slotStage, slotItems(), {
-        onStart() { slotState = 'spin'; slotLabel(); document.getElementById('slotResult').classList.remove('show'); },
-        onReelStop() { if (navigator.vibrate) navigator.vibrate(12); },
+        frame: slotSpace,
+        audio: slotAudio,
+        muted: slotMuted,
+        onIntro() { slotIntroFx(); },
+        onLand() { slotModal.classList.add('landed'); slotBurst(); },
+        onStart() { clearTimeout(slotAutoOpen); slotState = 'spin'; slotLabel(); document.getElementById('slotResult').classList.remove('show'); },
         onResult(it) {
           slotWin = it; slotState = 'won'; slotLabel();
           document.getElementById('slotName').textContent = it.name;
           document.getElementById('slotResult').classList.add('show');
           slotBurst();
+          clearTimeout(slotAutoOpen);
+          slotAutoOpen = setTimeout(() => {
+            if (slotModal.classList.contains('open') && slotWin === it && galViewIndex < 0) openDesignFromCarousel(it.file);
+          }, 1300);
           if (!slotModal.classList.contains('open')) slotApi.setActive(false);
         }
       }))
@@ -2557,7 +2609,8 @@ function openSlot() {
   setTimeout(() => document.getElementById('slotPull').focus(), 60);
 }
 function closeSlot() {
-  slotModal.classList.remove('open');
+  clearTimeout(slotAutoOpen);
+  slotModal.classList.remove('open', 'intro', 'landed');
   slotModal.setAttribute('aria-hidden', 'true');
   if (galViewIndex < 0) document.body.style.overflow = '';
   if (slotApi && !slotApi.busy) slotApi.setActive(false);
