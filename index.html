@@ -856,11 +856,20 @@ body {
                 <div class="cf-item" data-file="juaqthumbnail1.png">
                     <div class="tilt-card cf-card"><img src="./juaqthumbnail1.png" alt="Juaq thumbnail" draggable="false"></div>
                 </div>
+                <div class="cf-item" data-file="thumbnail2juaq.png">
+                    <div class="tilt-card cf-card"><img src="./thumbnail2juaq.png" alt="All in went crazy" draggable="false"></div>
+                </div>
                 <div class="cf-item" data-file="liveleaderboardscsgobig.png">
                     <div class="tilt-card cf-card"><img src="./liveleaderboardscsgobig.png" alt="CSGOBig live leaderboards" draggable="false"></div>
                 </div>
+                <div class="cf-item" data-file="pokerrrr.png">
+                    <div class="tilt-card cf-card"><img src="./pokerrrr.png" alt="Poker tournament" draggable="false"></div>
+                </div>
                 <div class="cf-item" data-file="casesbanner.png">
                     <div class="tilt-card cf-card"><img src="./casesbanner.png" alt="Cases.gg code promo" draggable="false"></div>
+                </div>
+                <div class="cf-item" data-file="scoobybanner.png">
+                    <div class="tilt-card cf-card"><img src="./scoobybanner.png" alt="Scooby on Kick banner" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="howthiskeepshappening.png">
                     <div class="tilt-card cf-card"><img src="./howthiskeepshappening.png" alt="How does this keep happening" draggable="false"></div>
@@ -868,11 +877,17 @@ body {
                 <div class="cf-item" data-file="mineschallenge.png">
                     <div class="tilt-card cf-card"><img src="./mineschallenge.png" alt="Mines board challenge" draggable="false"></div>
                 </div>
+                <div class="cf-item" data-file="robertoinstagrambanner.png">
+                    <div class="tilt-card cf-card"><img src="./robertoinstagrambanner.png" alt="Instagram promo" draggable="false"></div>
+                </div>
                 <div class="cf-item" data-file="robertobanner.png">
                     <div class="tilt-card cf-card"><img src="./robertobanner.png" alt="Bitkingz deposit bonus" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="sorhexbanner.png">
                     <div class="tilt-card cf-card"><img src="./sorhexbanner.png" alt="Sorhex logo" draggable="false"></div>
+                </div>
+                <div class="cf-item" data-file="scoobylogo.png">
+                    <div class="tilt-card cf-card"><img src="./scoobylogo.png" alt="Scooby logo" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="thumbnail1.png">
                     <div class="tilt-card cf-card"><img src="./thumbnail1.png" alt="Bac Bo 1K to 3K" draggable="false"></div>
@@ -950,6 +965,21 @@ body {
                     <span class="text-[11px] text-gray-300 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full" data-i18n="web.tag.lb">Leaderboards</span>
                 </div>
             </button>
+            <button type="button" class="web-item spotlight" data-index="1" aria-pressed="false">
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-baseline gap-3">
+                        <span class="web-num text-xs font-medium">02</span>
+                        <span class="text-lg font-medium text-white">Scooby Rewards</span>
+                    </div>
+                    <a href="https://scooby-rewards.vercel.app" target="_blank" rel="noopener noreferrer" class="text-xs text-purple-300 hover:text-white transition-colors" onclick="event.stopPropagation()"><span data-i18n="web.visit">Visit</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5"></i></a>
+                </div>
+                <p class="text-sm text-gray-400 mt-1.5 pl-7" data-i18n="web.scooby">Creator rewards site with a weekly leaderboard, giveaways and 3D skins.</p>
+                <div class="flex flex-wrap gap-1.5 mt-3 pl-7">
+                    <span class="text-[11px] text-gray-300 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full" data-i18n="web.tag.design">Design</span>
+                    <span class="text-[11px] text-gray-300 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full">Front-end</span>
+                    <span class="text-[11px] text-gray-300 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full" data-i18n="web.tag.lb">Leaderboards</span>
+                </div>
+            </button>
         </div>
 
         <div class="lg:col-span-3 glass p-1 rounded-2xl">
@@ -967,6 +997,7 @@ body {
                 </div>
                 <div class="web-preview-frame" id="webFrame">
                     <iframe src="https://headed.gg" title="Headed.gg preview" class="active" tabindex="-1" loading="lazy"></iframe>
+                    <iframe src="https://scooby-rewards.vercel.app" title="Scooby Rewards preview" tabindex="-1" loading="lazy"></iframe>
                     <a id="webOpen" href="https://headed.gg" target="_blank" rel="noopener noreferrer" class="absolute right-3 bottom-3 z-10 text-xs font-medium text-white bg-black/60 backdrop-blur-md border border-white/10 hover:border-purple-400/50 px-3 py-1.5 rounded-full transition-colors"><span data-i18n="web.open">Open live site</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1"></i></a>
                 </div>
             </div>
@@ -1176,7 +1207,8 @@ const I18N = {
     'v.empty': 'Ancora nessuna recensione, lascia la prima.',
     'vouch': n => n === 1 ? 'recensione' : 'recensioni',
     'web.title': 'Progetti web', 'web.sub': 'Siti online che ho progettato e sviluppato.', 'web.visit': 'Visita',
-    'web.headed': 'Hub affiliati con classifiche live, uno shop a punti e premi.', 'web.tag.design': 'Design', 'web.tag.lb': 'Classifiche', 'web.open': 'Apri il sito',
+    'web.headed': 'Hub affiliati con classifiche live, uno shop a punti e premi.',
+    'web.scooby': 'Sito premi per creator con classifica settimanale, giveaway e skin in 3D.', 'web.tag.design': 'Design', 'web.tag.lb': 'Classifiche', 'web.open': 'Apri il sito',
     'faq.sub': 'Risposte rapide prima di contattarmi.',
     'faq.q1': 'Quanto ci vuole per la consegna?', 'faq.a1': 'Dipende dal progetto. Miniature e banner sono veloci, i siti richiedono più tempo. Prima di iniziare ricevi tempi chiari.',
     'faq.q2': 'Cosa devo inviarti?', 'faq.a2': 'La tua idea, il testo da inserire e gli eventuali loghi o riferimenti. Al resto penso io.',
@@ -1225,7 +1257,8 @@ const I18N = {
     'v.empty': 'Nie ma jeszcze opinii, dodaj pierwszą.',
     'vouch': n => I18N_PL_PLURAL(n, 'opinia', 'opinie', 'opinii'),
     'web.title': 'Projekty stron', 'web.sub': 'Działające strony, które zaprojektowałem i zbudowałem.', 'web.visit': 'Odwiedź',
-    'web.headed': 'Hub afiliacyjny z rankingami na żywo, sklepem za punkty i nagrodami.', 'web.tag.design': 'Grafika', 'web.tag.lb': 'Rankingi', 'web.open': 'Otwórz stronę',
+    'web.headed': 'Hub afiliacyjny z rankingami na żywo, sklepem za punkty i nagrodami.',
+    'web.scooby': 'Strona z nagrodami dla twórcy z tygodniowym rankingiem, giveawayami i skinami 3D.', 'web.tag.design': 'Grafika', 'web.tag.lb': 'Rankingi', 'web.open': 'Otwórz stronę',
     'faq.sub': 'Szybkie odpowiedzi, zanim napiszesz.',
     'faq.q1': 'Jak szybko dostanę projekt?', 'faq.a1': 'To zależy od projektu. Miniaturki i banery są szybkie, strony zajmują więcej czasu. Przed startem dostajesz jasny termin.',
     'faq.q2': 'Co muszę Ci wysłać?', 'faq.a2': 'Swój pomysł, tekst, który ma się pojawić, oraz logo lub przykłady, jeśli je masz. Resztą zajmę się ja.',
@@ -1791,7 +1824,8 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
   const url = document.getElementById('webUrl');
   const open = document.getElementById('webOpen');
   const sites = [
-    { url: 'headed.gg', href: 'https://headed.gg' }
+    { url: 'headed.gg', href: 'https://headed.gg' },
+    { url: 'scooby-rewards.vercel.app', href: 'https://scooby-rewards.vercel.app' }
   ];
   let active = 0;
 
@@ -2258,22 +2292,27 @@ renderVouches();
 const galleryTypes = [
   { key: 'thumbnails', name: 'Thumbnails', items: [
     ['juaqthumbnail1.png', 'Juaq thumbnail'],
+    ['thumbnail2juaq.png', 'All in went crazy'],
     ['howthiskeepshappening.png', 'How does this keep happening'],
     ['thumbnail1.png', 'Bac Bo 1K to 3K'] ] },
   { key: 'promo', name: 'Promo banners', items: [
     ['casesbanner.png', 'Cases.gg code promo'],
     ['robertobanner.png', 'Bitkingz deposit bonus'],
+    ['robertoinstagrambanner.png', 'Instagram promo'],
     ['joshy4.png', 'Refer and earn'] ] },
   { key: 'events', name: 'Events and races', items: [
     ['newdiscordrafflecopia.png', 'Discord raffles'],
     ['race1milrorush.png', '1,000,000 race'],
-    ['mineschallenge.png', 'Mines board challenge'] ] },
+    ['mineschallenge.png', 'Mines board challenge'],
+    ['pokerrrr.png', 'Poker tournament'] ] },
   { key: 'leaderboards', name: 'Leaderboards', items: [
     ['liveleaderboardscsgobig.png', 'CSGOBig live leaderboards'],
     ['leaderboardheaded.png', 'Headed leaderboard'] ] },
   { key: 'announcements', name: 'Announcements', items: [
     ['shopannouncement.png', 'Points shop launch'] ] },
   { key: 'branding', name: 'Branding', items: [
+    ['scoobylogo.png', 'Scooby logo'],
+    ['scoobybanner.png', 'Scooby on Kick banner'],
     ['sorhexbanner.png', 'Sorhex logo'] ] }
 ];
 let galType = 0, galViewIndex = -1, galLastFocus = null;
