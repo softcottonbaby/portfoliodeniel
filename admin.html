@@ -51,7 +51,6 @@ input:focus {
 <body class="antialiased min-h-screen px-6 py-16">
 <div class="ambient-glow"></div>
 
-<!-- Login screen -->
 <div id="loginWrap" class="glass rounded-2xl p-8 w-full max-w-sm mx-auto mt-20">
   <h1 class="text-xl font-medium text-white mb-1">Vouch admin</h1>
   <p class="text-sm text-gray-500 mb-6">Log in to manage submissions.</p>
@@ -65,7 +64,6 @@ input:focus {
   </form>
 </div>
 
-<!-- Dashboard -->
 <div id="dashWrap" class="max-w-3xl mx-auto hidden">
   <div class="flex items-center justify-between mb-8">
     <h1 class="text-xl font-medium text-white">Vouch admin</h1>
@@ -218,7 +216,6 @@ async function loadVouches() {
   approved.forEach(v => approvedList.appendChild(vouchCard(v, { pending: false })));
 }
 
-// Stay logged in across refreshes
 (async () => {
   const { data: { session } } = await supabaseClient.auth.getSession();
   if (session) showDashboard();

@@ -1,7 +1,3 @@
-// ============================================================
-// AceSnap live vouches loader
-// Fast version — uses Supabase REST directly.
-// ============================================================
 
 const ACESNAP_SUPABASE_URL =
     "https://vqdfbwjcugnbkxyrtnxn.supabase.co";

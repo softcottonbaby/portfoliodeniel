@@ -46,7 +46,6 @@ input:focus, textarea:focus, select:focus {
   border-color: rgba(168, 85, 247, 0.5);
   background: rgba(255, 255, 255, 0.05);
 }
-/* Honeypot field — hidden from real people, bots often fill it anyway */
 .hp-field { position: absolute; left: -9999px; top: -9999px; }
 </style>
 </head>
@@ -71,7 +70,6 @@ input:focus, textarea:focus, select:focus {
   </p>
 
   <form id="vouchForm" class="space-y-4">
-    <!-- Honeypot: leave this field, bots tend to fill it, humans never see it -->
     <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off">
 
     <div>
@@ -138,7 +136,6 @@ input:focus, textarea:focus, select:focus {
   </p>
 </div>
 
-<!-- Shown after a successful submit -->
 <div class="glass rounded-2xl p-10 w-full max-w-md hidden text-center" id="successWrap">
   <div class="w-14 h-14 rounded-full bg-purple-500/15 border border-purple-400/30 flex items-center justify-center mx-auto mb-5">
     <i class="fa-solid fa-check text-purple-300 text-xl"></i>
@@ -153,7 +150,6 @@ input:focus, textarea:focus, select:focus {
 </div>
 
 <script>
-// ---- Supabase setup ----
 const SUPABASE_URL = "https://vqdfbwjcugnbkxyrtnxn.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZxZGZid2pjdWduYmt4eXJ0bnhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0ODg0NzIsImV4cCI6MjEwNTA2NDQ3Mn0.23WNEL6Ztu_cMYZKc-NvI63CCuaHYTmYDI4Nf6f96Q0";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -171,7 +167,6 @@ function previewAvatar(input) {
   reader.readAsDataURL(file);
 }
 
-// --- Star rating ---
 (function () {
   const stars = Array.from(document.querySelectorAll('#starRating .star'));
   const ratingInput = document.getElementById('ratingInput');
@@ -197,7 +192,6 @@ function previewAvatar(input) {
   document.getElementById('starRating').addEventListener('mouseleave', () => paint(selected));
 })();
 
-// --- Submit handler ---
 const form = document.getElementById('vouchForm');
 const submitBtn = document.getElementById('submitBtn');
 const formError = document.getElementById('formError');
@@ -213,7 +207,6 @@ form.addEventListener('submit', async (e) => {
 
   const data = new FormData(form);
 
-  // Honeypot — silently pretend success to bots
   if (data.get('_gotcha')) {
     document.getElementById('formWrap').classList.add('hidden');
     document.getElementById('successWrap').classList.remove('hidden');
@@ -273,7 +266,6 @@ form.addEventListener('submit', async (e) => {
   } catch (err) {
     console.error('Vouch submission error:', err);
 
-    // Show the real Supabase error so setup/RLS problems are easy to diagnose.
     const message = err?.message || err?.error_description || String(err);
     showError(`Submission failed: ${message}`);
 

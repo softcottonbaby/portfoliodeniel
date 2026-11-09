@@ -170,6 +170,468 @@ body {
   z-index: 5;
 }
 
+.type-word {
+  display: inline-block;
+  white-space: nowrap;
+  text-align: left;
+  vertical-align: baseline;
+  transition: width .55s cubic-bezier(.65,0,.35,1);
+}
+.type-word::after { content: "\200b"; }
+
+@media (max-width: 640px) {
+  .type-word { display: block; margin: 0 auto; }
+}
+
+.orbit {
+  --size: 300px;
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  margin: 0 auto;
+}
+.orbit svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.orbit-arc { transition: stroke-dashoffset 1s cubic-bezier(.65,0,.35,1); }
+.orbit-dot { fill: #27272a; stroke: rgba(255,255,255,.18); stroke-width: 1; transition: fill .4s ease, stroke .4s ease, filter .4s ease; }
+.orbit-dot.done { fill: #7c3aed; stroke: #a855f7; }
+.orbit-dot.active { fill: #e879f9; stroke: #f5d0fe; filter: drop-shadow(0 0 6px rgba(232,121,249,.95)); }
+.orbit-node {
+  position: absolute;
+  padding: .35rem .5rem;
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+  color: #6b7280;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color .4s ease;
+}
+.orbit-node:hover { color: #d1d5db; }
+.orbit-node:focus-visible { outline: 2px solid #c084fc; outline-offset: 2px; border-radius: 6px; }
+.orbit.orbit-pointing { cursor: pointer; }
+.orbit-dot { transform-box: fill-box; transform-origin: center; }
+.orbit-dot.active { transform: scale(1.35); }
+.orbit-dot { transition: fill .4s ease, stroke .4s ease, filter .4s ease, transform .4s cubic-bezier(.22,1,.36,1); }
+.orbit-node.done { color: #a1a1aa; }
+.orbit-node.active { color: #fff; }
+.orbit-node[data-step="0"] { left: 50%; bottom: 100%; transform: translate(-50%, -10px); }
+.orbit-node[data-step="1"] { left: 100%; top: 50%; transform: translate(10px, -50%); }
+.orbit-node[data-step="2"] { left: 50%; top: 100%; transform: translate(-50%, 10px); }
+.orbit-node[data-step="3"] { right: 100%; top: 50%; transform: translate(-10px, -50%); }
+.orbit-center {
+  position: absolute;
+  inset: 18%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: opacity .35s ease, transform .35s ease, filter .35s ease;
+}
+.orbit-center.swap { opacity: 0; transform: translateY(8px); filter: blur(4px); }
+.orbit-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  margin-bottom: .9rem;
+  color: #fff;
+  font-size: 1.25rem;
+  background: linear-gradient(135deg, #7c3aed, #d946ef);
+  box-shadow: 0 0 32px rgba(217,70,239,.45);
+}
+
+@media (max-width: 640px) {
+  .orbit { --size: 230px; }
+  .orbit-center { inset: 11%; }
+  .orbit-icon { width: 40px; height: 40px; border-radius: 12px; font-size: 1rem; margin-bottom: .6rem; }
+  .orbit-node { font-size: .65rem; letter-spacing: .08em; }
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .orbit { --size: 260px; }
+}
+
+.exp-tabs {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 4px;
+  margin-bottom: 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+}
+.exp-tab {
+  position: relative;
+  z-index: 1;
+  padding: .55rem .5rem;
+  border-radius: 999px;
+  font-size: .8rem;
+  font-weight: 500;
+  color: #9ca3af;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color .3s ease;
+}
+.exp-tab:hover { color: #e5e7eb; }
+.exp-tab.active { color: #fff; }
+.exp-tab:focus-visible { outline: 2px solid #c084fc; outline-offset: 2px; }
+.exp-tab-pill {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(168,85,247,.55), rgba(217,70,239,.45));
+  border: 1px solid rgba(232,121,249,.45);
+  box-shadow: 0 0 22px rgba(168,85,247,.3);
+  transition: transform .5s cubic-bezier(.65,0,.35,1), width .5s cubic-bezier(.65,0,.35,1);
+}
+.exp-card {
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(160deg, rgba(88,28,135,.28), rgba(10,8,16,.85) 60%);
+  border: 1px solid rgba(168,85,247,.2);
+  min-height: 13.5rem;
+}
+.exp-panel { transition: opacity .3s ease, transform .3s ease, filter .3s ease; }
+.exp-panel.leaving { opacity: 0; transform: translateY(8px); filter: blur(4px); }
+.exp-icon {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: linear-gradient(135deg, #7c3aed, #d946ef);
+  box-shadow: 0 0 24px rgba(217,70,239,.35);
+}
+.tool-chip {
+  width: 36px;
+  height: 36px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 10px;
+  color: #e5e7eb;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  transition: transform .25s ease, border-color .25s ease, background .25s ease;
+}
+.tool-chip img, .tool-chip svg { width: 20px; height: 20px; object-fit: contain; }
+.tool-chip:hover, .tool-chip:focus-visible { transform: translateY(-3px); border-color: rgba(192,132,252,.6); background: rgba(168,85,247,.1); outline: none; }
+.tool-chip { position: relative; }
+.tool-chip::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translate(-50%, 4px);
+  padding: .3rem .6rem;
+  border-radius: .5rem;
+  font-size: .72rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #fff;
+  background: #1a1325;
+  border: 1px solid rgba(192,132,252,.35);
+  box-shadow: 0 8px 24px rgba(0,0,0,.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+  z-index: 20;
+}
+.tool-chip::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 5px);
+  width: 8px;
+  height: 8px;
+  background: #1a1325;
+  border-right: 1px solid rgba(192,132,252,.35);
+  border-bottom: 1px solid rgba(192,132,252,.35);
+  transform: translate(-50%, 4px) rotate(45deg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+  z-index: 21;
+}
+.tool-chip:hover::after, .tool-chip:focus-visible::after { opacity: 1; transform: translate(-50%, 0); }
+.tool-chip:hover::before, .tool-chip:focus-visible::before { opacity: 1; transform: translate(-50%, 0) rotate(45deg); }
+
+@media (max-width: 400px) {
+  .exp-tab { font-size: .72rem; padding: .5rem .25rem; }
+}
+
+.spotlight { position: relative; }
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity .35s ease;
+  background: radial-gradient(280px circle at var(--sx, 50%) var(--sy, 50%), rgba(168,85,247,.15), transparent 60%);
+}
+.spotlight:hover::before { opacity: 1; }
+.spotlight-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity .35s ease;
+  background: radial-gradient(200px circle at var(--sx, 50%) var(--sy, 50%), rgba(232,121,249,.95), rgba(168,85,247,.35) 40%, transparent 65%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+.spotlight:hover > .spotlight-ring { opacity: 1; }
+
+.dot-grid {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent);
+  mask-image: linear-gradient(to bottom, #000 65%, transparent);
+}
+.dot-grid canvas { display: block; width: 100%; height: 100%; }
+
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  transform-origin: left;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, #7c3aed, #c084fc, #e879f9);
+  box-shadow: 0 0 10px rgba(217,70,239,.8);
+  pointer-events: none;
+}
+
+.gal-folder { position: relative; padding: 14px 14px 16px; border-radius: 1rem; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07); cursor: pointer; text-align: left; transition: border-color .35s ease, background .35s ease, transform .35s ease; }
+.gal-folder:hover, .gal-folder:focus-visible { transform: translateY(-3px); border-color: rgba(168,85,247,.45); background: rgba(168,85,247,.06); outline: none; }
+.gal-fan { position: relative; height: 140px; margin-bottom: 14px; }
+.gal-fan img { position: absolute; left: 50%; top: 14px; width: min(66%, 11.5rem); aspect-ratio: 16 / 10; object-fit: cover; border-radius: .6rem; box-shadow: 0 10px 24px rgba(0,0,0,.55); transition: transform .5s cubic-bezier(.22,1,.36,1); transform: translateX(-50%) rotate(var(--r, 0deg)); }
+.gal-folder:hover .gal-fan img, .gal-folder:focus-visible .gal-fan img { transform: translateX(calc(-50% + var(--dx, 0px))) translateY(-6px) rotate(calc(var(--r, 0deg) * 2)); }
+@media (max-width: 640px) { .gal-fan { height: 90px; } .gal-fan img { top: 8px; } }
+
+@property --gal-a { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+.gal-open-btn { display: inline-flex; align-items: center; gap: .6rem; padding: .75rem 1.4rem; border-radius: 999px; font-size: .9rem; font-weight: 500; color: #fff; border: 1.5px solid transparent; background: linear-gradient(#0c0a10, #0c0a10) padding-box, conic-gradient(from var(--gal-a), rgba(255,255,255,.1) 0 66%, #c084fc 82%, #ffffff 89%, rgba(255,255,255,.1)) border-box; animation: galShimmer 3s linear infinite; transition: transform .3s cubic-bezier(.22,1,.36,1); }
+.gal-open-btn:hover { transform: translateY(-2px); background: linear-gradient(#17121f, #17121f) padding-box, conic-gradient(from var(--gal-a), rgba(255,255,255,.14) 0 66%, #c084fc 82%, #ffffff 89%, rgba(255,255,255,.14)) border-box; }
+@keyframes galShimmer { to { --gal-a: 360deg; } }
+.gal-open-count { font-size: .72rem; color: #e9d5ff; background: rgba(255,255,255,.08); padding: .1rem .5rem; border-radius: 999px; }
+.gal-modal[data-mode="folders"] #galTabs, .gal-modal[data-mode="folders"] #galGrid, .gal-modal[data-mode="folders"] #galBack { display: none; }
+.gal-modal[data-mode="type"] #galFolders { display: none; }
+.gal-folder { opacity: 0; transform: translateY(12px); animation: galIn .5s cubic-bezier(.22,1,.36,1) forwards; }
+.gal-modal { position: fixed; inset: 0; z-index: 90; background: rgba(5,5,5,.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); overflow-y: auto; opacity: 0; pointer-events: none; transition: opacity .3s ease; }
+.gal-modal.open { opacity: 1; pointer-events: auto; }
+.gal-inner { max-width: 72rem; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; transform: translateY(16px); transition: transform .4s cubic-bezier(.22,1,.36,1); }
+.gal-modal.open .gal-inner { transform: none; }
+.gal-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem; }
+.gal-close { width: 2.5rem; height: 2.5rem; flex: none; border-radius: 999px; display: flex; align-items: center; justify-content: center; color: #fff; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); transition: background .2s; }
+.gal-close:hover { background: rgba(255,255,255,.12); }
+.gal-tabs { display: flex; gap: .5rem; overflow-x: auto; padding-bottom: .5rem; margin-bottom: 1.5rem; scrollbar-width: none; }
+.gal-tabs::-webkit-scrollbar { display: none; }
+.gal-tab { flex: none; font-size: .8rem; padding: .45rem .9rem; border-radius: 999px; color: #9ca3af; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); transition: all .25s; }
+.gal-tab:hover { color: #fff; }
+.gal-tab.active { color: #fff; background: linear-gradient(90deg,#a855f7,#7c3aed); border-color: transparent; }
+.gal-grid { columns: 3 18rem; column-gap: 1rem; }
+.gal-item { display: block; width: 100%; margin-bottom: 1rem; break-inside: avoid; border-radius: .8rem; overflow: hidden; cursor: zoom-in; opacity: 0; transform: translateY(12px); animation: galIn .5s cubic-bezier(.22,1,.36,1) forwards; }
+.gal-item img { display: block; width: 100%; height: auto; transition: transform .5s cubic-bezier(.22,1,.36,1), filter .3s; }
+.gal-item:hover img { transform: scale(1.03); filter: brightness(1.08); }
+@keyframes galIn { to { opacity: 1; transform: none; } }
+
+.gal-view { position: fixed; inset: 0; z-index: 95; display: flex; align-items: center; justify-content: center; padding: 4rem 4.5rem; background: rgba(5,5,5,.96); opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+.gal-view.open { opacity: 1; pointer-events: auto; }
+.gal-figure { margin: 0; max-width: 100%; display: flex; flex-direction: column; align-items: center; }
+.gal-figure img { max-width: 100%; max-height: 78vh; border-radius: .8rem; box-shadow: 0 30px 80px rgba(0,0,0,.6); transform: scale(.96); transition: transform .35s cubic-bezier(.22,1,.36,1); }
+.gal-view.open .gal-figure img { transform: none; }
+.gal-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 2.75rem; height: 2.75rem; border-radius: 999px; display: flex; align-items: center; justify-content: center; color: #fff; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); }
+.gal-nav:hover { background: rgba(255,255,255,.12); }
+.gal-prev { left: 1rem; } .gal-next { right: 1rem; }
+.gal-view-close { position: absolute; top: 1rem; right: 1rem; }
+@media (max-width: 640px) { .gal-view { padding: 4rem .75rem 5.5rem; } .gal-nav { top: auto; bottom: 1.25rem; transform: none; } .gal-prev { left: calc(50% - 3.25rem); } .gal-next { right: calc(50% - 3.25rem); } }
+@media (prefers-reduced-motion: reduce) { .gal-folder, .gal-item { animation: none; opacity: 1; transform: none; } .gal-fan img, .gal-inner, .gal-figure img { transition: none; } }
+
+.contact-panel { display: flex; width: min(92vw, 44rem); min-height: 22rem; border-radius: 1.5rem; overflow: hidden; background: rgba(14,12,18,.96); border: 1px solid rgba(255,255,255,.1); box-shadow: 0 40px 100px rgba(0,0,0,.7); }
+.cp-left { position: relative; isolation: isolate; overflow: hidden; width: 44%; padding: 2rem 1.75rem; display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; background: linear-gradient(150deg, #5b21b6 0%, #3b0f7a 50%, #1e0a3c 100%); }
+.cp-mesh { position: absolute; inset: -20%; z-index: -2; filter: blur(46px); opacity: .6; }
+.cp-mesh span { position: absolute; border-radius: 50%; mix-blend-mode: screen; opacity: .9; }
+.cp-mesh span:nth-child(1) { width: 70%; height: 70%; left: -5%; top: -5%; background: #7c3aed; animation: cpA 9s ease-in-out infinite alternate; }
+.cp-mesh span:nth-child(2) { width: 60%; height: 60%; right: -10%; top: 20%; background: #a21caf; animation: cpB 11s ease-in-out infinite alternate; }
+.cp-mesh span:nth-child(3) { width: 65%; height: 65%; left: 10%; bottom: -15%; background: #4f46e5; animation: cpC 13s ease-in-out infinite alternate; }
+.cp-mesh span:nth-child(4) { width: 40%; height: 40%; left: 35%; top: 35%; background: #8b5cf6; opacity: .6; animation: cpD 7s ease-in-out infinite alternate; }
+@keyframes cpA { to { transform: translate(35%, 30%) scale(1.15); } }
+@keyframes cpB { to { transform: translate(-40%, 25%) scale(.85); } }
+@keyframes cpC { to { transform: translate(25%, -45%) scale(1.2); } }
+@keyframes cpD { to { transform: translate(-35%, -30%) scale(1.3); } }
+.cp-sheen { position: absolute; inset: 0; z-index: -1; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.09) 48%, transparent 66%); background-size: 250% 100%; animation: cpSheen 6s ease-in-out infinite; }
+@keyframes cpSheen { 0%, 20% { background-position: 130% 0; } 70%, 100% { background-position: -30% 0; } }
+.cp-left::after { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(90% 70% at 0% 100%, rgba(10,4,24,.55), transparent 70%); }
+.cp-kicker { font-size: .7rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: rgba(243,232,255,.75); margin-bottom: .75rem; }
+.cp-facts { display: flex; flex-direction: column; gap: .6rem; font-size: .85rem; color: #f5f3ff; }
+.cp-facts li { display: flex; align-items: center; gap: .6rem; }
+.cp-facts i { width: 1.75rem; height: 1.75rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: rgba(255,255,255,.14); font-size: .8rem; }
+.cp-right { flex: 1; padding: 2.25rem 1.75rem 1.75rem; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.cp-row { display: flex; align-items: center; gap: 1rem; padding: .9rem 1rem; border-radius: .9rem; border: 1px solid rgba(255,255,255,.06); background: rgba(255,255,255,.04); cursor: pointer; transition: background .25s, border-color .25s, transform .3s cubic-bezier(.22,1,.36,1); }
+.cp-row:hover, .cp-row:focus-visible { background: rgba(255,255,255,.08); border-color: rgba(192,132,252,.4); transform: translateX(4px); outline: none; }
+.cp-ic { width: 2.5rem; height: 2.5rem; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform .3s; }
+.cp-row:hover .cp-ic { transform: scale(1.1); }
+.cp-badge { margin-left: .35rem; font-size: .6rem; letter-spacing: .04em; text-transform: none; color: #fff; background: linear-gradient(90deg, #a855f7, #7c3aed); padding: .1rem .45rem; border-radius: 999px; vertical-align: 1px; }
+#contactModal .cp-row { opacity: 0; transform: translateY(10px); }
+#contactModal.is-open .cp-row { opacity: 1; transform: none; transition: opacity .45s ease, transform .5s cubic-bezier(.22,1,.36,1), background .25s, border-color .25s; }
+#contactModal.is-open .cp-row:nth-child(2) { transition-delay: .07s; }
+#contactModal.is-open .cp-row:nth-child(3) { transition-delay: .14s; }
+#contactModal.is-open .cp-row:hover { transform: translateX(4px); transition-delay: 0s; }
+@media (max-width: 640px) {
+  .contact-panel { flex-direction: column; min-height: 0; max-height: 90svh; overflow-y: auto; }
+  .cp-left { width: 100%; padding: 1.75rem 1.5rem 1.5rem; gap: 1.25rem; }
+  .cp-right { padding: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) { .cp-mesh span, .cp-sheen { animation: none; } #contactModal .cp-row { opacity: 1; transform: none; } }
+
+.hero-cta-primary { display: inline-flex; align-items: center; gap: .5rem; padding: .8rem 1.5rem; border-radius: 999px; font-size: .9rem; font-weight: 500; color: #fff; background: linear-gradient(90deg, #a855f7, #7c3aed); box-shadow: 0 10px 30px rgba(124,58,237,.3); transition: transform .3s cubic-bezier(.22,1,.36,1), filter .3s; }
+.hero-cta-primary:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.hero-cta-secondary { display: inline-flex; align-items: center; padding: .8rem 1.5rem; border-radius: 999px; font-size: .9rem; font-weight: 500; color: #e5e7eb; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.12); transition: background .3s, border-color .3s, color .3s; }
+.hero-cta-secondary:hover { background: rgba(255,255,255,.08); border-color: rgba(192,132,252,.45); color: #fff; }
+.hero-stack { position: relative; width: 100%; max-width: 540px; aspect-ratio: 1 / .9; margin: 0 auto; }
+.hero-card { position: absolute; width: 68%; padding: 0; border: 0; background: none; cursor: zoom-in; animation: heroFloat 6s ease-in-out infinite; }
+.hero-card-inner { display: block; border-radius: 14px; overflow: hidden; transform: rotate(var(--r)); box-shadow: 0 25px 60px rgba(0,0,0,.65); transition: transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s; }
+.hero-card-inner img { display: block; width: 100%; height: auto; border-radius: inherit; }
+.hero-card:hover, .hero-card:focus-visible { z-index: 5; outline: none; }
+.hero-card:hover .hero-card-inner, .hero-card:focus-visible .hero-card-inner { transform: rotate(0deg) scale(1.06); box-shadow: 0 30px 70px rgba(0,0,0,.7); }
+.hc-1 { left: 0; top: 2%; --r: -7deg; z-index: 1; }
+.hc-2 { right: 0; top: 31%; --r: 5deg; z-index: 2; animation-delay: -2s; }
+.hc-3 { left: 9%; bottom: 0; --r: -2deg; z-index: 3; animation-delay: -4s; }
+@keyframes heroFloat { 50% { transform: translateY(-12px); } }
+@media (max-width: 1023px) { .hero-stack { max-width: 400px; } }
+
+.lang-seg { position: relative; display: flex; padding: 3px; border-radius: 999px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
+.lang-seg button { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: .35rem; font-size: .68rem; font-weight: 600; letter-spacing: .04em; padding: .3rem .55rem .3rem .4rem; border-radius: 999px; color: #9ca3af; transition: color .25s; }
+.lang-flag { width: 14px; height: 14px; flex: none; display: inline-block; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 1px rgba(255,255,255,.18); opacity: .75; transition: opacity .25s; }
+.lang-flag svg { display: block; width: 100%; height: 100%; }
+.lang-seg button:hover .lang-flag, .lang-seg button[aria-pressed="true"] .lang-flag { opacity: 1; }
+.lang-seg button:hover { color: #fff; }
+.lang-seg button[aria-pressed="true"] { color: #fff; }
+.lang-seg-pill { position: absolute; top: 3px; bottom: 3px; left: 0; width: 0; border-radius: 999px; background: linear-gradient(90deg, #a855f7, #7c3aed); transition: transform .35s cubic-bezier(.22,1,.36,1), width .35s cubic-bezier(.22,1,.36,1); }
+@media (max-width: 640px) { .lang-code { display: none; } .lang-seg button { padding: .32rem .4rem; } .lang-flag { width: 16px; height: 16px; } }
+@media (prefers-reduced-motion: reduce) { .hero-card { animation: none; } .lang-seg-pill { transition: none; } }
+
+.cf-viewport { position: relative; left: 50%; width: min(calc(100vw - 24px), 1320px); transform: translateX(-50%); overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent); }
+.cf-stage { position: relative; height: 340px; perspective: 1200px; outline: none; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.cf-item { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); transition: transform .8s cubic-bezier(.22,1,.36,1), opacity .6s ease, filter .6s ease; will-change: transform; cursor: pointer; }
+.cf-item.active { cursor: zoom-in; }
+.cf-card { border-radius: .9rem; overflow: hidden; isolation: isolate; }
+.tilt-card img, .tilt-light { border-radius: inherit; }
+.cf-card img { display: block; width: auto; height: auto; max-height: 300px; max-width: 460px; pointer-events: none; }
+.cf-item:not(.active) .cf-card img { opacity: 1; }
+@media (max-width: 640px) {
+  .cf-stage { height: 260px; perspective: 800px; }
+  .cf-card img { max-height: 190px; max-width: 250px; }
+}
+
+.hire-pill { position: fixed; left: 50%; bottom: 1.25rem; z-index: 60; display: flex; align-items: center; gap: .85rem; padding: .35rem .35rem .35rem 1.15rem; border-radius: 999px; background: rgba(14,12,18,.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,.1); box-shadow: 0 14px 40px rgba(0,0,0,.55); font-size: .875rem; color: #e5e7eb; white-space: nowrap; transform: translate(-50%, 160%); opacity: 0; pointer-events: none; transition: transform .55s cubic-bezier(.22,1,.36,1), opacity .4s ease; }
+.hire-pill.show { transform: translate(-50%, 0); opacity: 1; pointer-events: auto; }
+.hire-pill-btn { padding: .55rem 1.1rem; border-radius: 999px; background: linear-gradient(90deg, #a855f7, #7c3aed); color: #fff; font-weight: 500; transition: filter .2s, transform .2s; }
+.hire-pill-btn:hover { filter: brightness(1.12); transform: translateY(-1px); }
+
+.faq-list { border-top: 1px solid rgba(255,255,255,.07); }
+.faq-item { border-bottom: 1px solid rgba(255,255,255,.07); }
+.faq-q { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.15rem .25rem; text-align: left; color: #fff; font-size: 1rem; font-weight: 500; transition: color .2s; }
+.faq-q:hover { color: #e9d5ff; }
+.faq-q i { color: #c084fc; font-size: .85rem; flex: none; transition: transform .4s cubic-bezier(.22,1,.36,1); }
+.faq-item.open .faq-q i { transform: rotate(45deg); }
+.faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s cubic-bezier(.22,1,.36,1); }
+.faq-item.open .faq-a { grid-template-rows: 1fr; }
+.faq-a > div { overflow: hidden; }
+.faq-a p { color: #9ca3af; font-size: .925rem; line-height: 1.7; padding: 0 .25rem 1.25rem; max-width: 42rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cf-item, .hire-pill, .faq-a, .faq-q i { transition: none; }
+  .gal-open-btn { animation: none; }
+}
+
+.tilt-card { transition: transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s ease; will-change: transform; position: relative; box-shadow: 0 18px 40px rgba(0,0,0,.45), 0 0 0 rgba(168,85,247,0), 0 0 0 rgba(192,38,211,0); }
+.tilt-card img { transition: opacity .3s ease, filter .3s ease; }
+.tilt-card.tilting { transition: transform .08s linear, box-shadow .3s ease; box-shadow: 0 28px 60px rgba(0,0,0,.55), 0 0 0 rgba(168,85,247,0), 0 0 0 rgba(192,38,211,0); }
+.tilt-light {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .35s ease;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,.7), rgba(255,255,255,.22) 30%, transparent 65%);
+  mix-blend-mode: overlay;
+}
+.tilt-card.tilting .tilt-light { opacity: 1; }
+.tilt-card.tilting img { opacity: 1; filter: brightness(1.1) saturate(1.15); }
+
+.web-item {
+  width: 100%;
+  text-align: left;
+  padding: 1.1rem 1.25rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255,255,255,.06);
+  background: rgba(255,255,255,.02);
+  transition: background .3s ease, border-color .3s ease, transform .3s ease;
+  cursor: pointer;
+}
+.web-item:hover { transform: translateX(4px); }
+.web-item.active { background: rgba(168,85,247,.1); border-color: rgba(192,132,252,.45); }
+.web-item .web-num { color: #6b7280; transition: color .3s ease; }
+.web-item.active .web-num { color: #c084fc; }
+.web-preview-frame {
+  position: relative;
+  height: 440px;
+  overflow: hidden;
+  background: #050505;
+}
+.web-preview-frame iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1280px;
+  height: calc(440px / var(--ws, .5));
+  border: 0;
+  transform: scale(var(--ws, .5));
+  transform-origin: 0 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+.web-preview-frame iframe.active { opacity: 1; }
+@media (max-width: 1023px) {
+  .web-preview-frame { height: 280px; }
+  .web-preview-frame iframe { height: calc(280px / var(--ws, .5)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .type-word, .orbit-arc, .orbit-center, .exp-tab-pill, .exp-panel, .tilt-card { transition: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal, .reveal.in-view {
     opacity: 1;
@@ -192,102 +654,228 @@ body {
 <div class="ambient-glow"></div>
 
 <div class="fixed top-6 left-0 right-0 z-50 px-4">
-    <nav class="max-w-4xl mx-auto glass rounded-full px-6 py-4 flex justify-between items-center">
+    <nav class="relative overflow-hidden max-w-4xl mx-auto glass rounded-full px-4 sm:px-6 py-4 flex justify-between items-center">
+        <span class="scroll-progress" id="scrollProgress" aria-hidden="true"></span>
         <div class="flex items-center gap-2.5">
             <img src="./acesnaplogonoouter.png" alt="AceSnap logo" class="h-7 w-auto">
             <span class="text-lg font-semibold tracking-wide text-white">Daniel.</span>
         </div>
 
-        <div id="nav-links" class="hidden md:flex gap-8 text-sm font-medium text-gray-400 relative">
-            <a href="#" data-section="gfx" onclick="event.preventDefault(); scrollToSection('gfx');" class="nav-link hover:text-white transition-colors pb-1">Design</a>
-            <a href="#" data-section="experiences" onclick="event.preventDefault(); scrollToSection('experiences');" class="nav-link hover:text-white transition-colors pb-1">Experiences</a>
-            <a href="#" data-section="vouches" onclick="event.preventDefault(); scrollToSection('vouches');" class="nav-link hover:text-white transition-colors pb-1">Vouches</a>
-            <a href="#" data-section="web" onclick="event.preventDefault(); scrollToSection('web');" class="nav-link hover:text-white transition-colors pb-1">Projects</a>
+        <div id="nav-links" class="hidden md:flex gap-6 lg:gap-8 text-sm font-medium text-gray-400 relative">
+            <a href="#" data-section="experiences" onclick="event.preventDefault(); scrollToSection('experiences');" class="nav-link hover:text-white transition-colors pb-1" data-i18n="nav.exp">Experiences</a>
+            <a href="#" data-section="gfx" onclick="event.preventDefault(); scrollToSection('gfx');" class="nav-link hover:text-white transition-colors pb-1" data-i18n="nav.design">Design</a>
+            <a href="#" data-section="vouches" onclick="event.preventDefault(); scrollToSection('vouches');" class="nav-link hover:text-white transition-colors pb-1" data-i18n="nav.vouches">Vouches</a>
+            <a href="#" data-section="web" onclick="event.preventDefault(); scrollToSection('web');" class="nav-link hover:text-white transition-colors pb-1" data-i18n="nav.projects">Projects</a>
             <span id="nav-indicator" class="absolute bottom-0 h-[2px] rounded-full bg-gradient-to-r from-purple-500 to-fuchsia-400 opacity-0 transition-all duration-300 ease-out" style="left: 0; width: 0;"></span>
         </div>
 
-        <button onclick="openContactModal()" class="group relative overflow-hidden text-sm font-medium text-white bg-white/5 border border-white/10 hover:border-purple-400/40 px-4 py-2 rounded-full transition-colors duration-300">
-            <span class="absolute inset-0 bg-gradient-to-r from-purple-500 to-fuchsia-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out"></span>
-            <span class="relative z-10">Contact</span>
-        </button>
+        <div class="flex items-center gap-2 sm:gap-3">
+            <div class="lang-seg" id="langSeg" role="group" aria-label="Language">
+                <span class="lang-seg-pill" id="langPill" aria-hidden="true"></span>
+                <button type="button" data-lang="en" aria-pressed="true" title="English" aria-label="English"><span class="lang-flag"><svg viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><clipPath id="ukS"><path d="M0,0 v30 h60 v-30 z"/></clipPath><clipPath id="ukT"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath><g clip-path="url(#ukS)"><path d="M0,0 v30 h60 v-30 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#ukT)" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></g></svg></span><span class="lang-code">EN</span></button>
+                <button type="button" data-lang="it" aria-pressed="false" title="Italiano" aria-label="Italiano"><span class="lang-flag"><svg viewBox="0 0 3 2" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="1" height="2" fill="#009246"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ce2b37"/></svg></span><span class="lang-code">IT</span></button>
+                <button type="button" data-lang="pl" aria-pressed="false" title="Polski" aria-label="Polski"><span class="lang-flag"><svg viewBox="0 0 8 5" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="8" height="5" fill="#dc143c"/><rect width="8" height="2.5" fill="#fff"/></svg></span><span class="lang-code">PL</span></button>
+            </div>
+            <button onclick="openContactModal()" class="group relative overflow-hidden text-sm font-medium text-white bg-white/5 border border-white/10 hover:border-purple-400/40 px-4 py-2 rounded-full transition-colors duration-300">
+                <span class="absolute inset-0 bg-gradient-to-r from-purple-500 to-fuchsia-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out"></span>
+                <span class="relative z-10" data-i18n="nav.contact">Contact</span>
+            </button>
+        </div>
     </nav>
 </div>
 
-<header class="max-w-4xl mx-auto px-6 pt-48 pb-32 text-center w-full">
-    <div class="reveal inline-block mb-6 px-4 py-1.5 glass rounded-full text-xs font-medium text-purple-300 border-purple-500/20">
-        Available for new projects
-    </div>
+<header class="relative isolate max-w-6xl mx-auto px-6 pt-32 pb-16 w-full min-h-[100svh] flex items-center">
+    <div class="dot-grid" aria-hidden="true"><canvas id="dotGrid"></canvas></div>
+    <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-14 lg:gap-6 items-center w-full">
+        <div class="text-center lg:text-left">
+            <div class="reveal inline-block mb-6 px-4 py-1.5 glass rounded-full text-xs font-medium text-purple-300 border-purple-500/20" data-i18n="hero.badge">Available for new projects</div>
 
-    <h1 class="reveal text-5xl md:text-6xl font-medium mb-6 text-white leading-tight tracking-tight">
-        Digital designer, manager & <br>
-        <span class="text-gradient">full-stack developer.</span>
-    </h1>
+            <h1 class="reveal text-4xl sm:text-5xl md:text-6xl lg:text-[3.4rem] font-medium mb-6 text-white leading-tight tracking-tight" aria-label="Need a banner, a thumbnail or a website? I've got you." data-i18n-aria="hero.aria">
+                <span aria-hidden="true"><span data-i18n="hero.need">Need</span> <span id="type-word" class="type-word text-gradient">a banner?</span></span><br class="hidden sm:inline">
+                <span aria-hidden="true" class="text-white" data-i18n="hero.got">I've got you.</span>
+            </h1>
 
-    <p class="reveal text-lg text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto">
-        Operating as AceSnap. Specializing in high-conversion graphics, scalable community infrastructure, and web applications.
-    </p>
-</header>
+            <p class="reveal text-lg text-gray-400 mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0" data-i18n="hero.p">I'm Daniel, aka AceSnap. I make designs and websites for anyone, whatever you're working on.</p>
 
-<section id="gfx" class="max-w-4xl w-full mx-auto px-6 py-20 relative">
-    <div class="reveal mb-10 text-center">
-        <h2 class="text-2xl font-medium text-white mb-2">Design Portfolio</h2>
-        <p class="text-gray-400 text-sm">Thumbnails, custom banners, site advertisements, and social assets.</p>
-    </div>
-
-    <div class="reveal relative w-full">
-        <button onclick="moveGfx(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 glass glass-hover w-10 h-10 flex items-center justify-center rounded-full text-white shadow-xl">
-            <i class="fa-solid fa-chevron-left"></i>
-        </button>
-
-        <div class="w-full overflow-hidden rounded-2xl">
-            <div id="gfx-track" class="flex transition-transform duration-500 ease-in-out w-full">
-
-                <div class="flex-none w-full flex gap-4 px-12">
-                    <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
-                        <img src="./casesbanner.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
-                    </div>
-                    <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
-                        <img src="./howthiskeepshappening.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
-                    </div>
-                </div>
-
-                <div class="flex-none w-full flex gap-4 px-12">
-                    <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
-                        <img src="./mineschallenge.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
-                    </div>
-                    <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
-                        <img src="./robertobanner.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
-                    </div>
-                </div>
-
-                <div class="flex-none w-full flex gap-4 px-12">
-                    <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
-                        <img src="./sorhexbanner.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
-                    </div>
-                    <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
-                        <img src="./thumbnail1.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
-                    </div>
-                </div>
-
-                <div class="flex-none w-full flex gap-4 px-12">
-                    <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
-                        <img src="./joshy4.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
-                    </div>
-                    <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
-                        <img src="./shopannouncement.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
-                    </div>
-                </div>
-
-                <div class="flex-none w-full flex gap-4 px-12">
-                    <div class="w-1/2 glass glass-hover rounded-2xl p-2 cursor-pointer flex items-center justify-center overflow-hidden">
-                        <img src="./leaderboardheaded.png" class="w-full h-auto rounded-xl opacity-80 hover:opacity-100 transition-opacity">
-                    </div>
-                </div>
-
+            <div class="reveal flex flex-wrap gap-3 justify-center lg:justify-start">
+                <button type="button" onclick="openContactModal()" class="hero-cta-primary"><span data-i18n="hero.cta1">Get a quote</span> <i class="fa-solid fa-arrow-right text-xs"></i></button>
+                <button type="button" onclick="scrollToSection('gfx')" class="hero-cta-secondary"><span data-i18n="hero.cta2">See my work</span></button>
             </div>
         </div>
 
-        <button onclick="moveGfx(1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 glass glass-hover w-10 h-10 flex items-center justify-center rounded-full text-white shadow-xl">
+        <div class="reveal hero-stack">
+            <button type="button" class="hero-card hc-1" onclick="openDesignFromCarousel('juaqthumbnail1.png')" aria-label="View Juaq thumbnail"><span class="hero-card-inner"><img src="./juaqthumbnail1.png" alt="" draggable="false"></span></button>
+            <button type="button" class="hero-card hc-2" onclick="openDesignFromCarousel('casesbanner.png')" aria-label="View Cases.gg code promo"><span class="hero-card-inner"><img src="./casesbanner.png" alt="" draggable="false"></span></button>
+            <button type="button" class="hero-card hc-3" onclick="openDesignFromCarousel('liveleaderboardscsgobig.png')" aria-label="View CSGOBig live leaderboards"><span class="hero-card-inner"><img src="./liveleaderboardscsgobig.png" alt="" draggable="false"></span></button>
+        </div>
+    </div>
+</header>
+
+<section id="experiences" class="max-w-6xl w-full mx-auto px-6 py-16 relative">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-10 items-start">
+
+        <div class="reveal">
+            <h2 class="text-2xl font-medium text-white mb-2" data-i18n="exp.title">Experience</h2>
+            <p class="text-gray-400 text-sm mb-6" data-i18n="exp.sub">Design, development and community, all in one place.</p>
+
+            <div class="exp-tabs" role="tablist" aria-label="Experience">
+                <span class="exp-tab-pill" id="expPill" aria-hidden="true"></span>
+                <button type="button" role="tab" id="exp-tab-design" class="exp-tab active" aria-selected="true" aria-controls="exp-panel-design" data-index="0" data-i18n="exp.tab.design">Design</button>
+                <button type="button" role="tab" id="exp-tab-web" class="exp-tab" aria-selected="false" aria-controls="exp-panel-web" data-index="1" tabindex="-1" data-i18n="exp.tab.web">Web</button>
+                <button type="button" role="tab" id="exp-tab-community" class="exp-tab" aria-selected="false" aria-controls="exp-panel-community" data-index="2" tabindex="-1" data-i18n="exp.tab.community">Community</button>
+            </div>
+
+            <div class="exp-card spotlight" id="expCard">
+            <div role="tabpanel" id="exp-panel-design" aria-labelledby="exp-tab-design" class="exp-panel">
+                <div class="flex items-start gap-4 mb-4">
+                    <div class="exp-icon"><i class="fa-solid fa-palette" aria-hidden="true"></i></div>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center justify-between gap-3">
+                            <h3 class="text-lg font-medium text-white" data-i18n="exp.d.title">Graphic design</h3>
+                            <span class="shrink-0 text-xs font-medium text-purple-200 bg-purple-500/15 border border-purple-500/30 px-3 py-1 rounded-full" data-i18n="exp.yrs4">4 yrs</span>
+                        </div>
+                        <p class="text-sm text-purple-300/80 mt-0.5" data-i18n="exp.d.role">Freelance GFX artist</p>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-300 leading-relaxed mb-6" data-i18n="exp.d.text">Thumbnails, banners and ads for creators and gaming brands.</p>
+                <p class="text-[10px] font-medium tracking-[0.18em] text-gray-500 mb-2" data-i18n="exp.tools">TOOLS</p>
+                <div class="flex flex-wrap gap-2"><span class="tool-chip" data-tip="Photoshop" tabindex="0"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/photoshop/photoshop-original.svg" alt="Photoshop" loading="lazy"></span><span class="tool-chip" data-tip="Illustrator" tabindex="0"><svg viewBox="0 0 24 24" role="img" aria-label="Illustrator"><rect width="24" height="24" rx="5" fill="#330000"/><text x="12" y="16.4" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="600" font-size="11.5" fill="#FF9A00">Ai</text></svg></span><span class="tool-chip" data-tip="Figma" tabindex="0"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/figma/figma-original.svg" alt="Figma" loading="lazy"></span><span class="tool-chip" data-tip="Blender" tabindex="0"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/blender/blender-original.svg" alt="Blender" loading="lazy"></span></div>
+            </div>
+            <div role="tabpanel" id="exp-panel-web" aria-labelledby="exp-tab-web" class="exp-panel" hidden>
+                <div class="flex items-start gap-4 mb-4">
+                    <div class="exp-icon"><i class="fa-solid fa-code" aria-hidden="true"></i></div>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center justify-between gap-3">
+                            <h3 class="text-lg font-medium text-white" data-i18n="exp.w.title">Website &amp; UI development</h3>
+                            <span class="shrink-0 text-xs font-medium text-purple-200 bg-purple-500/15 border border-purple-500/30 px-3 py-1 rounded-full" data-i18n="exp.yrs2">2 yrs</span>
+                        </div>
+                        <p class="text-sm text-purple-300/80 mt-0.5" data-i18n="exp.w.role">Full-stack developer</p>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-300 leading-relaxed mb-6" data-i18n="exp.w.text">Sites and web apps, from design to deploy.</p>
+                <p class="text-[10px] font-medium tracking-[0.18em] text-gray-500 mb-2" data-i18n="exp.tools">TOOLS</p>
+                <div class="flex flex-wrap gap-2"><span class="tool-chip" data-tip="VS Code" tabindex="0"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/vscode/vscode-original.svg" alt="VS Code" loading="lazy"></span><span class="tool-chip" data-tip="Vercel" tabindex="0"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/vercel/vercel-original.svg" alt="Vercel" loading="lazy" style="filter:invert(1)"></span><span class="tool-chip" data-tip="Supabase" tabindex="0"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/supabase/supabase-original.svg" alt="Supabase" loading="lazy"></span></div>
+            </div>
+            <div role="tabpanel" id="exp-panel-community" aria-labelledby="exp-tab-community" class="exp-panel" hidden>
+                <div class="flex items-start gap-4 mb-4">
+                    <div class="exp-icon"><i class="fa-solid fa-users" aria-hidden="true"></i></div>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center justify-between gap-3">
+                            <h3 class="text-lg font-medium text-white">RoRush</h3>
+                            <span class="shrink-0 text-xs font-medium text-purple-200 bg-purple-500/15 border border-purple-500/30 px-3 py-1 rounded-full" data-i18n="exp.yrs2">2 yrs</span>
+                        </div>
+                        <p class="text-sm text-purple-300/80 mt-0.5" data-i18n="exp.c.role">Moderator → Community manager</p>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-300 leading-relaxed mb-6" data-i18n="exp.c.text">Ran socials, events, giveaways and the mod team.</p>
+                <p class="text-[10px] font-medium tracking-[0.18em] text-gray-500 mb-2" data-i18n="exp.tools">TOOLS</p>
+                <div class="flex flex-wrap gap-2"><span class="tool-chip" data-tip="Discord" tabindex="0"><svg viewBox="0 0 24 24" role="img" aria-label="Discord"><path fill="#5865F2" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg></span><span class="tool-chip" data-tip="X" tabindex="0"><svg viewBox="0 0 24 24" role="img" aria-label="X"><path fill="#ffffff" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></span></div>
+            </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="reveal text-center mb-4">
+                <h2 class="text-2xl font-medium text-white mb-2" data-i18n="how.title">How we <span class="text-gradient">work together</span></h2>
+                <p class="text-gray-400 text-sm" data-i18n="how.sub">From your idea to finished files in four simple steps.</p>
+            </div>
+    <div class="reveal py-10">
+        <div class="orbit" id="orbit">
+            <svg viewBox="0 0 300 300" aria-hidden="true">
+                <defs>
+                    <linearGradient id="orbitGradient" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0" stop-color="#7c3aed"/>
+                        <stop offset=".6" stop-color="#c084fc"/>
+                        <stop offset="1" stop-color="#e879f9"/>
+                    </linearGradient>
+                </defs>
+                <circle cx="150" cy="150" r="140" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="1.5"/>
+                <circle id="orbitArc" class="orbit-arc" cx="150" cy="150" r="140" fill="none" stroke="url(#orbitGradient)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="879.6" stroke-dashoffset="879.6" transform="rotate(-90 150 150)"/>
+                <circle class="orbit-dot" cx="150" cy="10" r="6"/>
+                <circle class="orbit-dot" cx="290" cy="150" r="6"/>
+                <circle class="orbit-dot" cx="150" cy="290" r="6"/>
+                <circle class="orbit-dot" cx="10" cy="150" r="6"/>
+            </svg>
+
+            <button type="button" class="orbit-node" data-step="0" data-i18n="how.n0">IDEA</button>
+            <button type="button" class="orbit-node" data-step="1" data-i18n="how.n1">DRAFT</button>
+            <button type="button" class="orbit-node" data-step="2" data-i18n="how.n2">REFINE</button>
+            <button type="button" class="orbit-node" data-step="3" data-i18n="how.n3">DELIVER</button>
+
+            <div class="orbit-center" id="orbitCenter" aria-live="polite">
+                <div class="orbit-icon"><i id="orbitIcon" class="fa-solid fa-lightbulb"></i></div>
+                <span id="orbitTime" class="text-[11px] font-medium text-purple-300 px-2.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 mb-2">2 minutes</span>
+                <h3 id="orbitTitle" class="text-base sm:text-lg font-medium text-white mb-1">Send your idea</h3>
+                <p id="orbitText" class="text-xs sm:text-sm text-gray-400 leading-relaxed max-w-[200px]">Tell me what you need. A sketch or a reference is enough.</p>
+            </div>
+        </div>
+    </div>
+    <div class="reveal text-center mt-6">
+        <p class="text-xs text-gray-500 mb-4" data-i18n="how.hint"><span class="hidden md:inline">Hover</span><span class="md:hidden">Tap</span> a step to explore it</p>
+        <button onclick="openContactModal()" class="group relative overflow-hidden text-sm font-medium text-white bg-white/5 border border-white/10 hover:border-purple-400/40 px-6 py-3 rounded-full transition-colors duration-300">
+            <span class="absolute inset-0 bg-gradient-to-r from-purple-500 to-fuchsia-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out"></span>
+            <span class="relative z-10"><span data-i18n="how.cta">Start with step 1</span> <i class="fa-solid fa-arrow-right text-xs ml-1"></i></span>
+        </button>
+    </div>
+        </div>
+
+    </div>
+</section>
+
+<section id="gfx" class="max-w-4xl w-full mx-auto px-6 py-20 relative">
+    <div class="reveal mb-10 text-center">
+        <h2 class="text-2xl font-medium text-white mb-2" data-i18n="gfx.title">Design Portfolio</h2>
+        <p class="text-gray-400 text-sm" data-i18n="gfx.sub">Thumbnails, custom banners, site advertisements, and social assets.</p>
+    </div>
+
+    <div class="reveal relative w-full">
+        <div class="cf-viewport">
+            <div id="cfStage" class="cf-stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Design portfolio, use arrow keys to browse">
+                <div class="cf-item" data-file="newdiscordrafflecopia.png">
+                    <div class="tilt-card cf-card"><img src="./newdiscordrafflecopia.png" alt="Discord raffles" draggable="false"></div>
+                </div>
+                <div class="cf-item" data-file="race1milrorush.png">
+                    <div class="tilt-card cf-card"><img src="./race1milrorush.png" alt="1,000,000 race" draggable="false"></div>
+                </div>
+                <div class="cf-item" data-file="juaqthumbnail1.png">
+                    <div class="tilt-card cf-card"><img src="./juaqthumbnail1.png" alt="Juaq thumbnail" draggable="false"></div>
+                </div>
+                <div class="cf-item" data-file="liveleaderboardscsgobig.png">
+                    <div class="tilt-card cf-card"><img src="./liveleaderboardscsgobig.png" alt="CSGOBig live leaderboards" draggable="false"></div>
+                </div>
+                <div class="cf-item" data-file="casesbanner.png">
+                    <div class="tilt-card cf-card"><img src="./casesbanner.png" alt="Cases.gg code promo" draggable="false"></div>
+                </div>
+                <div class="cf-item" data-file="howthiskeepshappening.png">
+                    <div class="tilt-card cf-card"><img src="./howthiskeepshappening.png" alt="How does this keep happening" draggable="false"></div>
+                </div>
+                <div class="cf-item" data-file="mineschallenge.png">
+                    <div class="tilt-card cf-card"><img src="./mineschallenge.png" alt="Mines board challenge" draggable="false"></div>
+                </div>
+                <div class="cf-item" data-file="robertobanner.png">
+                    <div class="tilt-card cf-card"><img src="./robertobanner.png" alt="Bitkingz deposit bonus" draggable="false"></div>
+                </div>
+                <div class="cf-item" data-file="sorhexbanner.png">
+                    <div class="tilt-card cf-card"><img src="./sorhexbanner.png" alt="Sorhex logo" draggable="false"></div>
+                </div>
+                <div class="cf-item" data-file="thumbnail1.png">
+                    <div class="tilt-card cf-card"><img src="./thumbnail1.png" alt="Bac Bo 1K to 3K" draggable="false"></div>
+                </div>
+                <div class="cf-item" data-file="joshy4.png">
+                    <div class="tilt-card cf-card"><img src="./joshy4.png" alt="Refer and earn" draggable="false"></div>
+                </div>
+                <div class="cf-item" data-file="shopannouncement.png">
+                    <div class="tilt-card cf-card"><img src="./shopannouncement.png" alt="Points shop launch" draggable="false"></div>
+                </div>
+                <div class="cf-item" data-file="leaderboardheaded.png">
+                    <div class="tilt-card cf-card"><img src="./leaderboardheaded.png" alt="Headed leaderboard" draggable="false"></div>
+                </div>
+            </div>
+        </div>
+        <button type="button" onclick="moveGfx(-1)" aria-label="Previous design" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 glass glass-hover w-10 h-10 flex items-center justify-center rounded-full text-white shadow-xl">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button type="button" onclick="moveGfx(1)" aria-label="Next design" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 glass glass-hover w-10 h-10 flex items-center justify-center rounded-full text-white shadow-xl">
             <i class="fa-solid fa-chevron-right"></i>
         </button>
     </div>
@@ -298,115 +886,21 @@ body {
         </div>
         <p id="gfx-progress-label" class="text-center text-xs text-gray-500 mt-2 tracking-wide"></p>
     </div>
-</section>
 
-<section id="experiences" class="max-w-6xl w-full mx-auto px-6 py-20">
-    <div class="reveal mb-10 text-center">
-        <h2 class="text-2xl font-medium text-white mb-2">Past Experiences</h2>
-        <p class="text-gray-400 text-sm">Strategic management, design, and growth within the digital space.</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-        <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-fuchsia-500/10 blur-[50px] -z-10 rounded-full"></div>
-            <div class="flex justify-between items-baseline mb-4">
-                <h3 class="text-xl font-medium text-white">Digital Graphic Design</h3>
-                <span class="text-xs font-medium text-fuchsia-300 bg-fuchsia-500/10 border border-fuchsia-500/20 px-3 py-1 rounded-full">4 Years</span>
-            </div>
-            <p class="text-sm text-gray-400 mb-8">Freelance GFX Artist</p>
-            <ul class="space-y-4 text-sm text-gray-300">
-                <li class="flex items-start">
-                    <i class="fa-solid fa-arrow-right text-fuchsia-400 mt-1 mr-3 text-xs"></i>
-                    Designed high-conversion thumbnails, custom banners, and site advertisements.
-                </li>
-                <li class="flex items-start">
-                    <i class="fa-solid fa-arrow-right text-fuchsia-400 mt-1 mr-3 text-xs"></i>
-                    Developed unique visual branding and tailored social assets for creators.
-                </li>
-                <li class="flex items-start">
-                    <i class="fa-solid fa-arrow-right text-fuchsia-400 mt-1 mr-3 text-xs"></i>
-                    Maintained consistent, premium quality across diverse digital deliverables.
-                </li>
-            </ul>
-        </div>
-
-        <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-64 h-64 bg-violet-500/10 blur-[50px] -z-10 rounded-full"></div>
-            <div class="flex justify-between items-baseline mb-4">
-                <h3 class="text-xl font-medium text-white">Website & UI Development</h3>
-                <span class="text-xs font-medium text-violet-300 bg-violet-500/10 border border-violet-500/20 px-3 py-1 rounded-full">2 Years</span>
-            </div>
-            <p class="text-sm text-gray-400 mb-8">Full-Stack & Front-End Developer</p>
-            <ul class="space-y-4 text-sm text-gray-300">
-                <li class="flex items-start">
-                    <i class="fa-solid fa-arrow-right text-violet-400 mt-1 mr-3 text-xs"></i>
-                    Built complete full-stack web applications and interactive UI components.
-                </li>
-                <li class="flex items-start">
-                    <i class="fa-solid fa-arrow-right text-violet-400 mt-1 mr-3 text-xs"></i>
-                    Specialized in crafting sleek front-ends alongside robust backend integrations.
-                </li>
-                <li class="flex items-start">
-                    <i class="fa-solid fa-arrow-right text-violet-400 mt-1 mr-3 text-xs"></i>
-                    Created dynamic systems, mockups, and scalable digital experiences.
-                </li>
-            </ul>
-        </div>
-
-        <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-[50px] -z-10 rounded-full"></div>
-            <div class="flex justify-between items-baseline mb-4">
-                <h3 class="text-xl font-medium text-white">RoRush</h3>
-                <span class="text-xs font-medium text-purple-300 bg-purple-500/10 border border-purple-500/20 px-3 py-1 rounded-full">2 Years</span>
-            </div>
-            <p class="text-sm text-gray-400 mb-8">Moderator → Community Manager</p>
-            <ul class="space-y-4 text-sm text-gray-300">
-                <li class="flex items-start">
-                    <i class="fa-solid fa-arrow-right text-purple-400 mt-1 mr-3 text-xs"></i>
-                    Managed official social channels and executed targeted promotional campaigns.
-                </li>
-                <li class="flex items-start">
-                    <i class="fa-solid fa-arrow-right text-purple-400 mt-1 mr-3 text-xs"></i>
-                    Planned and orchestrated large-scale community events and structured giveaways.
-                </li>
-                <li class="flex items-start">
-                    <i class="fa-solid fa-arrow-right text-purple-400 mt-1 mr-3 text-xs"></i>
-                    Directed the moderation staff, established workflows, and maintained platform integrity.
-                </li>
-            </ul>
-        </div>
-
-        <div class="reveal glass p-8 rounded-2xl relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-64 h-64 bg-indigo-500/10 blur-[50px] -z-10 rounded-full"></div>
-            <div class="flex justify-between items-baseline mb-4">
-                <h3 class="text-xl font-medium text-white">Various Creators</h3>
-            </div>
-            <p class="text-sm text-gray-400 mb-8">Streamer Admin & Moderator</p>
-            <ul class="space-y-4 text-sm text-gray-300">
-                <li class="flex items-start">
-                    <i class="fa-solid fa-arrow-right text-indigo-400 mt-1 mr-3 text-xs"></i>
-                    Acted as administrative support and moderation lead for multiple streaming personalities.
-                </li>
-                <li class="flex items-start">
-                    <i class="fa-solid fa-arrow-right text-indigo-400 mt-1 mr-3 text-xs"></i>
-                    Maintained live chat environments, filtered content, and enforced community guidelines.
-                </li>
-                <li class="flex items-start">
-                    <i class="fa-solid fa-arrow-right text-indigo-400 mt-1 mr-3 text-xs"></i>
-                    Assisted in coordinating on-stream events and viewer interactions.
-                </li>
-            </ul>
-        </div>
-
+    <div class="reveal mt-8 flex justify-center">
+        <button type="button" onclick="openGallery()" class="gal-open-btn">
+            <i class="fa-solid fa-table-cells-large"></i>
+            <span data-i18n="gfx.view">View gallery</span>
+            <span id="galTotal" class="gal-open-count"></span>
+        </button>
     </div>
 </section>
 
 <section id="vouches" class="max-w-6xl w-full mx-auto py-20 relative">
     <div class="reveal mb-10 text-center px-6">
-        <h2 class="text-2xl font-medium text-white mb-2">Vouches</h2>
-        <p class="text-gray-400 text-sm mb-4">Feedback from clients and creators I've worked with.</p>
-        <p class="text-gray-600 text-xs mb-4">Vouches are approved manually — might not be all up to date.</p>
+        <h2 class="text-2xl font-medium text-white mb-2" data-i18n="v.title">Vouches</h2>
+        <p class="text-gray-400 text-sm mb-4" data-i18n="v.sub">Feedback from clients and creators I've worked with.</p>
+        <p class="text-gray-600 text-xs mb-4" data-i18n="v.note">Vouches are approved manually — might not be all up to date.</p>
         <div id="vouch-summary" class="inline-flex items-center gap-2 text-sm text-gray-300"></div>
     </div>
 
@@ -414,131 +908,379 @@ body {
         <div id="vouch-track" class="vouch-track"></div>
     </div>
 
-    <p id="vouch-empty" class="reveal text-center text-sm text-gray-500 py-8 hidden">
-        No vouches yet — be the first.
-    </p>
+    <p id="vouch-empty" class="reveal text-center text-sm text-gray-500 py-8 hidden" data-i18n="v.empty">No vouches yet — be the first.</p>
 </section>
 
 <section id="web" class="max-w-6xl w-full mx-auto px-6 py-20 relative">
     <div class="reveal mb-10 text-center">
-        <h2 class="text-2xl font-medium text-white mb-2">Website Projects</h2>
-        <p class="text-gray-400 text-sm">Live interactive deployments and UI/UX integrations.</p>
+        <h2 class="text-2xl font-medium text-white mb-2" data-i18n="web.title">Website Projects</h2>
+        <p class="text-gray-400 text-sm" data-i18n="web.sub">Live sites I designed and built.</p>
     </div>
 
-    <div class="reveal relative w-full rounded-2xl">
-        <button onclick="moveWeb(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-30 glass glass-hover p-4 rounded-r-xl text-white shadow-xl">
-            <i class="fa-solid fa-chevron-left"></i>
-        </button>
-
-        <div class="w-full overflow-hidden rounded-2xl">
-            <div id="web-track" class="flex transition-transform duration-500 ease-in-out w-full">
-
-                <div class="flex-none w-full glass p-1">
-                    <div class="bg-[#0a0a0a] rounded-xl overflow-hidden h-full flex flex-col">
-                        <div class="bg-white/5 backdrop-blur-md p-3 flex items-center border-b border-white/5 shrink-0">
-                            <div class="flex gap-2 mr-6 px-2">
-                                <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                                <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
-                            </div>
-                            <div class="bg-black/50 text-xs px-4 py-1.5 rounded-md text-gray-400 font-mono border border-white/5 flex items-center gap-2 mx-auto">
-                                <i class="fa-solid fa-lock text-purple-400 text-[10px]"></i>
-                                headed.gg
-                            </div>
-                        </div>
-                        <div class="w-full h-[600px] prevent-scroll-bleed relative">
-                            <iframe src="https://headed.gg" class="absolute inset-0 w-full h-full border-none bg-[#050505] prevent-scroll-bleed"></iframe>
-                        </div>
+    <div class="reveal grid grid-cols-1 lg:grid-cols-5 gap-6 items-center">
+        <div class="lg:col-span-2 space-y-3" id="webList">
+            <button type="button" class="web-item spotlight active" data-index="0" aria-pressed="true">
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-baseline gap-3">
+                        <span class="web-num text-xs font-medium">01</span>
+                        <span class="text-lg font-medium text-white">Headed.gg</span>
                     </div>
+                    <a href="https://headed.gg" target="_blank" rel="noopener noreferrer" class="text-xs text-purple-300 hover:text-white transition-colors" onclick="event.stopPropagation()"><span data-i18n="web.visit">Visit</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5"></i></a>
                 </div>
-
-                <div class="flex-none w-full glass p-1">
-                    <div class="bg-[#0a0a0a] rounded-xl overflow-hidden h-full flex flex-col">
-                        <div class="bg-white/5 backdrop-blur-md p-3 flex items-center border-b border-white/5 shrink-0">
-                            <div class="flex gap-2 mr-6 px-2">
-                                <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                                <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
-                            </div>
-                            <div class="bg-black/50 text-xs px-4 py-1.5 rounded-md text-gray-400 font-mono border border-white/5 flex items-center gap-2 mx-auto">
-                                <i class="fa-solid fa-lock text-purple-400 text-[10px]"></i>
-                                www.sargeplayrewards.com
-                            </div>
-                        </div>
-                        <div class="w-full h-[600px] prevent-scroll-bleed relative">
-                            <iframe src="https://www.sargeplayrewards.com/" class="absolute inset-0 w-full h-full border-none bg-[#050505] prevent-scroll-bleed"></iframe>
-                        </div>
-                    </div>
+                <p class="text-sm text-gray-400 mt-1.5 pl-7" data-i18n="web.headed">Affiliate hub with live leaderboards, a points shop and rewards.</p>
+                <div class="flex flex-wrap gap-1.5 mt-3 pl-7">
+                    <span class="text-[11px] text-gray-300 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full" data-i18n="web.tag.design">Design</span>
+                    <span class="text-[11px] text-gray-300 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full">Full-stack</span>
+                    <span class="text-[11px] text-gray-300 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full" data-i18n="web.tag.lb">Leaderboards</span>
                 </div>
-
-            </div>
+            </button>
         </div>
 
-        <button onclick="moveWeb(1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-30 glass glass-hover p-4 rounded-l-xl text-white shadow-xl">
-            <i class="fa-solid fa-chevron-right"></i>
-        </button>
+        <div class="lg:col-span-3 glass p-1 rounded-2xl">
+            <div class="bg-[#0a0a0a] rounded-xl overflow-hidden">
+                <div class="bg-white/5 p-3 flex items-center border-b border-white/5">
+                    <div class="flex gap-2 px-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                    </div>
+                    <div class="bg-black/50 text-xs px-4 py-1.5 rounded-md text-gray-400 font-mono border border-white/5 flex items-center gap-2 mx-auto">
+                        <i class="fa-solid fa-lock text-purple-400 text-[10px]"></i>
+                        <span id="webUrl">headed.gg</span>
+                    </div>
+                </div>
+                <div class="web-preview-frame" id="webFrame">
+                    <iframe src="https://headed.gg" title="Headed.gg preview" class="active" tabindex="-1" loading="lazy"></iframe>
+                    <a id="webOpen" href="https://headed.gg" target="_blank" rel="noopener noreferrer" class="absolute right-3 bottom-3 z-10 text-xs font-medium text-white bg-black/60 backdrop-blur-md border border-white/10 hover:border-purple-400/50 px-3 py-1.5 rounded-full transition-colors"><span data-i18n="web.open">Open live site</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1"></i></a>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
-<footer class="reveal max-w-4xl w-full mx-auto px-6 py-12 mt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-    <div class="text-sm text-gray-500 flex items-center gap-2">
-        <img src="./acesnaplogonoouter.png" alt="AceSnap logo" class="h-4 w-auto opacity-70">
-        © 2026 Daniel. All rights reserved.
+<section id="faq" class="max-w-3xl w-full mx-auto px-6 py-20 relative">
+    <div class="reveal mb-10 text-center">
+        <h2 class="text-2xl font-medium text-white mb-2">FAQ</h2>
+        <p class="text-gray-400 text-sm" data-i18n="faq.sub">Quick answers before you reach out.</p>
+    </div>
+    <div class="reveal faq-list" id="faqList">
+        <div class="faq-item open">
+            <button type="button" class="faq-q" id="faq-q1" aria-expanded="true" aria-controls="faq-a1"><span data-i18n="faq.q1">How fast is delivery?</span><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+            <div class="faq-a" id="faq-a1" role="region" aria-labelledby="faq-q1"><div><p data-i18n="faq.a1">It depends on the project. Thumbnails and banners are quick, websites take longer. You get a clear timeline before any work starts.</p></div></div>
+        </div>
+        <div class="faq-item">
+            <button type="button" class="faq-q" id="faq-q2" aria-expanded="false" aria-controls="faq-a2"><span data-i18n="faq.q2">What do I need to send you?</span><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+            <div class="faq-a" id="faq-a2" role="region" aria-labelledby="faq-q2"><div><p data-i18n="faq.a2">Your idea, the text you want on it, and any logos or references you have. I take it from there.</p></div></div>
+        </div>
+        <div class="faq-item">
+            <button type="button" class="faq-q" id="faq-q3" aria-expanded="false" aria-controls="faq-a3"><span data-i18n="faq.q3">Can I ask for changes?</span><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+            <div class="faq-a" id="faq-a3" role="region" aria-labelledby="faq-q3"><div><p data-i18n="faq.a3">Yes. You see a preview before the final file and can ask for changes until it fits what you need.</p></div></div>
+        </div>
+        <div class="faq-item">
+            <button type="button" class="faq-q" id="faq-q4" aria-expanded="false" aria-controls="faq-a4"><span data-i18n="faq.q4">How do I pay?</span><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+            <div class="faq-a" id="faq-a4" role="region" aria-labelledby="faq-q4"><div><p data-i18n="faq.a4">We agree on the price and the payment method before I start, so there are no surprises.</p></div></div>
+        </div>
+        <div class="faq-item">
+            <button type="button" class="faq-q" id="faq-q5" aria-expanded="false" aria-controls="faq-a5"><span data-i18n="faq.q5">How do I get started?</span><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+            <div class="faq-a" id="faq-a5" role="region" aria-labelledby="faq-q5"><div><p data-i18n="faq.a5">Message me on Discord (acesnapgfx), Telegram (@acesnap) or email, or press Hire me. Tell me what you need and I reply with next steps.</p></div></div>
+        </div>
+    </div>
+    <div class="reveal text-center mt-10">
+        <p class="text-gray-400 text-sm mb-4" data-i18n="faq.still">Still have a question?</p>
+        <button type="button" onclick="openContactModal()" class="glass glass-hover rounded-full px-5 py-2.5 text-sm text-white inline-flex items-center gap-2"><span data-i18n="faq.ask">Ask me directly</span> <i class="fa-solid fa-arrow-right text-xs"></i></button>
+    </div>
+</section>
+
+<footer class="reveal max-w-6xl w-full mx-auto px-6 pt-14 pb-10 mt-10 border-t border-white/5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 text-sm">
+        <div class="lg:col-span-2">
+            <div class="flex items-center gap-2.5 mb-3">
+                <img src="./acesnaplogonoouter.png" alt="AceSnap logo" class="h-6 w-auto">
+                <span class="text-base font-semibold text-white">Daniel.</span>
+            </div>
+            <p class="text-gray-400 max-w-xs leading-relaxed" data-i18n="foot.about">Design, web and community, operating as AceSnap.</p>
+            <div class="inline-flex items-center mt-4 text-gray-300 text-xs glass rounded-full px-3 py-1.5" data-i18n="hero.badge">Available for new projects</div>
+        </div>
+
+        <div>
+            <p class="text-white font-medium mb-3" data-i18n="foot.pages">Pages</p>
+            <ul class="space-y-2 text-gray-400">
+                <li><a href="#experiences" onclick="event.preventDefault(); scrollToSection('experiences');" class="hover:text-white transition-colors" data-i18n="foot.exp">Experience</a></li>
+                <li><a href="#gfx" onclick="event.preventDefault(); scrollToSection('gfx');" class="hover:text-white transition-colors" data-i18n="nav.design">Design</a></li>
+                <li><a href="#vouches" onclick="event.preventDefault(); scrollToSection('vouches');" class="hover:text-white transition-colors" data-i18n="nav.vouches">Vouches</a></li>
+                <li><a href="#web" onclick="event.preventDefault(); scrollToSection('web');" class="hover:text-white transition-colors" data-i18n="nav.projects">Projects</a></li>
+                <li><a href="#faq" onclick="event.preventDefault(); scrollToSection('faq');" class="hover:text-white transition-colors">FAQ</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <p class="text-white font-medium mb-3" data-i18n="nav.contact">Contact</p>
+            <ul class="space-y-2 text-gray-400">
+                <li><button type="button" onclick="copyDiscordFooter(this)" class="hover:text-white transition-colors inline-flex items-center gap-2"><i class="fa-brands fa-discord w-4"></i><span>acesnapgfx</span></button></li>
+                <li><a href="https://t.me/acesnap" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors inline-flex items-center gap-2"><i class="fa-brands fa-telegram w-4"></i>@acesnap</a></li>
+                <li><a href="mailto:acesnapbuisness@gmail.com" class="hover:text-white transition-colors inline-flex items-center gap-2 break-all"><i class="fa-solid fa-envelope w-4"></i>acesnapbuisness@gmail.com</a></li>
+            </ul>
+        </div>
     </div>
 
-    <button onclick="openContactModal()" class="text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-2">
-        Get in touch
-        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-    </button>
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 pt-6 border-t border-white/5 text-xs text-gray-500">
+        <span data-i18n="foot.copy">© 2026 Daniel. All rights reserved.</span>
+        <button type="button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" class="hover:text-white transition-colors inline-flex items-center gap-1.5"><span data-i18n="foot.top">Back to top</span> <i class="fa-solid fa-arrow-up text-[10px]"></i></button>
+    </div>
 </footer>
+
+<div id="hirePill" class="hire-pill" inert>
+    <span data-i18n="pill.q">Need a design?</span>
+    <button type="button" onclick="openContactModal()" class="hire-pill-btn" data-i18n="pill.btn">Hire me</button>
+</div>
+
+<div id="galleryModal" class="gal-modal" role="dialog" aria-modal="true" aria-labelledby="galTitle" aria-hidden="true">
+    <div class="gal-inner">
+        <div class="gal-head">
+            <div class="flex items-start gap-3">
+                <button type="button" id="galBack" class="gal-close" onclick="showGalleryFolders()" aria-label="Back to all folders"><i class="fa-solid fa-arrow-left"></i></button>
+                <div>
+                    <h3 id="galTitle" class="text-xl font-medium text-white"></h3>
+                    <p id="galCount" class="text-gray-400 text-sm"></p>
+                </div>
+            </div>
+            <button type="button" class="gal-close" onclick="closeGallery()" aria-label="Close gallery"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="galFolders" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+        <div id="galTabs" class="gal-tabs"></div>
+        <div id="galGrid" class="gal-grid"></div>
+    </div>
+</div>
+<div id="galView" class="gal-view" aria-hidden="true">
+    <button type="button" class="gal-nav gal-prev" onclick="stepGalleryView(-1)" aria-label="Previous design"><i class="fa-solid fa-chevron-left"></i></button>
+    <figure class="gal-figure">
+        <img id="galViewImg" alt="">
+        <figcaption id="galViewCap" class="text-gray-400 text-sm mt-4 text-center"></figcaption>
+    </figure>
+    <button type="button" class="gal-nav gal-next" onclick="stepGalleryView(1)" aria-label="Next design"><i class="fa-solid fa-chevron-right"></i></button>
+    <button type="button" class="gal-close gal-view-close" onclick="closeGalleryView()" aria-label="Close design"><i class="fa-solid fa-xmark"></i></button>
+</div>
 
 <div id="contactModal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer" onclick="closeContactModal()"></div>
 
-    <div id="modalContent" class="glass p-8 rounded-2xl w-[90%] max-w-md relative z-10 transform scale-95 transition-transform duration-300">
-        <button onclick="closeContactModal()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition">
+    <div id="modalContent" class="contact-panel relative z-10 transform scale-95 transition-transform duration-300" role="dialog" aria-modal="true" aria-labelledby="cpTitle">
+        <button onclick="closeContactModal()" aria-label="Close" class="absolute top-4 right-4 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition">
             <i class="fa-solid fa-xmark"></i>
         </button>
 
-        <h3 class="text-2xl font-medium text-white mb-6">Let's Connect</h3>
-
-        <div class="space-y-3">
-            <a href="mailto:acesnapbuisness@gmail.com" class="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-purple-500/30 transition group">
-                <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 group-hover:bg-purple-500/30 group-hover:scale-110 transition duration-300">
-                    <i class="fa-solid fa-envelope"></i>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">Email</p>
-                    <p class="text-white font-medium text-sm">acesnapbuisness@gmail.com</p>
-                </div>
-            </a>
-
-            <div onclick="copyDiscord(this)" class="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-indigo-500/30 transition group cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-500/30 group-hover:scale-110 transition duration-300">
-                    <i class="fa-brands fa-discord"></i>
-                </div>
-                <div class="flex-grow">
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">Discord</p>
-                    <p class="text-white font-medium text-sm">acesnapgfx</p>
-                </div>
-                <div class="text-gray-500 group-hover:text-white transition">
-                    <i class="fa-regular fa-copy copy-icon"></i>
-                </div>
+        <div class="cp-left">
+            <div class="cp-mesh" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+            <div class="cp-sheen" aria-hidden="true"></div>
+            <div class="relative">
+                <p class="cp-kicker">AceSnap</p>
+                <h3 id="cpTitle" class="text-2xl sm:text-3xl font-medium text-white leading-tight" data-i18n="modal.title">Let's work together</h3>
+                <p class="text-sm text-white/85 mt-3 leading-relaxed" data-i18n="modal.sub">Thumbnails, banners and websites.</p>
             </div>
+            <ul class="relative cp-facts">
+                <li><i class="fa-regular fa-clock"></i><span data-i18n="modal.reply">Replies within hours</span></li>
+                <li><i class="fa-regular fa-calendar-check"></i><span data-i18n="hero.badge">Available for new projects</span></li>
+            </ul>
+        </div>
 
-            <a href="https://t.me/acesnap" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-fuchsia-500/30 transition group">
-                <div class="w-10 h-10 rounded-full bg-fuchsia-500/20 flex items-center justify-center text-fuchsia-400 group-hover:bg-fuchsia-500/30 group-hover:scale-110 transition duration-300">
-                    <i class="fa-brands fa-telegram"></i>
+        <div class="cp-right">
+            <p class="text-xs font-medium uppercase tracking-wider text-gray-500 mb-4" data-i18n="modal.pick">Pick how you want to talk</p>
+            <div class="space-y-3">
+                <div onclick="copyDiscord(this)" class="cp-row group" role="button" tabindex="0" onkeydown="if(event.key==='Enter')copyDiscord(this)">
+                    <div class="cp-ic bg-indigo-500/20 text-indigo-300"><i class="fa-brands fa-discord"></i></div>
+                    <div class="min-w-0 flex-grow">
+                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">Discord <span class="cp-badge" data-i18n="modal.fast">Fastest</span></p>
+                        <p class="text-white font-medium text-sm">acesnapgfx</p>
+                    </div>
+                    <div class="text-gray-500 group-hover:text-white transition"><i class="fa-regular fa-copy copy-icon"></i></div>
                 </div>
-                <div>
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">Telegram</p>
-                    <p class="text-white font-medium text-sm">@acesnap</p>
-                </div>
-            </a>
+
+                <a href="https://t.me/acesnap" target="_blank" rel="noopener noreferrer" class="cp-row group">
+                    <div class="cp-ic bg-sky-500/15 text-sky-300"><i class="fa-brands fa-telegram"></i></div>
+                    <div class="min-w-0 flex-grow">
+                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">Telegram <span class="cp-badge" data-i18n="modal.fast">Fastest</span></p>
+                        <p class="text-white font-medium text-sm">@acesnap</p>
+                    </div>
+                    <div class="text-gray-500 group-hover:text-white transition"><i class="fa-solid fa-arrow-up-right-from-square text-xs"></i></div>
+                </a>
+
+                <a href="mailto:acesnapbuisness@gmail.com" class="cp-row group">
+                    <div class="cp-ic bg-purple-500/20 text-purple-300"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="min-w-0 flex-grow">
+                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">Email</p>
+                        <p class="text-white font-medium text-sm truncate">acesnapbuisness@gmail.com</p>
+                    </div>
+                    <div class="text-gray-500 group-hover:text-white transition"><i class="fa-solid fa-arrow-up-right-from-square text-xs"></i></div>
+                </a>
+            </div>
         </div>
     </div>
 </div>
 
+<script>
+const I18N_PL_PLURAL = (n, one, few, many) => {
+  if (n === 1) return one;
+  const d = n % 10, h = n % 100;
+  return (d >= 2 && d <= 4 && !(h >= 12 && h <= 14)) ? few : many;
+};
+const I18N = {
+  it: {
+    'nav.exp': 'Esperienze', 'nav.design': 'Design', 'nav.vouches': 'Recensioni', 'nav.projects': 'Progetti', 'nav.contact': 'Contatti',
+    'hero.badge': 'Disponibile per nuovi progetti',
+    'hero.need': 'Ti serve',
+    'hero.phrases': ['un banner?', 'una miniatura?', 'un sito web?'],
+    'hero.got': 'Ci penso io.',
+    'hero.aria': 'Ti serve un banner, una miniatura o un sito web? Ci penso io.',
+    'hero.p': 'Sono Daniel, alias AceSnap. Creo grafiche e siti web per chiunque, qualunque sia il tuo progetto.',
+    'hero.cta1': 'Chiedi un preventivo', 'hero.cta2': 'Guarda i miei lavori',
+    'exp.title': 'Esperienza', 'exp.sub': 'Design, sviluppo e community, tutto in un unico posto.',
+    'exp.tab.design': 'Design', 'exp.tab.web': 'Web', 'exp.tab.community': 'Community',
+    'exp.d.title': 'Grafica', 'exp.yrs4': '4 anni', 'exp.yrs2': '2 anni', 'exp.d.role': 'Grafico freelance',
+    'exp.d.text': 'Miniature, banner e pubblicità per creator e brand gaming.', 'exp.tools': 'STRUMENTI',
+    'exp.w.title': 'Sviluppo siti e UI', 'exp.w.role': 'Sviluppatore full-stack', 'exp.w.text': 'Siti e web app, dal design alla messa online.',
+    'exp.c.role': 'Moderatore → Community manager', 'exp.c.text': 'Ho gestito social, eventi, giveaway e il team di moderazione.',
+    'how.title': 'Come <span class="text-gradient">lavoriamo insieme</span>', 'how.sub': 'Dalla tua idea ai file finali in quattro semplici passi.',
+    'how.n0': 'IDEA', 'how.n1': 'BOZZA', 'how.n2': 'RIFINITURA', 'how.n3': 'CONSEGNA',
+    'how.steps': [
+      { time: '2 minuti', title: 'Inviami la tua idea', text: 'Dimmi cosa ti serve. Basta uno schizzo o un riferimento.' },
+      { time: 'Entro 24h', title: 'Prima bozza', text: 'Vedi subito la direzione, prima che sia tutto definitivo.' },
+      { time: 'Finché è perfetto', title: 'Rifiniamo insieme', text: 'Modifiche veloci su Discord o Telegram.' },
+      { time: 'Pronto da pubblicare', title: 'Consegnato', text: 'Tutti i formati che ti servono, pronti da usare.' }
+    ],
+    'how.hint': '<span class="hidden md:inline">Passa sopra</span><span class="md:hidden">Tocca</span> un passo per scoprirlo',
+    'how.cta': 'Inizia dal passo 1',
+    'gfx.title': 'Portfolio grafico', 'gfx.sub': 'Miniature, banner personalizzati, pubblicità per siti e grafiche social.', 'gfx.view': 'Vedi galleria',
+    'gal.title': 'Galleria',
+    'gal.n': n => `${n} design`,
+    'gal.count': (n, m) => `${n} design in ${m} cartelle`,
+    'gal.type.thumbnails': 'Miniature', 'gal.type.promo': 'Banner promozionali', 'gal.type.events': 'Eventi e gare',
+    'gal.type.leaderboards': 'Classifiche', 'gal.type.announcements': 'Annunci', 'gal.type.branding': 'Branding',
+    'v.title': 'Recensioni', 'v.sub': 'Feedback di clienti e creator con cui ho lavorato.',
+    'v.note': 'Le recensioni sono approvate a mano, potrebbero non essere tutte aggiornate.',
+    'v.empty': 'Ancora nessuna recensione, lascia la prima.',
+    'vouch': n => n === 1 ? 'recensione' : 'recensioni',
+    'web.title': 'Progetti web', 'web.sub': 'Siti online che ho progettato e sviluppato.', 'web.visit': 'Visita',
+    'web.headed': 'Hub affiliati con classifiche live, uno shop a punti e premi.', 'web.tag.design': 'Design', 'web.tag.lb': 'Classifiche', 'web.open': 'Apri il sito',
+    'faq.sub': 'Risposte rapide prima di contattarmi.',
+    'faq.q1': 'Quanto ci vuole per la consegna?', 'faq.a1': 'Dipende dal progetto. Miniature e banner sono veloci, i siti richiedono più tempo. Prima di iniziare ricevi tempi chiari.',
+    'faq.q2': 'Cosa devo inviarti?', 'faq.a2': 'La tua idea, il testo da inserire e gli eventuali loghi o riferimenti. Al resto penso io.',
+    'faq.q3': 'Posso chiedere modifiche?', 'faq.a3': 'Sì. Vedi un’anteprima prima del file finale e puoi chiedere modifiche finché non è come lo vuoi.',
+    'faq.q4': 'Come pago?', 'faq.a4': 'Concordiamo prezzo e metodo di pagamento prima di iniziare, così non ci sono sorprese.',
+    'faq.q5': 'Come inizio?', 'faq.a5': 'Scrivimi su Discord (acesnapgfx), Telegram (@acesnap) o via email, oppure premi Contattami. Dimmi cosa ti serve e ti rispondo con i prossimi passi.',
+    'faq.still': 'Hai ancora una domanda?', 'faq.ask': 'Chiedimi direttamente',
+    'foot.about': 'Design, web e community, attivo come AceSnap.', 'foot.pages': 'Pagine', 'foot.exp': 'Esperienza',
+    'foot.copy': '© 2026 Daniel. Tutti i diritti riservati.', 'foot.top': 'Torna su',
+    'modal.title': 'Lavoriamo insieme', 'modal.sub': 'Miniature, banner e siti web.', 'modal.reply': 'Rispondo in poche ore', 'modal.pick': 'Scegli come preferisci scrivermi', 'modal.fast': 'Più veloce',
+    'pill.q': 'Ti serve una grafica?', 'pill.btn': 'Contattami'
+  },
+  pl: {
+    'nav.exp': 'Doświadczenie', 'nav.design': 'Grafika', 'nav.vouches': 'Opinie', 'nav.projects': 'Projekty', 'nav.contact': 'Kontakt',
+    'hero.badge': 'Przyjmuję nowe projekty',
+    'hero.need': 'Potrzebujesz',
+    'hero.phrases': ['banera?', 'miniaturki?', 'strony WWW?'],
+    'hero.got': 'Zajmę się tym.',
+    'hero.aria': 'Potrzebujesz banera, miniaturki lub strony WWW? Zajmę się tym.',
+    'hero.p': 'Jestem Daniel, znany jako AceSnap. Robię grafiki i strony WWW dla każdego, niezależnie od projektu.',
+    'hero.cta1': 'Zapytaj o wycenę', 'hero.cta2': 'Zobacz moje prace',
+    'exp.title': 'Doświadczenie', 'exp.sub': 'Grafika, programowanie i społeczność w jednym miejscu.',
+    'exp.tab.design': 'Grafika', 'exp.tab.web': 'Web', 'exp.tab.community': 'Społeczność',
+    'exp.d.title': 'Projektowanie graficzne', 'exp.yrs4': '4 lata', 'exp.yrs2': '2 lata', 'exp.d.role': 'Grafik freelancer',
+    'exp.d.text': 'Miniaturki, banery i reklamy dla twórców i marek gamingowych.', 'exp.tools': 'NARZĘDZIA',
+    'exp.w.title': 'Strony i interfejsy', 'exp.w.role': 'Full-stack developer', 'exp.w.text': 'Strony i aplikacje webowe, od projektu po wdrożenie.',
+    'exp.c.role': 'Moderator → Community manager', 'exp.c.text': 'Prowadziłem social media, eventy, giveawaye i zespół moderatorów.',
+    'how.title': 'Jak <span class="text-gradient">razem pracujemy</span>', 'how.sub': 'Od pomysłu do gotowych plików w czterech prostych krokach.',
+    'how.n0': 'POMYSŁ', 'how.n1': 'SZKIC', 'how.n2': 'POPRAWKI', 'how.n3': 'ODBIÓR',
+    'how.steps': [
+      { time: '2 minuty', title: 'Wyślij pomysł', text: 'Napisz, czego potrzebujesz. Wystarczy szkic albo przykład.' },
+      { time: 'Do 24h', title: 'Pierwszy szkic', text: 'Widzisz kierunek wcześnie, zanim cokolwiek będzie ostateczne.' },
+      { time: 'Aż będzie idealnie', title: 'Dopracowujemy razem', text: 'Szybkie poprawki na Discordzie lub Telegramie.' },
+      { time: 'Gotowe do publikacji', title: 'Dostarczone', text: 'Wszystkie potrzebne formaty, gotowe do użycia.' }
+    ],
+    'how.hint': '<span class="hidden md:inline">Najedź na</span><span class="md:hidden">Dotknij</span> krok, aby go poznać',
+    'how.cta': 'Zacznij od kroku 1',
+    'gfx.title': 'Portfolio graficzne', 'gfx.sub': 'Miniaturki, banery na zamówienie, reklamy na strony i grafiki do social mediów.', 'gfx.view': 'Zobacz galerię',
+    'gal.title': 'Galeria',
+    'gal.n': n => `${n} ${I18N_PL_PLURAL(n, 'projekt', 'projekty', 'projektów')}`,
+    'gal.count': (n, m) => `${n} ${I18N_PL_PLURAL(n, 'projekt', 'projekty', 'projektów')} w ${m} folderach`,
+    'gal.type.thumbnails': 'Miniaturki', 'gal.type.promo': 'Banery promocyjne', 'gal.type.events': 'Eventy i wyścigi',
+    'gal.type.leaderboards': 'Rankingi', 'gal.type.announcements': 'Ogłoszenia', 'gal.type.branding': 'Branding',
+    'v.title': 'Opinie', 'v.sub': 'Opinie klientów i twórców, z którymi współpracowałem.',
+    'v.note': 'Opinie zatwierdzam ręcznie, więc mogą nie być w pełni aktualne.',
+    'v.empty': 'Nie ma jeszcze opinii, dodaj pierwszą.',
+    'vouch': n => I18N_PL_PLURAL(n, 'opinia', 'opinie', 'opinii'),
+    'web.title': 'Projekty stron', 'web.sub': 'Działające strony, które zaprojektowałem i zbudowałem.', 'web.visit': 'Odwiedź',
+    'web.headed': 'Hub afiliacyjny z rankingami na żywo, sklepem za punkty i nagrodami.', 'web.tag.design': 'Grafika', 'web.tag.lb': 'Rankingi', 'web.open': 'Otwórz stronę',
+    'faq.sub': 'Szybkie odpowiedzi, zanim napiszesz.',
+    'faq.q1': 'Jak szybko dostanę projekt?', 'faq.a1': 'To zależy od projektu. Miniaturki i banery są szybkie, strony zajmują więcej czasu. Przed startem dostajesz jasny termin.',
+    'faq.q2': 'Co muszę Ci wysłać?', 'faq.a2': 'Swój pomysł, tekst, który ma się pojawić, oraz logo lub przykłady, jeśli je masz. Resztą zajmę się ja.',
+    'faq.q3': 'Czy mogę prosić o poprawki?', 'faq.a3': 'Tak. Przed finalnym plikiem widzisz podgląd i możesz prosić o zmiany, aż wszystko będzie tak, jak chcesz.',
+    'faq.q4': 'Jak mogę zapłacić?', 'faq.a4': 'Cenę i metodę płatności ustalamy przed rozpoczęciem pracy, więc nie ma niespodzianek.',
+    'faq.q5': 'Jak zacząć?', 'faq.a5': 'Napisz do mnie na Discordzie (acesnapgfx), Telegramie (@acesnap) lub mailowo albo kliknij Napisz do mnie. Napisz, czego potrzebujesz, a odpowiem z kolejnymi krokami.',
+    'faq.still': 'Masz jeszcze pytanie?', 'faq.ask': 'Zapytaj mnie bezpośrednio',
+    'foot.about': 'Grafika, web i społeczność, działam jako AceSnap.', 'foot.pages': 'Strony', 'foot.exp': 'Doświadczenie',
+    'foot.copy': '© 2026 Daniel. Wszelkie prawa zastrzeżone.', 'foot.top': 'Do góry',
+    'modal.title': 'Popracujmy razem', 'modal.sub': 'Miniaturki, banery i strony WWW.', 'modal.reply': 'Odpowiadam w ciągu kilku godzin', 'modal.pick': 'Wybierz, jak wolisz pisać', 'modal.fast': 'Najszybciej',
+    'pill.q': 'Potrzebujesz grafiki?', 'pill.btn': 'Napisz do mnie'
+  }
+};
+const I18N_EN_FN = {
+  'gal.n': n => `${n} design${n === 1 ? '' : 's'}`,
+  'gal.count': (n, m) => `${n} designs in ${m} folders`,
+  'vouch': n => n === 1 ? 'vouch' : 'vouches'
+};
+let currentLang = 'en';
+const i18nHooks = [];
+function tr(key, en) {
+  if (currentLang === 'en') return en;
+  const d = I18N[currentLang];
+  return d && d[key] != null ? d[key] : en;
+}
+function trf(key, ...args) {
+  const d = I18N[currentLang];
+  const fn = (currentLang !== 'en' && d && typeof d[key] === 'function') ? d[key] : I18N_EN_FN[key];
+  return fn(...args);
+}
+function trn(key, n) { return trf(key, n); }
+function onLangChange(fn) { i18nHooks.push(fn); }
+
+function placeLangPill(instant) {
+  const seg = document.getElementById('langSeg');
+  const pill = document.getElementById('langPill');
+  if (!seg || !pill) return;
+  const btn = seg.querySelector(`[data-lang="${currentLang}"]`);
+  if (instant === true) pill.style.transition = 'none';
+  pill.style.width = btn.offsetWidth + 'px';
+  pill.style.transform = `translateX(${btn.offsetLeft}px)`;
+  if (instant === true) { void pill.offsetWidth; pill.style.transition = ''; }
+}
+
+function applyLang(lang, save) {
+  if (lang !== 'en' && !I18N[lang]) lang = 'en';
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    if (el.dataset.i18nEn === undefined) el.dataset.i18nEn = el.innerHTML;
+    const val = lang === 'en' ? null : I18N[lang][el.dataset.i18n];
+    el.innerHTML = typeof val === 'string' ? val : el.dataset.i18nEn;
+  });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+    if (el.dataset.i18nAriaEn === undefined) el.dataset.i18nAriaEn = el.getAttribute('aria-label') || '';
+    const val = lang === 'en' ? null : I18N[lang][el.dataset.i18nAria];
+    el.setAttribute('aria-label', typeof val === 'string' ? val : el.dataset.i18nAriaEn);
+  });
+  document.querySelectorAll('#langSeg [data-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false'));
+  placeLangPill(!save);
+  i18nHooks.forEach(fn => { try { fn(lang); } catch (e) { console.error(e); } });
+  requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+}
+
+function initLang() {
+  document.querySelectorAll('#langSeg [data-lang]').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang, true)));
+  window.addEventListener('resize', () => placeLangPill(true));
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => placeLangPill(true));
+  applyLang('en', false);
+}
+</script>
 <script>
 function scrollToSection(id) {
   const section = document.getElementById(id);
@@ -551,6 +1293,7 @@ function openContactModal() {
   const modal = document.getElementById('contactModal');
   const content = document.getElementById('modalContent');
   modal.classList.remove('opacity-0', 'pointer-events-none');
+  modal.classList.add('is-open');
   content.classList.remove('scale-95');
   content.classList.add('scale-100');
 }
@@ -559,9 +1302,14 @@ function closeContactModal() {
   const modal = document.getElementById('contactModal');
   const content = document.getElementById('modalContent');
   modal.classList.add('opacity-0', 'pointer-events-none');
+  modal.classList.remove('is-open');
   content.classList.remove('scale-100');
   content.classList.add('scale-95');
 }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('contactModal').classList.contains('is-open')) closeContactModal();
+});
 
 function copyDiscord(element) {
   navigator.clipboard.writeText('acesnapgfx');
@@ -574,63 +1322,107 @@ function copyDiscord(element) {
   }, 2000);
 }
 
-let currentGfx = 0;
-const gfxTrack = document.getElementById('gfx-track');
-const totalGfxPages = 5;
+let currentGfx = 0, cfDragged = false;
+const cfStage = document.getElementById('cfStage');
+const cfItems = cfStage ? [...cfStage.querySelectorAll('.cf-item')] : [];
+const totalGfxPages = cfItems.length;
 const gfxProgressBar = document.getElementById('gfx-progress-bar');
 const gfxProgressLabel = document.getElementById('gfx-progress-label');
 
 function updateGfxProgress() {
   const pct = ((currentGfx + 1) / totalGfxPages) * 100;
   if (gfxProgressBar) gfxProgressBar.style.width = `${pct}%`;
-  if (gfxProgressLabel) gfxProgressLabel.textContent = `${currentGfx + 1} / ${totalGfxPages} viewed`;
+  if (gfxProgressLabel) gfxProgressLabel.textContent = `${currentGfx + 1} / ${totalGfxPages}`;
 }
 
-function moveGfx(direction) {
-  currentGfx += direction;
-  if (currentGfx >= totalGfxPages) currentGfx = 0;
-  if (currentGfx < 0) currentGfx = totalGfxPages - 1;
-  if (gfxTrack) gfxTrack.style.transform = `translateX(-${currentGfx * 100}%)`;
+function layoutCoverflow() {
+  if (!cfStage) return;
+  const w = cfStage.clientWidth;
+  const small = w < 640;
+  const step1 = small ? w * 0.36 : Math.min(320, w * 0.27);
+  const step2 = small ? w * 0.62 : Math.min(560, w * 0.45);
+  const n = totalGfxPages;
+  cfItems.forEach((el, i) => {
+    let o = i - currentGfx;
+    if (o > n / 2) o -= n;
+    if (o < -n / 2) o += n;
+    const a = Math.abs(o);
+    const x = a === 0 ? 0 : Math.sign(o) * (a === 1 ? step1 : step2 + (a - 2) * 120);
+    const rot = a === 0 ? 0 : -Math.sign(o) * 42;
+    const scale = a === 0 ? 1 : a === 1 ? 0.78 : 0.62;
+    el.style.transform = `translate(-50%, -50%) translateX(${x}px) rotateY(${rot}deg) scale(${scale})`;
+    el.style.zIndex = String(20 - a);
+    el.style.opacity = a === 0 ? '1' : a === 1 ? '0.7' : a === 2 ? '0.35' : '0';
+    el.style.filter = a === 0 ? 'none' : `brightness(${a === 1 ? 0.6 : 0.45})`;
+    el.style.pointerEvents = a > 2 ? 'none' : '';
+    el.classList.toggle('active', a === 0);
+    el.setAttribute('aria-hidden', a === 0 ? 'false' : 'true');
+  });
   updateGfxProgress();
 }
 
-updateGfxProgress();
-
-const gfxSection = document.getElementById('gfx');
-let gfxAutoplay = null;
-
-function startGfxAutoplay() {
-  stopGfxAutoplay();
-  gfxAutoplay = setInterval(() => moveGfx(1), 3000);
+function goToGfx(i) {
+  currentGfx = (i + totalGfxPages) % totalGfxPages;
+  layoutCoverflow();
 }
+function moveGfx(direction) { goToGfx(currentGfx + direction); }
 
-function stopGfxAutoplay() {
-  if (gfxAutoplay) {
-    clearInterval(gfxAutoplay);
-    gfxAutoplay = null;
+function openDesignFromCarousel(file) {
+  for (let t = 0; t < galleryTypes.length; t++) {
+    const idx = galleryTypes[t].items.findIndex(it => it[0] === file);
+    if (idx >= 0) { galType = t; openGalleryView(idx); return; }
   }
 }
 
-if (gfxSection) {
-  gfxSection.addEventListener('mouseenter', stopGfxAutoplay);
-  gfxSection.addEventListener('mouseleave', startGfxAutoplay);
-  gfxSection.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', startGfxAutoplay);
+if (cfStage) {
+  cfItems.forEach((el, i) => {
+    el.addEventListener('click', () => {
+      if (cfDragged) return;
+      if (i === currentGfx) openDesignFromCarousel(el.dataset.file);
+      else goToGfx(i);
+    });
   });
+  cfStage.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') { e.preventDefault(); moveGfx(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); moveGfx(-1); }
+    else if (e.key === 'Enter') openDesignFromCarousel(cfItems[currentGfx].dataset.file);
+  });
+  let startX = null;
+  cfStage.addEventListener('pointerdown', e => { startX = e.clientX; cfDragged = false; });
+  cfStage.addEventListener('pointerup', e => {
+    if (startX === null) return;
+    const dx = e.clientX - startX;
+    startX = null;
+    if (Math.abs(dx) > 40) {
+      cfDragged = true;
+      moveGfx(dx < 0 ? 1 : -1);
+      setTimeout(() => { cfDragged = false; }, 50);
+    }
+  });
+  window.addEventListener('resize', layoutCoverflow);
+  layoutCoverflow();
 }
 
+const gfxSection = document.getElementById('gfx');
+let gfxAutoplay = null, gfxVisible = false;
+
+function startGfxAutoplay() {
+  stopGfxAutoplay();
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  gfxAutoplay = setInterval(() => {
+    const onCentre = cfStage && cfStage.querySelector('.cf-item.active:hover');
+    if (gfxVisible && !onCentre && !document.hidden && galViewIndex < 0) moveGfx(1);
+  }, 3200);
+}
+function stopGfxAutoplay() {
+  if (gfxAutoplay) { clearInterval(gfxAutoplay); gfxAutoplay = null; }
+}
+
+if (gfxSection) {
+  gfxSection.querySelectorAll('button').forEach(btn => btn.addEventListener('click', startGfxAutoplay));
+  new IntersectionObserver(entries => { gfxVisible = entries[0].isIntersecting; }, { threshold: 0.3 }).observe(gfxSection);
+}
 startGfxAutoplay();
-
-let currentWeb = 0;
-const webTrack = document.getElementById('web-track');
-const totalWebPages = 2;
-
-function moveWeb(direction) {
-  currentWeb += direction;
-  if (currentWeb >= totalWebPages) currentWeb = 0;
-  if (currentWeb < 0) currentWeb = totalWebPages - 1;
-  if (webTrack) webTrack.style.transform = `translateX(-${currentWeb * 100}%)`;
-}
 
 (function () {
   const revealEls = document.querySelectorAll('.reveal');
@@ -648,6 +1440,371 @@ function moveWeb(direction) {
 
   revealEls.forEach(el => observer.observe(el));
 })();
+
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+(function () {
+  const el = document.getElementById('type-word');
+  if (!el) return;
+
+  const EN_PHRASES = ['a banner?', 'a thumbnail?', 'a website?'];
+  const getPhrases = () => tr('hero.phrases', EN_PHRASES);
+  let phrases = getPhrases();
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+  const measurer = document.createElement('span');
+  measurer.setAttribute('aria-hidden', 'true');
+  measurer.style.cssText = 'position:fixed;left:0;top:0;visibility:hidden;white-space:nowrap;pointer-events:none';
+  document.body.appendChild(measurer);
+  const widthOf = text => {
+    const cs = getComputedStyle(el);
+    measurer.style.font = cs.font;
+    measurer.style.letterSpacing = cs.letterSpacing;
+    measurer.textContent = text;
+    return measurer.offsetWidth + 6;
+  };
+
+  let current = 0, gen = 0;
+  const refit = () => { el.style.width = widthOf(phrases[current]) + 'px'; };
+  refit();
+  window.addEventListener('resize', refit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refit);
+  window.addEventListener('load', refit);
+
+  async function loop(myGen) {
+    await wait(2200);
+    while (myGen === gen) {
+      const text = phrases[current];
+      for (let i = text.length; i >= 0; i--) { if (myGen !== gen) return; el.textContent = text.slice(0, i); await wait(32); }
+      current = (current + 1) % phrases.length;
+      const next = phrases[current];
+      refit();
+      await wait(420);
+      for (let i = 1; i <= next.length; i++) { if (myGen !== gen) return; el.textContent = next.slice(0, i); await wait(65); }
+      await wait(2000);
+    }
+  }
+
+  onLangChange(() => {
+    gen++;
+    phrases = getPhrases();
+    current = 0;
+    el.textContent = phrases[0];
+    refit();
+    if (!prefersReducedMotion) loop(gen);
+  });
+  if (!prefersReducedMotion) loop(gen);
+})();
+
+(function () {
+  const tabs = [...document.querySelectorAll('.exp-tab')];
+  const panels = tabs.map(t => document.getElementById(t.getAttribute('aria-controls')));
+  const pill = document.getElementById('expPill');
+  const card = document.getElementById('expCard');
+  if (!tabs.length || !pill) return;
+
+  let active = 0, timer = null, userPicked = false, hovering = false;
+
+  function placePill() {
+    const t = tabs[active];
+    pill.style.width = t.offsetWidth + 'px';
+    pill.style.transform = `translateX(${t.offsetLeft - 4}px)`;
+  }
+
+  function select(i, focus) {
+    if (i === active) return;
+    const prev = panels[active];
+    tabs.forEach((t, k) => {
+      const on = k === i;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+    });
+    active = i;
+    placePill();
+    if (focus) tabs[i].focus();
+
+    if (prefersReducedMotion) { prev.hidden = true; panels[i].hidden = false; return; }
+    prev.classList.add('leaving');
+    setTimeout(() => {
+      prev.hidden = true;
+      prev.classList.remove('leaving');
+      panels[i].classList.add('leaving');
+      panels[i].hidden = false;
+      requestAnimationFrame(() => requestAnimationFrame(() => panels[i].classList.remove('leaving')));
+    }, 280);
+  }
+
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => { userPicked = true; clearInterval(timer); select(i); });
+    t.addEventListener('keydown', e => {
+      const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!dir) return;
+      e.preventDefault();
+      userPicked = true; clearInterval(timer);
+      select((active + dir + tabs.length) % tabs.length, true);
+    });
+  });
+
+  card.addEventListener('mouseenter', () => { hovering = true; });
+  card.addEventListener('mouseleave', () => { hovering = false; });
+
+  function autoplay() {
+    if (prefersReducedMotion || userPicked) return;
+    timer = setInterval(() => { if (!hovering) select((active + 1) % tabs.length); }, 5000);
+  }
+
+  placePill();
+  window.addEventListener('resize', placePill);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placePill);
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      clearInterval(timer);
+      if (entries[0].isIntersecting) autoplay();
+    }, { threshold: 0.4 }).observe(card);
+  }
+})();
+
+(function () {
+  const orbit = document.getElementById('orbit');
+  if (!orbit) return;
+
+  const steps = [
+    { icon: 'fa-lightbulb', time: '2 minutes',       title: 'Send your idea',  text: 'Tell me what you need. A sketch or a reference is enough.' },
+    { icon: 'fa-pen-nib',   time: 'Within 24h',      title: 'First draft',     text: 'You see the direction early, before anything is final.' },
+    { icon: 'fa-sliders',   time: 'Until it\'s right', title: 'Refine together', text: 'Quick changes over Discord or Telegram.' },
+    { icon: 'fa-box-open',  time: 'Ready to post',   title: 'Delivered',       text: 'Every size you need, ready to use.' }
+  ];
+
+  const arc = document.getElementById('orbitArc');
+  const center = document.getElementById('orbitCenter');
+  const icon = document.getElementById('orbitIcon');
+  const time = document.getElementById('orbitTime');
+  const title = document.getElementById('orbitTitle');
+  const text = document.getElementById('orbitText');
+  const nodes = [...orbit.querySelectorAll('.orbit-node')];
+  const dots = [...orbit.querySelectorAll('.orbit-dot')];
+  const C = 879.6;
+  let active = 0, timer = null, visible = false, hovering = false, swapTimer = null;
+
+  function render(i) {
+    nodes.forEach((n, k) => {
+      n.classList.toggle('active', k === i);
+      n.classList.toggle('done', k < i);
+      n.setAttribute('aria-pressed', k === i ? 'true' : 'false');
+    });
+    dots.forEach((d, k) => { d.classList.toggle('active', k === i); d.classList.toggle('done', k < i); });
+    arc.style.strokeDashoffset = C * (1 - i / 4);
+
+    clearTimeout(swapTimer);
+    if (prefersReducedMotion) { fill(i); return; }
+    center.classList.add('swap');
+    swapTimer = setTimeout(() => { fill(i); center.classList.remove('swap'); }, 220);
+  }
+
+  function fill(i) {
+    const local = tr('how.steps', null);
+    const st = local ? Object.assign({}, steps[i], local[i]) : steps[i];
+    icon.className = 'fa-solid ' + st.icon;
+    time.textContent = st.time;
+    title.textContent = st.title;
+    text.textContent = st.text;
+  }
+  onLangChange(() => fill(active));
+
+  function go(i) {
+    if (i === 0 && active === 3 && !prefersReducedMotion) {
+      arc.style.strokeDashoffset = 0;
+      setTimeout(() => {
+        arc.style.transition = 'none';
+        arc.style.strokeDashoffset = C;
+        void arc.getBoundingClientRect();
+        arc.style.transition = '';
+        active = 0;
+        render(0);
+      }, 1000);
+      return;
+    }
+    active = i;
+    render(i);
+  }
+
+  function start() {
+    clearInterval(timer);
+    if (prefersReducedMotion || !visible || hovering) return;
+    timer = setInterval(() => go((active + 1) % 4), 3600);
+  }
+
+  function select(i) {
+    if (i === active) return;
+    active = i;
+    render(i);
+  }
+
+  function stepAt(e) {
+    const r = orbit.getBoundingClientRect();
+    const dx = e.clientX - (r.left + r.width / 2);
+    const dy = e.clientY - (r.top + r.height / 2);
+    if (Math.hypot(dx, dy) < r.width * 0.33) return null;
+    const angle = (Math.atan2(dx, -dy) + Math.PI * 2) % (Math.PI * 2);
+    return Math.round(angle / (Math.PI / 2)) % 4;
+  }
+
+  orbit.addEventListener('pointerenter', e => {
+    if (e.pointerType !== 'mouse') return;
+    hovering = true;
+    clearInterval(timer);
+  });
+  orbit.addEventListener('pointerleave', e => {
+    if (e.pointerType !== 'mouse') return;
+    hovering = false;
+    start();
+  });
+  orbit.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    const i = stepAt(e);
+    orbit.classList.toggle('orbit-pointing', i !== null);
+    if (i !== null) select(i);
+  });
+  orbit.addEventListener('click', e => {
+    const node = e.target.closest('.orbit-node');
+    const i = node ? +node.dataset.step : stepAt(e);
+    if (i === null) return;
+    select(i);
+    start();
+  });
+
+  nodes.forEach((n, idx) => {
+    n.addEventListener('focus', () => { select(idx); clearInterval(timer); });
+    n.addEventListener('blur', () => start());
+    n.addEventListener('keydown', e => {
+      const dir = (e.key === 'ArrowRight' || e.key === 'ArrowDown') ? 1 : (e.key === 'ArrowLeft' || e.key === 'ArrowUp') ? -1 : 0;
+      if (!dir) return;
+      e.preventDefault();
+      nodes[(idx + dir + 4) % 4].focus();
+    });
+  });
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      visible = entries[0].isIntersecting;
+      if (visible) start(); else clearInterval(timer);
+    }, { threshold: 0.4 }).observe(orbit);
+  } else {
+    visible = true; start();
+  }
+
+  render(0);
+})();
+
+const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+(function () {
+  if (!finePointer) return;
+  const addRing = el => {
+    if (!el.querySelector(':scope > .spotlight-ring')) {
+      const ring = document.createElement('span');
+      ring.className = 'spotlight-ring';
+      ring.setAttribute('aria-hidden', 'true');
+      el.appendChild(ring);
+    }
+  };
+  let frame = null, last = null;
+  document.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    last = e;
+    if (frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = null;
+      const card = last.target.closest && last.target.closest('.spotlight');
+      if (!card) return;
+      addRing(card);
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--sx', (last.clientX - r.left) + 'px');
+      card.style.setProperty('--sy', (last.clientY - r.top) + 'px');
+    });
+  }, { passive: true });
+})();
+
+(function () {
+  const bar = document.getElementById('scrollProgress');
+  if (!bar) return;
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
+  };
+  window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+
+(function () {
+  if (!finePointer || prefersReducedMotion) return;
+  document.querySelectorAll('.tilt-card').forEach(card => {
+    const light = document.createElement('span');
+    light.className = 'tilt-light';
+    light.setAttribute('aria-hidden', 'true');
+    card.appendChild(light);
+
+    card.addEventListener('pointermove', e => {
+      const cfItem = card.closest('.cf-item');
+      if (cfItem && !cfItem.classList.contains('active')) return;
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      card.classList.add('tilting');
+      card.style.transform = `perspective(800px) rotateY(${(x - .5) * 28}deg) rotateX(${(.5 - y) * 18}deg) scale(1.04)`;
+      card.style.setProperty('--gx', (x * 100) + '%');
+      card.style.setProperty('--gy', (y * 100) + '%');
+    });
+    card.addEventListener('pointerleave', () => {
+      card.classList.remove('tilting');
+      card.style.transform = '';
+    });
+  });
+})();
+
+(function () {
+  const items = [...document.querySelectorAll('#webList .web-item')];
+  const frame = document.getElementById('webFrame');
+  if (!items.length || !frame) return;
+  const frames = [...frame.querySelectorAll('iframe')];
+  const url = document.getElementById('webUrl');
+  const open = document.getElementById('webOpen');
+  const sites = [
+    { url: 'headed.gg', href: 'https://headed.gg' }
+  ];
+  let active = 0;
+
+  const fit = () => frame.style.setProperty('--ws', frame.clientWidth / 1280);
+  fit();
+  window.addEventListener('resize', fit);
+
+  function show(i) {
+    if (i === active) return;
+    active = i;
+    items.forEach((it, k) => { it.classList.toggle('active', k === i); it.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+    frames.forEach((f, k) => f.classList.toggle('active', k === i));
+    url.textContent = sites[i].url;
+    open.href = sites[i].href;
+  }
+
+  items.forEach((it, i) => {
+    it.addEventListener('mouseenter', () => show(i));
+    it.addEventListener('focus', () => show(i));
+    it.addEventListener('click', () => show(i));
+  });
+})();
+
+function copyDiscordFooter(btn) {
+  const label = btn.querySelector('span');
+  if (navigator.clipboard) navigator.clipboard.writeText('acesnapgfx').catch(() => {});
+  label.textContent = 'Copied!';
+  setTimeout(() => { label.textContent = 'acesnapgfx'; }, 1600);
+}
 
 const VOUCHES = [
   {
@@ -713,7 +1870,7 @@ function renderVouches() {
         ${'★'.repeat(Math.round(avg))}${'☆'.repeat(Math.max(0, 5 - Math.round(avg)))}
       </span>
       <span class="text-white font-medium">${avgDisplay}</span>
-      <span class="text-gray-500">· ${count} ${count === 1 ? 'vouch' : 'vouches'}</span>
+      <span class="text-gray-500" id="vouchCount" data-count="${count}">· ${count} ${trn('vouch', count)}</span>
     `;
   }
 
@@ -759,7 +1916,7 @@ function renderVouches() {
     const rating = Math.max(0, Math.min(5, Number(v.rating || 0)));
 
     return `
-      <div class="vouch-card glass rounded-2xl p-6 flex-none" data-vouch-card="true">
+      <div class="vouch-card spotlight glass rounded-2xl p-6 flex-none" data-vouch-card="true">
         <div class="flex gap-0.5 text-purple-400 text-xs mb-4">
           ${'★'.repeat(rating)}${'☆'.repeat(Math.max(0, 5 - rating))}
         </div>
@@ -996,5 +2153,257 @@ renderVouches();
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="./vouches-loader.js?v=3"></script>
 
+<script>
+(function () {
+  const canvas = document.getElementById('dotGrid');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const hero = canvas.closest('header');
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let w = 0, h = 0, gap = 26, radius = 170;
+  let target = { x: -1, y: -1 }, glow = { x: 0, y: 0 }, mouseActive = false, lastMove = 0;
+  let visible = true, t = 0, raf = 0;
+
+  function size() {
+    const r = canvas.getBoundingClientRect();
+    const d = Math.min(window.devicePixelRatio || 1, 2);
+    w = r.width; h = r.height;
+    canvas.width = w * d; canvas.height = h * d;
+    ctx.setTransform(d, 0, 0, d, 0, 0);
+    gap = w < 640 ? 22 : 26;
+    radius = w < 640 ? 120 : 170;
+    if (!glow.x) { glow.x = w / 2; glow.y = h * 0.45; }
+    if (still) draw();
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    const g = ctx.createRadialGradient(glow.x, glow.y, 0, glow.x, glow.y, radius * 1.6);
+    g.addColorStop(0, 'rgba(124, 58, 237, 0.13)');
+    g.addColorStop(1, 'rgba(124, 58, 237, 0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, h);
+    const ox = (w % gap) / 2, oy = (h % gap) / 2;
+    for (let x = ox; x <= w; x += gap) {
+      for (let y = oy; y <= h; y += gap) {
+        const dx = x - glow.x, dy = y - glow.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const k = dist < radius ? 1 - dist / radius : 0;
+        if (k > 0) {
+          const e = k * k;
+          const push = e * 10 / (dist || 1);
+          ctx.fillStyle = 'rgba(' + (168 + 48 * e | 0) + ',' + (85 + 95 * e | 0) + ',247,' + (0.18 + 0.82 * e).toFixed(3) + ')';
+          ctx.beginPath();
+          ctx.arc(x + dx * push, y + dy * push, 1.2 + e * 1.8, 0, 6.2832);
+          ctx.fill();
+        } else {
+          ctx.fillStyle = 'rgba(255,255,255,0.13)';
+          ctx.fillRect(x - 1, y - 1, 2, 2);
+        }
+      }
+    }
+  }
+
+  function frame(now) {
+    raf = 0;
+    if (!visible || document.hidden) return;
+    t += 0.006;
+    if (mouseActive && now - lastMove > 4000) mouseActive = false;
+    const tx = mouseActive ? target.x : w / 2 + Math.cos(t) * w * 0.28;
+    const ty = mouseActive ? target.y : h * 0.45 + Math.sin(t * 1.4) * h * 0.22;
+    glow.x += (tx - glow.x) * 0.09;
+    glow.y += (ty - glow.y) * 0.09;
+    draw();
+    raf = requestAnimationFrame(frame);
+  }
+  function startLoop() { if (!raf && !still) raf = requestAnimationFrame(frame); }
+
+  if (fine && !still) {
+    window.addEventListener('pointermove', (e) => {
+      const r = canvas.getBoundingClientRect();
+      if (e.clientY < r.top || e.clientY > r.bottom) return;
+      target.x = e.clientX - r.left; target.y = e.clientY - r.top;
+      mouseActive = true; lastMove = performance.now();
+    }, { passive: true });
+    hero.addEventListener('pointerleave', () => { mouseActive = false; });
+  }
+  new IntersectionObserver((entries) => {
+    visible = entries[0].isIntersecting;
+    if (visible) startLoop();
+  }).observe(hero);
+  document.addEventListener('visibilitychange', startLoop);
+  window.addEventListener('resize', size);
+  size();
+  startLoop();
+})();
+</script>
+<script>
+const galleryTypes = [
+  { key: 'thumbnails', name: 'Thumbnails', items: [
+    ['juaqthumbnail1.png', 'Juaq thumbnail'],
+    ['howthiskeepshappening.png', 'How does this keep happening'],
+    ['thumbnail1.png', 'Bac Bo 1K to 3K'] ] },
+  { key: 'promo', name: 'Promo banners', items: [
+    ['casesbanner.png', 'Cases.gg code promo'],
+    ['robertobanner.png', 'Bitkingz deposit bonus'],
+    ['joshy4.png', 'Refer and earn'] ] },
+  { key: 'events', name: 'Events and races', items: [
+    ['newdiscordrafflecopia.png', 'Discord raffles'],
+    ['race1milrorush.png', '1,000,000 race'],
+    ['mineschallenge.png', 'Mines board challenge'] ] },
+  { key: 'leaderboards', name: 'Leaderboards', items: [
+    ['liveleaderboardscsgobig.png', 'CSGOBig live leaderboards'],
+    ['leaderboardheaded.png', 'Headed leaderboard'] ] },
+  { key: 'announcements', name: 'Announcements', items: [
+    ['shopannouncement.png', 'Points shop launch'] ] },
+  { key: 'branding', name: 'Branding', items: [
+    ['sorhexbanner.png', 'Sorhex logo'] ] }
+];
+let galType = 0, galViewIndex = -1, galLastFocus = null;
+const galModal = document.getElementById('galleryModal');
+const galView = document.getElementById('galView');
+
+function renderGalleryFolders() {
+  const wrap = document.getElementById('galFolders');
+  wrap.innerHTML = galleryTypes.map((t, i) => {
+    const imgs = t.items.slice(0, 3);
+    const n = imgs.length;
+    const fan = imgs.map((it, j) => {
+      const off = j - (n - 1) / 2;
+      return `<img src="./${it[0]}" alt="" loading="lazy" style="--r:${off * 6}deg;--dx:${off * 38}px;z-index:${3 - Math.abs(Math.round(off))}">`;
+    }).join('');
+    return `<button type="button" class="gal-folder" style="animation-delay:${i * 60}ms" onclick="openGalleryType(${i})" aria-label="${tr('gal.type.' + t.key, t.name)}, ${trn('gal.n', t.items.length)}">
+      <div class="gal-fan" aria-hidden="true">${fan}</div>
+      <div class="text-white text-sm font-medium">${tr('gal.type.' + t.key, t.name)}</div>
+      <div class="text-gray-500 text-xs mt-0.5">${trn('gal.n', t.items.length)}</div>
+    </button>`;
+  }).join('');
+}
+const galTotalCount = galleryTypes.reduce((n, t) => n + t.items.length, 0);
+document.getElementById('galTotal').textContent = galTotalCount;
+
+function renderGallery() {
+  const t = galleryTypes[galType];
+  document.getElementById('galTitle').textContent = tr('gal.type.' + t.key, t.name);
+  document.getElementById('galCount').textContent = trn('gal.n', t.items.length);
+  document.getElementById('galTabs').innerHTML = galleryTypes.map((x, i) =>
+    `<button type="button" class="gal-tab${i === galType ? ' active' : ''}" onclick="switchGallery(${i})">${tr('gal.type.' + x.key, x.name)}</button>`).join('');
+  document.getElementById('galGrid').innerHTML = t.items.map((it, i) =>
+    `<button type="button" class="gal-item" style="animation-delay:${i * 60}ms" onclick="openGalleryView(${i})" aria-label="View ${it[1]}"><img src="./${it[0]}" alt="${it[1]}" loading="lazy"></button>`).join('');
+}
+function switchGallery(i) { galType = i; renderGallery(); }
+onLangChange(() => {
+  if (!galModal.classList.contains('open')) return;
+  if (galModal.dataset.mode === 'type') renderGallery(); else showGalleryFolders();
+});
+onLangChange(() => {
+  const vc = document.getElementById('vouchCount');
+  if (vc) { const n = Number(vc.dataset.count); vc.textContent = `· ${n} ${trn('vouch', n)}`; }
+});
+function showGalleryFolders() {
+  galModal.dataset.mode = 'folders';
+  document.getElementById('galTitle').textContent = tr('gal.title', 'Gallery');
+  document.getElementById('galCount').textContent = trf('gal.count', galTotalCount, galleryTypes.length);
+  renderGalleryFolders();
+  galModal.scrollTop = 0;
+}
+function openGalleryType(i) {
+  galModal.dataset.mode = 'type';
+  galType = i;
+  renderGallery();
+  galModal.scrollTop = 0;
+}
+function openGallery() {
+  galLastFocus = document.activeElement;
+  showGalleryFolders();
+  galModal.classList.add('open');
+  galModal.setAttribute('aria-hidden', 'false');
+  galModal.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => galModal.querySelector('.gal-close').focus(), 50);
+}
+function closeGallery() {
+  closeGalleryView();
+  galModal.classList.remove('open');
+  galModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  if (galLastFocus) galLastFocus.focus();
+}
+function openGalleryView(i) {
+  galViewIndex = i;
+  document.body.style.overflow = 'hidden';
+  showGalleryView();
+  galView.classList.add('open');
+  galView.setAttribute('aria-hidden', 'false');
+}
+function showGalleryView() {
+  const items = galleryTypes[galType].items;
+  const it = items[galViewIndex];
+  const img = document.getElementById('galViewImg');
+  img.src = './' + it[0];
+  img.alt = it[1];
+  document.getElementById('galViewCap').textContent = `${it[1]}  ·  ${galViewIndex + 1} / ${items.length}`;
+  const many = items.length > 1;
+  galView.querySelectorAll('.gal-nav').forEach(b => b.style.display = many ? '' : 'none');
+}
+function stepGalleryView(d) {
+  const n = galleryTypes[galType].items.length;
+  galViewIndex = (galViewIndex + d + n) % n;
+  showGalleryView();
+}
+function closeGalleryView() {
+  galViewIndex = -1;
+  if (!galModal.classList.contains('open')) document.body.style.overflow = '';
+  galView.classList.remove('open');
+  galView.setAttribute('aria-hidden', 'true');
+}
+galView.addEventListener('click', e => { if (e.target === galView) closeGalleryView(); });
+galModal.addEventListener('click', e => { if (e.target === galModal) closeGallery(); });
+document.addEventListener('keydown', e => {
+  if (galViewIndex < 0 && !galModal.classList.contains('open')) return;
+  if (e.key === 'Escape') {
+    if (galViewIndex >= 0) closeGalleryView();
+    else if (galModal.dataset.mode === 'type') showGalleryFolders();
+    else closeGallery();
+  }
+  else if (galViewIndex >= 0 && e.key === 'ArrowRight') stepGalleryView(1);
+  else if (galViewIndex >= 0 && e.key === 'ArrowLeft') stepGalleryView(-1);
+});
+</script>
+<script>
+(function () {
+  const list = document.getElementById('faqList');
+  if (!list) return;
+  const items = [...list.querySelectorAll('.faq-item')];
+  items.forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      const wasOpen = item.classList.contains('open');
+      items.forEach(o => { o.classList.remove('open'); o.querySelector('.faq-q').setAttribute('aria-expanded', 'false'); });
+      if (!wasOpen) { item.classList.add('open'); item.querySelector('.faq-q').setAttribute('aria-expanded', 'true'); }
+    });
+  });
+})();
+
+(function () {
+  const pill = document.getElementById('hirePill');
+  const hero = document.querySelector('header');
+  const footer = document.querySelector('footer');
+  if (!pill || !hero) return;
+  let footerVisible = false;
+  function update() {
+    const pastHero = window.scrollY > hero.offsetTop + hero.offsetHeight * 0.7;
+    const show = pastHero && !footerVisible;
+    pill.classList.toggle('show', show);
+    if (show) pill.removeAttribute('inert'); else pill.setAttribute('inert', '');
+  }
+  if (footer && 'IntersectionObserver' in window) {
+    new IntersectionObserver(entries => { footerVisible = entries[0].isIntersecting; update(); }, { threshold: 0.05 }).observe(footer);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+</script>
+<script>initLang();</script>
 </body>
 </html>
