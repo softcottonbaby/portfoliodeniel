@@ -352,10 +352,45 @@ export async function mount(stage, items, opts = {}) {
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
 
-  const mixer = new THREE.AnimationMixer(machine);
+  const pivot = machine.getObjectByName('LeverPivot');
+  const leverBase = pivot ? pivot.quaternion.clone() : null;
+  let leverSign = 1, leverMax = THREE.MathUtils.degToRad(80);
   const clip = gltf.animations.find(a => /pull/i.test(a.name)) || gltf.animations[0];
-  const pullAction = clip ? mixer.clipAction(clip) : null;
-  if (pullAction) { pullAction.setLoop(THREE.LoopOnce, 1); pullAction.clampWhenFinished = false; }
+  if (clip && pivot) {
+    const mixer = new THREE.AnimationMixer(machine);
+    const act = mixer.clipAction(clip);
+    act.play();
+    let peak = 0;
+    for (let f = 0; f <= 20; f++) {
+      mixer.setTime(f / 30);
+      const q = leverBase.clone().invert().multiply(pivot.quaternion);
+      const ang = 2 * Math.atan2(q.x, q.w);
+      if (Math.abs(ang) > Math.abs(peak)) peak = ang;
+    }
+    act.stop();
+    mixer.uncacheRoot(machine);
+    pivot.quaternion.copy(leverBase);
+    if (Math.abs(peak) > 0.2) { leverSign = Math.sign(peak); leverMax = Math.abs(peak); }
+  }
+  const PULL_T = 0.26, HOLD_T = 0.07, SPRING_W = 12.5, SPRING_Z = 0.52;
+  const springWd = SPRING_W * Math.sqrt(1 - SPRING_Z * SPRING_Z);
+  const qLever = new THREE.Quaternion(), xAxis = new THREE.Vector3(1, 0, 0);
+  let leverT0 = -1;
+  function leverAngle(t) {
+    if (t <= PULL_T) return leverMax * (0.5 - 0.5 * Math.cos(Math.PI * t / PULL_T));
+    if (t <= PULL_T + HOLD_T) return leverMax;
+    const u = t - PULL_T - HOLD_T;
+    const e = Math.exp(-SPRING_Z * SPRING_W * u);
+    return leverMax * e * (Math.cos(springWd * u) + (SPRING_Z * SPRING_W / springWd) * Math.sin(springWd * u));
+  }
+  function updateLever() {
+    if (!pivot || leverT0 < 0) return;
+    const t = now - leverT0;
+    let a = leverAngle(t);
+    if (t > PULL_T + HOLD_T + 1.2 && Math.abs(a) < 0.0005) { a = 0; leverT0 = -1; }
+    qLever.setFromAxisAngle(xAxis, a * leverSign);
+    pivot.quaternion.copy(leverBase).multiply(qLever);
+  }
 
   const faceAngle = k => (k + 0.5) * STEP;
   const visibleFace = r => ((Math.round(r.angle / STEP - 0.5) % FACES) + FACES) % FACES;
@@ -494,7 +529,7 @@ export async function mount(stage, items, opts = {}) {
     const dt = Math.min(raw, 1 / 20);
     now += dt;
     adapt(raw);
-    mixer.update(dt);
+    updateLever();
     const k = 1 - Math.exp(-dt * 4);
     px += (tx - px) * k;
     py += (ty - py) * k;
@@ -590,8 +625,8 @@ export async function mount(stage, items, opts = {}) {
       if (opts.onStart) opts.onStart();
       sfx.pull();
       const winner = nextWinner;
-      if (pullAction) { pullAction.reset(); pullAction.play(); }
-      const delay = pullAction ? 0.26 : 0;
+      leverT0 = now;
+      const delay = pivot ? PULL_T : 0;
       const t0 = now + delay;
       reels.forEach((r, i) => spinTo(r, i, t0));
       spinEnd = t0 + 0.5;
