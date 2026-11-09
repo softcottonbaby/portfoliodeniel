@@ -392,8 +392,9 @@ export async function mount(stage, items, opts = {}) {
     pivot.quaternion.copy(leverBase).multiply(qLever);
   }
 
-  const faceAngle = k => (k + 0.5) * STEP;
-  const visibleFace = r => ((Math.round(r.angle / STEP - 0.5) % FACES) + FACES) % FACES;
+  const FACE_UP = 0.26;
+  const faceAngle = k => (k + 0.5) * STEP - FACE_UP;
+  const visibleFace = r => ((Math.round((r.angle + FACE_UP) / STEP - 0.5) % FACES) + FACES) % FACES;
   let nextWinner = -1, prepared = false;
 
   function prepareNext() {
@@ -427,6 +428,7 @@ export async function mount(stage, items, opts = {}) {
     nextWinner = next;
     prepared = true;
   }
+  reels.forEach(r => { r.angle = r.shown = faceAngle(0); r.mesh.rotation.x = r.angle; });
   prepareNext();
 
   let dropY = 9;
