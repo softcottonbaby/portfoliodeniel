@@ -7,14 +7,13 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
 const FACES = 8;
-const TILE_W = 640;
-const TILE_H = 352;
 const TAU = Math.PI * 2;
+const STEP = TAU / FACES;
 
 const loadImg = src => new Promise(res => {
   const im = new Image();
   im.decoding = 'async';
-  im.onload = () => res(im);
+  im.onload = () => (im.decode ? im.decode().catch(() => {}) : Promise.resolve()).then(() => res(im));
   im.onerror = () => res(null);
   im.src = src;
 });
@@ -29,62 +28,71 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
-function drawTile(im) {
+function drawTile(im, W, H) {
   const c = document.createElement('canvas');
-  c.width = TILE_W; c.height = TILE_H;
+  c.width = W; c.height = H;
   const g = c.getContext('2d');
-  const bg = g.createLinearGradient(0, 0, 0, TILE_H);
-  bg.addColorStop(0, '#dcd9d4'); bg.addColorStop(.5, '#fbfaf8'); bg.addColorStop(1, '#dcd9d4');
+  g.imageSmoothingEnabled = true;
+  g.imageSmoothingQuality = 'high';
+  const k = W / 640;
+  const bg = g.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#d9d6d0'); bg.addColorStop(.5, '#fbfaf8'); bg.addColorStop(1, '#d9d6d0');
   g.fillStyle = bg;
-  g.fillRect(0, 0, TILE_W, TILE_H);
-  const px = 30, py = 26, w = TILE_W - px * 2, h = TILE_H - py * 2;
+  g.fillRect(0, 0, W, H);
+  const px = 30 * k, py = 26 * k, w = W - px * 2, h = H - py * 2, rr = 18 * k;
   g.save();
-  g.shadowColor = 'rgba(0,0,0,.35)'; g.shadowBlur = 14; g.shadowOffsetY = 4;
-  roundRect(g, px, py, w, h, 18);
+  g.shadowColor = 'rgba(0,0,0,.35)'; g.shadowBlur = 14 * k; g.shadowOffsetY = 4 * k;
+  roundRect(g, px, py, w, h, rr);
   g.fillStyle = '#111'; g.fill();
   g.restore();
   if (im) {
     g.save();
-    roundRect(g, px, py, w, h, 18);
+    roundRect(g, px, py, w, h, rr);
     g.clip();
     const s = Math.max(w / im.naturalWidth, h / im.naturalHeight);
     const iw = im.naturalWidth * s, ih = im.naturalHeight * s;
-    g.drawImage(im, px + (w - iw) / 2, py + (h - ih) / 2, iw, ih);
+    let src = im, sw = im.naturalWidth, sh = im.naturalHeight;
+    while (sw * 0.5 > iw) {
+      const t = document.createElement('canvas');
+      t.width = Math.round(sw * 0.5); t.height = Math.round(sh * 0.5);
+      const tg = t.getContext('2d');
+      tg.imageSmoothingQuality = 'high';
+      tg.drawImage(src, 0, 0, t.width, t.height);
+      src = t; sw = t.width; sh = t.height;
+    }
+    g.drawImage(src, px + (w - iw) / 2, py + (h - ih) / 2, iw, ih);
     g.restore();
   }
-  return c;
-}
-
-function reelCanvas(tiles) {
-  const c = document.createElement('canvas');
-  c.width = TILE_H * FACES; c.height = TILE_W;
-  const g = c.getContext('2d');
-  tiles.forEach((t, k) => {
-    g.save();
-    g.translate(k * TILE_H + TILE_H / 2, TILE_W / 2);
-    g.rotate(Math.PI / 2);
-    g.drawImage(t, -TILE_W / 2, -TILE_H / 2);
-    g.restore();
-  });
-  return c;
-}
-
-function blurred(src) {
-  const c = document.createElement('canvas');
-  c.width = src.width; c.height = src.height;
-  const g = c.getContext('2d');
-  const steps = 9;
-  g.globalAlpha = 1 / steps * 1.6;
-  for (let i = 0; i < steps; i++) {
-    const off = (i - (steps - 1) / 2) * 9;
-    g.drawImage(src, off, 0);
-    g.drawImage(src, off + (off < 0 ? c.width : -c.width), 0);
-  }
-  g.globalAlpha = 1;
-  return c;
+  const r = document.createElement('canvas');
+  r.width = H; r.height = W;
+  const rg = r.getContext('2d');
+  rg.translate(H / 2, W / 2);
+  rg.rotate(Math.PI / 2);
+  rg.drawImage(c, -W / 2, -H / 2);
+  return r;
 }
 
 const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+const BLUR_FRAG = `
+#ifdef USE_MAP
+  vec4 sampledDiffuseColor;
+  if (uBlur < 0.0004) {
+    sampledDiffuseColor = texture2D(map, vMapUv);
+  } else {
+    vec4 acc = vec4(0.0);
+    float ws = 0.0;
+    for (int i = -7; i <= 7; i++) {
+      float f = float(i) / 7.0;
+      float w = 1.0 - f * f * 0.75;
+      acc += texture2D(map, vMapUv + vec2(f * uBlur, 0.0)) * w;
+      ws += w;
+    }
+    sampledDiffuseColor = acc / ws;
+  }
+  diffuseColor *= sampledDiffuseColor;
+#endif
+`;
 
 const SOUNDS = { whoosh: 0.9, lever: 1, spin: 0.32, stop: 0.75, win: 0.85, coins: 0.4 };
 
@@ -195,9 +203,14 @@ const easeOutBack = (t, s = 1.4) => { const p = t - 1; return 1 + (s + 1) * p * 
 export async function mount(stage, items, opts = {}) {
   const canvas = stage.querySelector('canvas');
   const frame = opts.frame || stage;
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  renderer.setPixelRatio(dpr);
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance', stencil: false });
+  const small = Math.min(screen.width, screen.height) < 700;
+  const maxTex = renderer.capabilities.maxTextureSize;
+  const TILE_H = !small && maxTex >= 8192 ? 512 : 352;
+  const TILE_W = Math.round(TILE_H * 1.8125);
+  const maxScale = Math.min(window.devicePixelRatio || 1, 2);
+  let scale = maxScale;
+  renderer.setPixelRatio(scale);
   renderer.setClearColor(0x050506, 1);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -206,19 +219,22 @@ export async function mount(stage, items, opts = {}) {
   const scene = new THREE.Scene();
   scene.environment = studioEnv(renderer);
   const bgCanvas = document.createElement('canvas');
-  bgCanvas.width = 512; bgCanvas.height = 512;
+  bgCanvas.width = 1024; bgCanvas.height = 1024;
   const bgTex = new THREE.CanvasTexture(bgCanvas);
   bgTex.colorSpace = THREE.SRGBColorSpace;
   scene.background = bgTex;
-  function paintBg(cx, cy) {
-    const g = bgCanvas.getContext('2d');
-    g.fillStyle = '#050506'; g.fillRect(0, 0, 512, 512);
-    const a = g.createRadialGradient(cx * 512, cy * 512, 0, cx * 512, cy * 512, 300);
+  let bgY = -1;
+  function paintBg(cy) {
+    if (Math.abs(cy - bgY) < 0.002) return;
+    bgY = cy;
+    const g = bgCanvas.getContext('2d'), S = 1024, x = S / 2, y = cy * S;
+    g.fillStyle = '#050506'; g.fillRect(0, 0, S, S);
+    const a = g.createRadialGradient(x, y, 0, x, y, 600);
     a.addColorStop(0, 'rgba(124,58,237,.20)'); a.addColorStop(1, 'rgba(124,58,237,0)');
-    g.fillStyle = a; g.fillRect(0, 0, 512, 512);
-    const b = g.createRadialGradient(cx * 512, cy * 512, 0, cx * 512, cy * 512, 190);
+    g.fillStyle = a; g.fillRect(0, 0, S, S);
+    const b = g.createRadialGradient(x, y, 0, x, y, 380);
     b.addColorStop(0, 'rgba(245,158,11,.13)'); b.addColorStop(1, 'rgba(245,158,11,0)');
-    g.fillStyle = b; g.fillRect(0, 0, 512, 512);
+    g.fillStyle = b; g.fillRect(0, 0, S, S);
     bgTex.needsUpdate = true;
   }
 
@@ -238,7 +254,10 @@ export async function mount(stage, items, opts = {}) {
   draco.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/libs/draco/gltf/');
   const loader = new GLTFLoader();
   loader.setDRACOLoader(draco);
-  const gltf = await loader.loadAsync(opts.model || './slot.glb');
+  const [gltf, images] = await Promise.all([
+    loader.loadAsync(opts.model || './slot.glb'),
+    Promise.all(items.map(it => loadImg('./' + it.file)))
+  ]);
 
   const rig = new THREE.Group();
   scene.add(rig);
@@ -255,29 +274,57 @@ export async function mount(stage, items, opts = {}) {
     if (o.isMesh && o.material && /knob/i.test(o.material.name)) { o.material.envMapIntensity = 1.4; o.material.color.setRGB(0.75, 0.01, 0.02); }
   });
 
+  const tiles = images.map(im => drawTile(im, TILE_W, TILE_H));
+  const aniso = Math.min(16, renderer.capabilities.getMaxAnisotropy());
+
+  function makeStripTex() {
+    const c = document.createElement('canvas');
+    c.width = TILE_H * FACES; c.height = TILE_W;
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.anisotropy = aniso;
+    t.wrapS = THREE.RepeatWrapping;
+    t.minFilter = THREE.LinearMipmapLinearFilter;
+    return t;
+  }
+  function paintStrip(tex, list, only) {
+    const g = tex.image.getContext('2d');
+    list.forEach((d, k) => { if (!only || only.has(k)) g.drawImage(tiles[d], k * TILE_H, 0); });
+    tex.needsUpdate = true;
+  }
+
   const reels = [];
-  const reelGeo = new THREE.CylinderGeometry(1, 1, 1.45, 160, 1, true);
+  const reelGeo = new THREE.CylinderGeometry(1, 1, 1.45, 192, 1, true);
   reelGeo.rotateZ(Math.PI / 2);
   for (let i = 1; i <= 3; i++) {
     const ph = machine.getObjectByName('Reel' + i);
     const x = ph ? ph.position.x : (i - 2) * 1.69;
     if (ph) ph.visible = false;
+    const blur = { value: 0 };
     const mat = new THREE.MeshStandardMaterial({ color: 0xe6e4e0, roughness: 0.5, metalness: 0, envMapIntensity: 0.3 });
+    mat.onBeforeCompile = sh => {
+      sh.uniforms.uBlur = blur;
+      sh.fragmentShader = 'uniform float uBlur;\n' + sh.fragmentShader.replace('#include <map_fragment>', BLUR_FRAG);
+    };
+    mat.customProgramCacheKey = () => 'reelblur';
     const mesh = new THREE.Mesh(reelGeo, mat);
     mesh.position.set(x, ph ? ph.position.y : 0, ph ? ph.position.z : 0);
     rig.add(mesh);
-    reels.push({ mesh, mat, list: [], sharp: null, blur: null, angle: 0, from: 0, to: 0, t0: 0, dur: 0, spinning: false, face: 0 });
+    reels.push({ mesh, mat, blur, tex: [makeStripTex(), makeStripTex()], cur: 0, list: [], slot: 0, angle: 0, shown: 0, from: 0, to: 0, t0: 0, dur: 0, spinning: false });
   }
 
   const shadowTex = (() => {
-    const c = document.createElement('canvas'); c.width = 256; c.height = 64;
+    const c = document.createElement('canvas'); c.width = 512; c.height = 256;
     const g = c.getContext('2d');
-    const rg = g.createRadialGradient(128, 32, 0, 128, 32, 128);
-    rg.addColorStop(0, 'rgba(0,0,0,.75)'); rg.addColorStop(1, 'rgba(0,0,0,0)');
-    g.setTransform(1, 0, 0, 0.25, 0, 24); g.fillStyle = rg; g.fillRect(0, 0, 256, 256);
-    return new THREE.CanvasTexture(c);
+    g.setTransform(1, 0, 0, 0.5, 0, 0);
+    const rg = g.createRadialGradient(256, 256, 0, 256, 256, 200);
+    rg.addColorStop(0, 'rgba(0,0,0,.7)'); rg.addColorStop(0.5, 'rgba(0,0,0,.35)'); rg.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = rg; g.fillRect(0, 0, 512, 512);
+    const t = new THREE.CanvasTexture(c);
+    t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
+    return t;
   })();
-  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(9.5, 2.4), new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false, opacity: 0.9 }));
+  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(9.5, 2.4), new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false, opacity: 0 }));
   shadow.rotation.x = -Math.PI / 2;
   shadow.position.set(0.45, -1.75, 0.2);
   scene.add(shadow);
@@ -289,66 +336,73 @@ export async function mount(stage, items, opts = {}) {
   }
   let sparkLift = 0;
   const sGeo = new THREE.BufferGeometry();
-  sGeo.setAttribute('position', new THREE.BufferAttribute(sPos, 3));
-  sGeo.setAttribute('color', new THREE.BufferAttribute(sCol, 3));
+  sGeo.setAttribute('position', new THREE.BufferAttribute(sPos, 3).setUsage(THREE.DynamicDrawUsage));
+  sGeo.setAttribute('color', new THREE.BufferAttribute(sCol, 3).setUsage(THREE.DynamicDrawUsage));
   const sMat = new THREE.PointsMaterial({ size: 0.22, map: sparkTexture(), vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true });
   const sparks = new THREE.Points(sGeo, sMat);
   sparks.position.set(0.45, -5.5, 0);
+  sparks.frustumCulled = false;
   scene.add(sparks);
 
-  const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, format: THREE.RGBAFormat, colorSpace: THREE.LinearSRGBColorSpace }));
-  composer.setPixelRatio(Math.min(dpr, 1.5));
+  const rt = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: renderer.capabilities.isWebGL2 ? 4 : 0 });
+  const composer = new EffectComposer(renderer, rt);
+  composer.setPixelRatio(scale);
   composer.addPass(new RenderPass(scene, camera));
   const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.16, 0.35, 0.96);
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
 
-  const pivot = machine.getObjectByName('LeverPivot');
-  const leverParts = [];
-  if (pivot) pivot.traverse(o => { if (o.isMesh) leverParts.push(o); });
   const mixer = new THREE.AnimationMixer(machine);
   const clip = gltf.animations.find(a => /pull/i.test(a.name)) || gltf.animations[0];
   const pullAction = clip ? mixer.clipAction(clip) : null;
   if (pullAction) { pullAction.setLoop(THREE.LoopOnce, 1); pullAction.clampWhenFinished = false; }
 
-  const images = await Promise.all(items.map(it => loadImg('./' + it.file)));
-  const tiles = images.map(drawTile);
+  const faceAngle = k => (k + 0.5) * STEP;
+  const visibleFace = r => ((Math.round(r.angle / STEP - 0.5) % FACES) + FACES) % FACES;
+  let nextWinner = -1, prepared = false;
 
-  function buildReel(r, winner) {
-    const others = shuffle(items.map((_, i) => i).filter(i => i !== winner));
-    const list = others.slice(0, FACES - 1);
-    const slot = Math.floor(Math.random() * FACES);
-    list.splice(slot, 0, winner);
-    r.list = list;
-    const c = reelCanvas(list.map(i => tiles[i]));
-    if (r.sharp) { r.sharp.dispose(); r.blur.dispose(); }
-    r.sharp = new THREE.CanvasTexture(c);
-    r.blur = new THREE.CanvasTexture(blurred(c));
-    for (const t of [r.sharp, r.blur]) {
-      t.colorSpace = THREE.SRGBColorSpace;
-      t.anisotropy = renderer.capabilities.getMaxAnisotropy();
-      t.wrapS = THREE.RepeatWrapping;
-    }
-    r.mat.map = r.sharp;
-    r.mat.needsUpdate = true;
-    return slot;
+  function prepareNext() {
+    const n = items.length;
+    let next = Math.floor(Math.random() * n);
+    const shownNow = reels[0].list.length ? reels[0].list[visibleFace(reels[0])] : -1;
+    if (n > 1 && next === shownNow) next = (next + 1 + Math.floor(Math.random() * (n - 1))) % n;
+    reels.forEach(r => {
+      const first = !r.list.length;
+      const kv = first ? 0 : visibleFace(r);
+      const keep = first ? new Set() : new Set([kv, (kv + 1) % FACES, (kv + FACES - 1) % FACES]);
+      const list = first ? new Array(FACES).fill(0) : r.list.slice();
+      const open = [...Array(FACES).keys()].filter(k => !keep.has(k) && k !== kv);
+      const slot = open[Math.floor(Math.random() * open.length)];
+      const kept = new Set([...keep].map(k => list[k]));
+      const pool = shuffle([...Array(n).keys()].filter(d => d !== next && !kept.has(d)));
+      for (let k = 0; k < FACES; k++) {
+        if (keep.has(k)) continue;
+        if (k === slot) list[k] = next;
+        else list[k] = pool.length ? pool.pop() : Math.floor(Math.random() * n);
+      }
+      r.list = list;
+      r.slot = slot;
+      const back = 1 - r.cur;
+      paintStrip(r.tex[back], list);
+      renderer.initTexture(r.tex[back]);
+      r.cur = back;
+      r.mat.map = r.tex[back];
+      r.mat.needsUpdate = first;
+    });
+    nextWinner = next;
+    prepared = true;
   }
+  prepareNext();
 
-  const faceAngle = k => (k + 0.5) * TAU / FACES;
-  const first = Math.floor(Math.random() * items.length);
-  reels.forEach(r => {
-    const k = buildReel(r, first);
-    r.angle = faceAngle(k);
-    r.mesh.rotation.x = r.angle;
-  });
-
+  let dropY = 9;
   function resize() {
     const rect = stage.getBoundingClientRect();
     const fr = frame.getBoundingClientRect();
     const w = Math.max(1, rect.width), h = Math.max(1, rect.height);
+    renderer.setPixelRatio(scale);
+    composer.setPixelRatio(scale);
     renderer.setSize(w, h, false);
     composer.setSize(w, h);
-    bloom.resolution.set(w, h);
     camera.aspect = w / h;
     const half = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
     const boxW = Math.max(120, Math.min(fr.width * 0.94, 1080));
@@ -362,69 +416,93 @@ export async function mount(stage, items, opts = {}) {
     const cy = fr.top - rect.top + fr.height / 2;
     camera.setViewOffset(w, h, 0, h / 2 - cy, w, h);
     camera.updateProjectionMatrix();
-    paintBg(0.5, cy / h);
+    paintBg(cy / h);
   }
-  let dropY = 9;
   resize();
-  const ro = new ResizeObserver(resize);
+  let resizeQueued = false;
+  const ro = new ResizeObserver(() => {
+    if (resizeQueued) return;
+    resizeQueued = true;
+    requestAnimationFrame(() => { resizeQueued = false; resize(); });
+  });
   ro.observe(stage);
   ro.observe(frame);
 
   let px = 0, py = 0, tx = 0, ty = 0;
   const raycaster = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
-  const hit = (e, list, deep) => {
+  const hit = e => {
     const rect = canvas.getBoundingClientRect();
     ndc.set(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1);
     raycaster.setFromCamera(ndc, camera);
-    return raycaster.intersectObjects(list, deep).length > 0;
+    return raycaster.intersectObject(rig, true).length > 0;
   };
+  let hoverCheck = 0;
   canvas.addEventListener('pointermove', e => {
     const rect = canvas.getBoundingClientRect();
     tx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
     ty = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-    canvas.style.cursor = !busy && !intro && hit(e, [rig], true) ? 'pointer' : 'default';
-  });
+    const t = performance.now();
+    if (t - hoverCheck > 80) { hoverCheck = t; canvas.style.cursor = !busy && !intro && hit(e) ? 'pointer' : 'default'; }
+  }, { passive: true });
   canvas.addEventListener('pointerleave', () => { tx = 0; ty = 0; });
-  canvas.addEventListener('pointerdown', e => { if (hit(e, [rig], true)) api.pull(); });
+  canvas.addEventListener('pointerdown', e => { if (hit(e)) api.pull(); });
 
   const sfx = new Sfx(opts.audio);
   sfx.setMuted(!!opts.muted);
   await sfx.load(opts.sounds || './sfx/');
+
   let busy = false, raf = 0, flash = 0, intro = null, landed = false, queued = false;
-  const clock = new THREE.Clock();
+  let last = 0, now = 0, perfAcc = 0, perfN = 0, goodWindows = 0;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const INTRO = reduce ? 0.6 : 2.1;
 
-  function spinTo(r, winnerSlot, i, now) {
-    const base = faceAngle(winnerSlot);
+  function spinTo(r, i, t) {
+    const base = faceAngle(r.slot);
     const turns = (reduce ? 1 : 3) + i * (reduce ? 0.5 : 1.25);
     let to = base;
     while (to < r.angle + turns * TAU) to += TAU;
-    r.from = r.angle; r.to = to; r.t0 = now + i * 0.06; r.dur = (reduce ? 0.9 : 1.75) + i * (reduce ? 0.25 : 0.55);
+    r.from = r.angle; r.to = to; r.t0 = t + i * 0.06; r.dur = (reduce ? 0.9 : 1.75) + i * (reduce ? 0.25 : 0.55);
     r.spinning = true;
   }
 
   function startIntro() {
-    intro = { t0: clock.elapsedTime };
+    intro = { t0: now + 0.15 };
     landed = false;
-    reels.forEach(r => { r.introFrom = r.angle - TAU * (1.5 + Math.random()); r.face = Math.floor(r.introFrom / (TAU / FACES)); });
+    reels.forEach(r => { r.introFrom = r.angle - TAU * (1.5 + Math.random()); });
     if (opts.onIntro) opts.onIntro();
-    sfx.intro();
+    setTimeout(() => sfx.intro(), 150);
+  }
+
+  function adapt(raw) {
+    if (intro || raw > 0.25) return;
+    perfAcc += raw; perfN++;
+    if (perfN < 40) return;
+    const avg = perfAcc / perfN;
+    perfAcc = 0; perfN = 0;
+    if (avg > 1 / 48 && scale > 1) { scale = Math.max(1, +(scale - 0.25).toFixed(2)); goodWindows = 0; resize(); }
+    else if (avg < 1 / 58 && scale < maxScale) { if (++goodWindows >= 4) { goodWindows = 0; scale = Math.min(maxScale, +(scale + 0.25).toFixed(2)); resize(); } }
+    else goodWindows = 0;
   }
 
   let resolveSpin = null, spinEnd = 0;
-  function tick() {
+  function tick(ts) {
     raf = requestAnimationFrame(tick);
-    const dt = Math.min(clock.getDelta(), 0.05);
-    const now = clock.elapsedTime;
+    const t = ts / 1000;
+    const raw = last ? t - last : 1 / 60;
+    last = t;
+    const dt = Math.min(raw, 1 / 20);
+    now += dt;
+    adapt(raw);
     mixer.update(dt);
-    px += (tx - px) * Math.min(1, dt * 3);
-    py += (ty - py) * Math.min(1, dt * 3);
+    const k = 1 - Math.exp(-dt * 4);
+    px += (tx - px) * k;
+    py += (ty - py) * k;
 
     let ip = 1;
     if (intro) {
       ip = clamp01((now - intro.t0) / INTRO);
+      if (now < intro.t0) ip = 0;
       if (!landed && ip > 0.5) {
         landed = true; flash = 1;
         sfx.land();
@@ -436,6 +514,7 @@ export async function mount(stage, items, opts = {}) {
     const ec = easeOutCubic(ip);
     const eq = 1 - Math.pow(1 - ip, 4);
     rig.scale.setScalar(0.92 + 0.08 * ec);
+    shadow.material.opacity = 0.85 * clamp01((ip - 0.42) / 0.3);
     rig.rotation.y = -0.22 + px * 0.2 - (1 - eq) * TAU * 1.25;
     rig.rotation.x = 0.05 + py * 0.08 + (1 - ec) * 0.75;
     rig.rotation.z = (1 - ec) * -0.3;
@@ -461,33 +540,32 @@ export async function mount(stage, items, opts = {}) {
     sGeo.attributes.color.needsUpdate = true;
 
     let still = true;
-    reels.forEach(r => {
+    for (let i = 0; i < reels.length; i++) {
+      const r = reels[i];
       let shown = r.angle;
       if (r.spinning) {
         still = false;
-        const t = clamp01((now - r.t0) / r.dur);
-        const prev = r.angle;
-        r.angle = r.from + (r.to - r.from) * easeOutBack(t, 1.25);
-        const speed = Math.abs(r.angle - prev) / Math.max(dt, 1e-3);
-        const want = speed > 9 ? r.blur : r.sharp;
-        if (r.mat.map !== want) { r.mat.map = want; r.mat.needsUpdate = true; }
+        const p = clamp01((now - r.t0) / r.dur);
+        r.angle = r.from + (r.to - r.from) * easeOutBack(p, 1.25);
         shown = r.angle;
-        if (t >= 1) {
+        if (p >= 1) {
           r.spinning = false;
           r.angle = r.to % TAU;
           shown = r.angle;
-          if (r.mat.map !== r.sharp) { r.mat.map = r.sharp; r.mat.needsUpdate = true; }
-          sfx.stop(reels.indexOf(r));
+          sfx.stop(i);
           flash = Math.max(flash, 0.35);
-          if (opts.onReelStop) opts.onReelStop(reels.indexOf(r));
+          if (opts.onReelStop) opts.onReelStop(i);
         }
-      } else if (intro || ip < 1) {
-        shown = r.introFrom + (r.angle - r.introFrom) * easeOutCubic(clamp01((now - (intro ? intro.t0 : 0)) / (INTRO * 0.95)));
+      } else if (intro) {
+        shown = r.introFrom + (r.angle - r.introFrom) * easeOutCubic(clamp01((now - intro.t0) / (INTRO * 0.95)));
       }
-      const f = Math.floor(shown / (TAU / FACES));
-      if (f !== r.face) r.face = f;
+      const speed = Math.abs(shown - r.shown) / Math.max(dt, 1e-3);
+      const target = Math.min(0.045, speed / TAU / 55);
+      r.blur.value += (target - r.blur.value) * (target > r.blur.value ? 0.6 : 0.35);
+      if (r.blur.value < 0.0004) r.blur.value = 0;
+      r.shown = shown;
       r.mesh.rotation.x = shown;
-    });
+    }
     if (busy && still && resolveSpin && now > spinEnd) {
       const done = resolveSpin; resolveSpin = null;
       flash = 1;
@@ -497,38 +575,50 @@ export async function mount(stage, items, opts = {}) {
     composer.render(dt);
   }
 
+  function schedulePrepare() {
+    prepared = false;
+    const run = () => { if (!busy && !prepared) prepareNext(); };
+    setTimeout(() => (window.requestIdleCallback ? requestIdleCallback(run, { timeout: 600 }) : run()), 1500);
+  }
+
   const api = {
     pull() {
       if (intro) { queued = true; return null; }
       if (busy || !items.length) return null;
+      if (!prepared) prepareNext();
       busy = true;
       if (opts.onStart) opts.onStart();
       sfx.pull();
-      const winner = Math.floor(Math.random() * items.length);
+      const winner = nextWinner;
       if (pullAction) { pullAction.reset(); pullAction.play(); }
-      const now = clock.elapsedTime;
       const delay = pullAction ? 0.26 : 0;
-      reels.forEach((r, i) => {
-        const slot = buildReel(r, winner);
-        r.mat.map = r.blur; r.mat.needsUpdate = true;
-        setTimeout(() => spinTo(r, slot, i, clock.elapsedTime), delay * 1000);
-      });
-      spinEnd = now + delay + 0.5;
+      const t0 = now + delay;
+      reels.forEach((r, i) => spinTo(r, i, t0));
+      spinEnd = t0 + 0.5;
       return new Promise(res => {
-        resolveSpin = () => { busy = false; res(items[winner]); if (opts.onResult) opts.onResult(items[winner]); };
+        resolveSpin = () => {
+          busy = false;
+          res(items[winner]);
+          if (opts.onResult) opts.onResult(items[winner]);
+          schedulePrepare();
+        };
       });
     },
     setActive(on, withIntro = true) {
       cancelAnimationFrame(raf);
+      last = 0;
       if (on) {
-        clock.getDelta(); resize();
+        resize();
         if (withIntro && !busy) startIntro();
-        tick();
+        raf = requestAnimationFrame(tick);
       }
     },
     setMuted(m) { sfx.setMuted(m); },
     get busy() { return busy; }
   };
+
+  renderer.compile(scene, camera);
+  composer.render(0);
   api.setActive(true);
   return api;
 }

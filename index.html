@@ -480,9 +480,9 @@ body {
 @keyframes slotBreath { 50% { opacity: .6; transform: scale(.95); } }
 .slot-sound { position: absolute; top: 1rem; left: 1rem; }
 .slot-lights { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; mix-blend-mode: screen; }
-.slot-beam { position: absolute; top: -12%; width: 34vmax; height: 120vh; margin-left: -17vmax; background: linear-gradient(to bottom, rgba(255,238,200,.26), rgba(255,214,140,.10) 45%, transparent 85%); clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%); filter: blur(10px); transform-origin: 50% 0; opacity: 0; }
+.slot-beam { position: absolute; top: -10%; width: 90vmax; height: 125vh; margin-left: -45vmax; background: conic-gradient(from 0deg at 50% 0%, transparent 0deg 167deg, rgba(255,236,196,0) 167deg, rgba(255,236,196,.20) 175deg, rgba(255,240,210,.26) 180deg, rgba(255,236,196,.20) 185deg, rgba(255,236,196,0) 193deg, transparent 193deg 360deg); -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.7) 45%, transparent 88%); mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.7) 45%, transparent 88%); transform-origin: 50% 0; opacity: 0; will-change: transform, opacity; }
 .slot-beam.b1 { left: 12%; --a0: -48deg; --a1: -24deg; }
-.slot-beam.b2 { left: 50%; --a0: 0deg; --a1: 0deg; background: linear-gradient(to bottom, rgba(196,160,255,.18), rgba(168,85,247,.07) 50%, transparent 85%); }
+.slot-beam.b2 { left: 50%; --a0: 0deg; --a1: 0deg; background: conic-gradient(from 0deg at 50% 0%, transparent 0deg 165deg, rgba(168,85,247,0) 165deg, rgba(196,160,255,.14) 175deg, rgba(196,160,255,.18) 180deg, rgba(196,160,255,.14) 185deg, rgba(168,85,247,0) 195deg, transparent 195deg 360deg); }
 .slot-beam.b3 { left: 88%; --a0: 48deg; --a1: 24deg; }
 .slot-modal.intro .slot-beam { animation: slotBeamIn 1.3s cubic-bezier(.22,1,.36,1) .35s forwards, slotBeamSway 7s ease-in-out 1.65s infinite alternate; }
 .slot-modal.intro .slot-beam.b2 { animation: slotBeamCenter 1.6s ease .9s forwards; }
@@ -492,7 +492,7 @@ body {
 @keyframes slotBeamCenter { 0% { opacity: 0; } 40% { opacity: 1; } 100% { opacity: .55; } }
 .slot-bokeh { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease .6s; }
 .slot-modal.intro .slot-bokeh { opacity: 1; }
-.slot-bokeh i { position: absolute; bottom: -10%; width: var(--s); height: var(--s); border-radius: 50%; background: radial-gradient(closest-side, var(--c), transparent); filter: blur(var(--b)); animation: slotBokeh var(--d) linear var(--dl) infinite; }
+.slot-bokeh i { position: absolute; bottom: -10%; width: var(--s); height: var(--s); border-radius: 50%; background: radial-gradient(closest-side, var(--c), transparent); opacity: 0; animation: slotBokeh var(--d) linear var(--dl) infinite; will-change: transform, opacity; }
 @keyframes slotBokeh { 0% { transform: translate3d(0,0,0); opacity: 0; } 15% { opacity: var(--o); } 85% { opacity: var(--o); } 100% { transform: translate3d(var(--dx), -120vh, 0); opacity: 0; } }
 .slot-floor { position: absolute; left: -42vmin; top: 9vmin; width: 84vmin; height: 16vmin; border-radius: 50%; background: radial-gradient(closest-side, rgba(251,191,36,.38), rgba(245,158,11,.10) 55%, transparent); opacity: 0; transform: scaleX(.2); }
 .slot-flare { position: absolute; left: -50vw; top: -1px; width: 100vw; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,226,160,.0) 15%, rgba(255,240,200,.95) 50%, rgba(255,226,160,0) 85%, transparent); box-shadow: 0 0 18px 4px rgba(251,191,36,.45); opacity: 0; transform: scaleX(0); }
@@ -2575,8 +2575,8 @@ function slotBokeh() {
   const cols = ['rgba(251,191,36,.9)', 'rgba(253,230,138,.8)', 'rgba(192,132,252,.8)', 'rgba(245,158,11,.85)'];
   let html = '';
   for (let i = 0; i < 18; i++) {
-    const sz = 14 + Math.random() * 60;
-    html += `<i style="left:${Math.random() * 100}%;--s:${sz}px;--b:${2 + sz / 12}px;--c:${cols[i % cols.length]};--o:${(.12 + Math.random() * .3).toFixed(2)};--d:${(14 + Math.random() * 16).toFixed(1)}s;--dl:${(-Math.random() * 30).toFixed(1)}s;--dx:${Math.round(Math.random() * 120 - 60)}px"></i>`;
+    const sz = 18 + Math.random() * 70;
+    html += `<i style="left:${Math.random() * 100}%;--s:${sz}px;--c:${cols[i % cols.length]};--o:${(.12 + Math.random() * .3).toFixed(2)};--d:${(14 + Math.random() * 16).toFixed(1)}s;--dl:${(-Math.random() * 30).toFixed(1)}s;--dx:${Math.round(Math.random() * 120 - 60)}px"></i>`;
   }
   box.innerHTML = html;
 }
@@ -2584,6 +2584,7 @@ let slotPrefetched = false;
 function slotPrefetch() {
   if (slotPrefetched) return;
   slotPrefetched = true;
+  slotBokeh();
   import('./slot.js').catch(() => {});
   const urls = ['./slot.glb', './sfx/whoosh.mp3', './sfx/lever.mp3', './sfx/spin.mp3', './sfx/stop.mp3', './sfx/win.mp3', './sfx/coins.mp3',
     'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/libs/draco/gltf/draco_decoder.wasm',
