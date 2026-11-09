@@ -94,7 +94,8 @@ const BLUR_FRAG = `
 #endif
 `;
 
-const SOUNDS = { whoosh: 0.9, lever: 1, spin: 0.32, stop: 0.75, win: 0.85, coins: 0.4 };
+const SOUNDS = { whoosh: 0.9, lever: 1, spin: 0.32, stop: 0.8, win: 0.85, coins: 0.4 };
+const SOUND_FILES = { stop: 'stop.m4a' };
 
 class Sfx {
   constructor(ctx) {
@@ -110,7 +111,7 @@ class Sfx {
     if (!this.ctx) return;
     await Promise.all(Object.keys(SOUNDS).map(async n => {
       try {
-        const r = await fetch(base + n + '.mp3');
+        const r = await fetch(base + (SOUND_FILES[n] || n + '.mp3'));
         this.buf[n] = await this.ctx.decodeAudioData(await r.arrayBuffer());
       } catch (e) {}
     }));
@@ -399,8 +400,9 @@ export async function mount(stage, items, opts = {}) {
 
   function prepareNext() {
     const n = items.length;
-    let next = Math.floor(Math.random() * n);
     const shownNow = reels[0].list.length ? reels[0].list[visibleFace(reels[0])] : -1;
+    let next = opts.pickNext ? opts.pickNext(shownNow) : Math.floor(Math.random() * n);
+    if (!(next >= 0 && next < n)) next = Math.floor(Math.random() * n);
     if (n > 1 && next === shownNow) next = (next + 1 + Math.floor(Math.random() * (n - 1))) % n;
     reels.forEach(r => {
       const first = !r.list.length;
@@ -466,6 +468,7 @@ export async function mount(stage, items, opts = {}) {
   ro.observe(frame);
 
   let px = 0, py = 0, tx = 0, ty = 0;
+  let busy = false, raf = 0, flash = 0, intro = null, landed = false, queued = false;
   const raycaster = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
   const hit = e => {
@@ -489,7 +492,6 @@ export async function mount(stage, items, opts = {}) {
   sfx.setMuted(!!opts.muted);
   await sfx.load(opts.sounds || './sfx/');
 
-  let busy = false, raf = 0, flash = 0, intro = null, landed = false, queued = false;
   let last = 0, now = 0, perfAcc = 0, perfN = 0, goodWindows = 0;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const INTRO = reduce ? 0.6 : 2.1;
@@ -651,6 +653,7 @@ export async function mount(stage, items, opts = {}) {
       }
     },
     setMuted(m) { sfx.setMuted(m); },
+    play(n, o) { sfx.play(n, o); },
     get busy() { return busy; }
   };
 
