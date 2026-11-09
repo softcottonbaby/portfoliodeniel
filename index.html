@@ -616,9 +616,17 @@ body {
   cursor: pointer;
 }
 .web-item:hover { transform: translateX(4px); }
-.web-item.active { background: rgba(168,85,247,.1); border-color: rgba(192,132,252,.45); }
+.web-item { position: relative; }
+.web-item::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none; opacity: 0; transition: opacity .45s ease; background: conic-gradient(from var(--web-ang), transparent 0 55%, var(--c) 80%, transparent 95%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude; }
+.web-item.active { background: var(--tint); border-color: rgba(255,255,255,.08); }
+.web-item.active::after { opacity: 1; animation: webSpin 2.6s linear infinite; }
 .web-item .web-num { color: #6b7280; transition: color .3s ease; }
-.web-item.active .web-num { color: #c084fc; }
+.web-item.active .web-num { color: var(--c); }
+.web-visit { color: #a1a1aa; transition: color .3s ease; }
+.web-item.active .web-visit, .web-visit:hover { color: var(--c); }
+@property --web-ang { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+@keyframes webSpin { to { --web-ang: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .web-item.active::after { animation: none; background: var(--c); opacity: .45; } }
 .web-preview-frame {
   position: relative;
   height: 440px;
@@ -950,13 +958,13 @@ body {
 
     <div class="reveal grid grid-cols-1 lg:grid-cols-5 gap-6 items-center">
         <div class="lg:col-span-2 space-y-3" id="webList">
-            <button type="button" class="web-item spotlight active" data-index="0" aria-pressed="true">
+            <button type="button" class="web-item active" data-index="0" aria-pressed="true" style="--c:#ef2b2d;--tint:rgba(239,43,45,.06)">
                 <div class="flex items-center justify-between gap-3">
                     <div class="flex items-baseline gap-3">
                         <span class="web-num text-xs font-medium">01</span>
                         <span class="text-lg font-medium text-white">Headed.gg</span>
                     </div>
-                    <a href="https://headed.gg" target="_blank" rel="noopener noreferrer" class="text-xs text-purple-300 hover:text-white transition-colors" onclick="event.stopPropagation()"><span data-i18n="web.visit">Visit</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5"></i></a>
+                    <a href="https://headed.gg" target="_blank" rel="noopener noreferrer" class="web-visit text-xs" onclick="event.stopPropagation()"><span data-i18n="web.visit">Visit</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5"></i></a>
                 </div>
                 <p class="text-sm text-gray-400 mt-1.5 pl-7" data-i18n="web.headed">Affiliate hub with live leaderboards, a points shop and rewards.</p>
                 <div class="flex flex-wrap gap-1.5 mt-3 pl-7">
@@ -965,13 +973,13 @@ body {
                     <span class="text-[11px] text-gray-300 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full" data-i18n="web.tag.lb">Leaderboards</span>
                 </div>
             </button>
-            <button type="button" class="web-item spotlight" data-index="1" aria-pressed="false">
+            <button type="button" class="web-item" data-index="1" aria-pressed="false" style="--c:#ffb020;--tint:rgba(255,176,32,.06)">
                 <div class="flex items-center justify-between gap-3">
                     <div class="flex items-baseline gap-3">
                         <span class="web-num text-xs font-medium">02</span>
                         <span class="text-lg font-medium text-white">Scooby Rewards</span>
                     </div>
-                    <a href="https://scooby-rewards.vercel.app" target="_blank" rel="noopener noreferrer" class="text-xs text-purple-300 hover:text-white transition-colors" onclick="event.stopPropagation()"><span data-i18n="web.visit">Visit</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5"></i></a>
+                    <a href="https://scooby-rewards.vercel.app" target="_blank" rel="noopener noreferrer" class="web-visit text-xs" onclick="event.stopPropagation()"><span data-i18n="web.visit">Visit</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5"></i></a>
                 </div>
                 <p class="text-sm text-gray-400 mt-1.5 pl-7" data-i18n="web.scooby">Creator rewards site with a weekly leaderboard, giveaways and 3D skins.</p>
                 <div class="flex flex-wrap gap-1.5 mt-3 pl-7">
