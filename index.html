@@ -886,6 +886,7 @@ body {
   transition: opacity .5s ease;
 }
 .web-preview-frame iframe.active { opacity: 1; }
+.web-preview-shield { position: absolute; inset: 0; z-index: 5; background: transparent; touch-action: pan-y; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 @media (max-width: 1023px) {
   .web-preview-frame { height: 280px; }
   .web-preview-frame iframe { height: calc(280px / var(--ws, .5)); }
@@ -1251,8 +1252,9 @@ body {
                     </div>
                 </div>
                 <div class="web-preview-frame" id="webFrame">
-                    <iframe src="https://headed.gg" title="Headed.gg preview" class="active" tabindex="-1" loading="lazy"></iframe>
-                    <iframe src="https://scooby-rewards.vercel.app" title="Scooby Rewards preview" tabindex="-1" loading="lazy"></iframe>
+                    <iframe src="https://headed.gg" title="Headed.gg preview" scrolling="no" inert aria-hidden="true" class="active" tabindex="-1" loading="lazy"></iframe>
+                    <iframe src="https://scooby-rewards.vercel.app" title="Scooby Rewards preview" scrolling="no" inert aria-hidden="true" tabindex="-1" loading="lazy"></iframe>
+                    <div class="web-preview-shield" aria-hidden="true"></div>
                     <a id="webOpen" href="https://headed.gg" target="_blank" rel="noopener noreferrer" class="absolute right-3 bottom-3 z-10 text-xs font-medium text-white bg-black/60 backdrop-blur-md border border-white/10 hover:border-purple-400/50 px-3 py-1.5 rounded-full transition-colors"><span data-i18n="web.open">Open live site</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1"></i></a>
                 </div>
             </div>
