@@ -706,14 +706,68 @@ body {
 .hero-play:hover .hero-play-icon { transform: scale(1.08); }
 .hero-play-time { color: #6b7280; font-size: .78rem; font-variant-numeric: tabular-nums; }
 @keyframes heroPlayPulse { 0% { transform: scale(.9); opacity: .9; } 100% { transform: scale(1.45); opacity: 0; } }
-.intro-modal { position: fixed; inset: 0; z-index: 96; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.1rem; padding: 4rem 1.25rem 2rem; background: rgba(5,5,5,.94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); opacity: 0; pointer-events: none; transition: opacity .3s ease; }
+.intro-modal { position: fixed; inset: 0; z-index: 96; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4vh; padding: 4rem 1.25rem 2rem; background: #060507; perspective: 1400px; overflow: hidden; opacity: 0; pointer-events: none; transition: opacity .35s ease; }
 .intro-modal.open { opacity: 1; pointer-events: auto; }
-.intro-frame { position: relative; width: min(1120px, 100%, calc((100vh - 12rem) * 16 / 9)); aspect-ratio: 16 / 9; border-radius: 18px; overflow: hidden; background: #050505; box-shadow: 0 30px 90px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.08), 0 0 80px rgba(124,58,237,.18); transform: translateY(14px) scale(.97); transition: transform .5s cubic-bezier(.22,1,.36,1); }
-.intro-modal.open .intro-frame { transform: none; }
-.intro-frame video { display: block; width: 100%; height: 100%; object-fit: cover; background: #050505; }
-.intro-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .9rem; color: #a1a1aa; font-size: .9rem; opacity: 0; transform: translateY(8px); transition: opacity .4s ease .15s, transform .5s cubic-bezier(.22,1,.36,1) .15s; }
-.intro-modal.open .intro-foot { opacity: 1; transform: none; }
-.intro-close { position: absolute; top: 1rem; right: 1rem; }
+.intro-close { position: absolute; top: 1rem; right: 1rem; z-index: 5; }
+.ip-floor { position: absolute; left: -20%; right: -20%; bottom: -40%; height: 80%; background: radial-gradient(50% 45% at 50% 30%, rgba(124,58,237,.5), transparent 70%); pointer-events: none; }
+.ip-stage { position: relative; width: 100%; display: flex; justify-content: center; perspective: 1400px; }
+.ip-dev { position: relative; width: min(74vw, calc(60vh * 16 / 9)); aspect-ratio: 16 / 9; padding: 10px; border-radius: 18px; background: linear-gradient(180deg, #2c2936, #121117); box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 60px 120px rgba(0,0,0,.8); transform-origin: 50% 100%; transform: rotateX(38deg) translateY(10vh) scale(.82); opacity: 0; transition: transform 1.2s cubic-bezier(.22,1,.36,1), opacity .6s; }
+.intro-modal.open .ip-dev { transform: none; opacity: 1; }
+.ip-screen { position: relative; width: 100%; height: 100%; border-radius: 10px; overflow: hidden; background: #000; }
+.ip-screen video { display: block; width: 100%; height: 100%; object-fit: cover; background: #000; cursor: pointer; }
+.ip-big { position: absolute; left: 50%; top: 50%; width: 76px; height: 76px; margin: -38px 0 0 -38px; border-radius: 50%; border: 0; color: #fff; font-size: 22px; cursor: pointer; background: radial-gradient(circle at 35% 30%, #c084fc, #7c3aed 70%); box-shadow: 0 12px 36px rgba(124,58,237,.5); opacity: 0; transform: scale(.8); pointer-events: none; transition: opacity .3s, transform .3s; }
+.ip-big i { margin-left: 4px; }
+.intro-modal.paused:not(.ended) .ip-big { opacity: 1; transform: none; pointer-events: auto; }
+.ip-refl { position: absolute; left: 0; right: 0; top: calc(100% + 14px); width: 100%; height: 34%; transform: scaleY(-1); opacity: .18; filter: blur(4px); -webkit-mask-image: linear-gradient(to top, #000, transparent 75%); mask-image: linear-gradient(to top, #000, transparent 75%); pointer-events: none; transition: opacity .6s; }
+.ip-ctrl { position: relative; z-index: 2; display: flex; align-items: center; gap: .6rem; padding: 6px 16px 6px 6px; border-radius: 999px; background: rgba(255,255,255,.06); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); width: min(640px, 92vw); opacity: 0; transform: translateY(20px); transition: opacity .6s .7s, transform .6s .7s cubic-bezier(.22,1,.36,1); }
+.intro-modal.open .ip-ctrl { opacity: 1; transform: none; }
+.ip-btn { width: 38px; height: 38px; flex: none; border-radius: 50%; border: 0; cursor: pointer; color: #fff; background: transparent; font-size: .85rem; display: inline-flex; align-items: center; justify-content: center; transition: background .2s; }
+.ip-btn:hover { background: rgba(255,255,255,.1); }
+.ip-label { font-size: .8rem; font-weight: 600; color: #e4e4e7; min-width: 5.6rem; white-space: nowrap; }
+.ip-segs { flex: 1; display: flex; gap: 4px; height: 14px; align-items: center; cursor: pointer; }
+.ip-segs b { position: relative; height: 5px; border-radius: 3px; background: rgba(255,255,255,.16); overflow: hidden; transition: height .2s; }
+.ip-segs:hover b { height: 7px; }
+.ip-segs b i { position: absolute; inset: 0; transform-origin: left; transform: scaleX(0); background: linear-gradient(90deg, #7c3aed, #c084fc); }
+.ip-time { font: 600 .75rem ui-monospace, Menlo, monospace; color: #d4d4d8; font-variant-numeric: tabular-nums; }
+.ip-end { position: absolute; right: 4vw; top: 50%; width: min(400px, 34vw); transform: translate(60px, -50%); opacity: 0; visibility: hidden; z-index: 4; padding: 26px; border-radius: 20px; background: rgba(22,19,30,.74); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.1), 0 40px 80px rgba(0,0,0,.6); display: flex; flex-direction: column; gap: 14px; transition: transform .9s .25s cubic-bezier(.22,1,.36,1), opacity .6s .25s, visibility 0s .9s; }
+.ip-kicker { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #a1a1aa; }
+.ip-end h3 { font-size: 1.6rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; color: #fff; }
+.ip-tiles { display: flex; flex-direction: column; gap: 8px; }
+.ip-tile { display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 14px; border: 0; cursor: pointer; color: #fff; text-align: left; font: inherit; background: rgba(255,255,255,.04); box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); transition: background .2s, box-shadow .2s, transform .2s; }
+.ip-tile:hover, .ip-tile:focus-visible { background: rgba(124,58,237,.2); box-shadow: inset 0 0 0 1px rgba(192,132,252,.6); outline: none; transform: translateX(3px); }
+.ip-tile img { width: 74px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 8px; flex: none; }
+.ip-tile b { display: block; font-size: .95rem; font-weight: 600; }
+.ip-tile small { color: #a1a1aa; font-size: .75rem; }
+.ip-tile > i { margin-left: auto; color: #c084fc; font-size: .8rem; }
+.ip-endfoot { display: flex; justify-content: space-between; align-items: center; }
+.ip-stars { color: #fbbf24; letter-spacing: 3px; font-size: .9rem; }
+.ip-stars small { color: #a1a1aa; letter-spacing: 0; font-size: .78rem; margin-left: 4px; }
+.ip-again { border: 0; background: none; color: #a1a1aa; font: 600 .82rem Inter, sans-serif; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.ip-again:hover { color: #fff; }
+.ip-st { opacity: 0; transform: translateY(14px); transition: opacity .5s, transform .6s cubic-bezier(.22,1,.36,1); }
+.intro-modal.ended .ip-st { opacity: 1; transform: none; }
+.intro-modal.ended .ip-st:nth-child(2) { transition-delay: .4s; } .intro-modal.ended .ip-tiles .ip-st:nth-child(1) { transition-delay: .5s; } .intro-modal.ended .ip-tiles .ip-st:nth-child(2) { transition-delay: .6s; } .intro-modal.ended .ip-tiles .ip-st:nth-child(3) { transition-delay: .7s; } .intro-modal.ended .ip-endfoot.ip-st { transition-delay: .85s; } .intro-modal.ended .ip-kicker.ip-st { transition-delay: .3s; }
+.intro-modal.ended .ip-dev { transform: translateX(-17vw) rotateY(16deg) scale(.86); }
+.intro-modal.ended .ip-end { opacity: 1; visibility: visible; transform: translate(0, -50%); transition: transform .9s .25s cubic-bezier(.22,1,.36,1), opacity .6s .25s, visibility 0s; }
+.intro-modal.ended .ip-ctrl { opacity: 0; transform: translateY(20px); pointer-events: none; transition-delay: 0s; }
+.intro-modal.ended .ip-refl { opacity: 0; }
+@media (max-width: 820px) {
+  .intro-modal { justify-content: center; gap: 3vh; }
+  .ip-stage { position: static; perspective: none; }
+  .ip-dev { width: 92vw; padding: 6px; border-radius: 14px; }
+  .ip-screen { border-radius: 9px; }
+  .ip-label { display: none; }
+  .ip-end { left: 50%; right: auto; top: auto; bottom: 4vh; width: min(420px, 92vw); padding: 18px; transform: translate(-50%, 60px); }
+  .intro-modal.ended .ip-end { transform: translate(-50%, 0); }
+  .intro-modal.ended .ip-dev { transform: translateY(-24vh) scale(.62); }
+  .ip-end h3 { font-size: 1.3rem; }
+  .ip-tile img { width: 64px; }
+}
+@media (max-width: 820px) and (max-height: 700px) { .intro-modal.ended .ip-dev { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .ip-dev, .intro-modal.ended .ip-dev { transform: none !important; }
+  .ip-end, .intro-modal.ended .ip-end { transition: opacity .3s, visibility 0s; }
+}
 @media (prefers-reduced-motion: reduce) { .hero-play-icon::before { animation: none; } }
 .hero-stack { position: relative; width: 100%; max-width: 540px; aspect-ratio: 1 / .9; margin: 0 auto; }
 .hero-card { position: absolute; width: 68%; padding: 0; border: 0; background: none; cursor: zoom-in; animation: heroFloat 6s ease-in-out infinite; }
@@ -1311,8 +1365,33 @@ body {
 
 <div id="introModal" class="intro-modal" role="dialog" aria-modal="true" aria-label="AceSnap intro" aria-hidden="true">
     <button type="button" class="gal-close intro-close" onclick="closeIntro()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-    <div class="intro-frame"><video id="introVideo" src="./intro.mp4?v=5" poster="./intro-poster.jpg?v=5" preload="none" controls playsinline></video></div>
-    <div class="intro-foot"><span data-i18n="intro.like">Like what you see?</span><button type="button" class="hero-cta-primary" onclick="closeIntro(); openContactModal();"><span data-i18n="hero.cta1">Get a quote</span> <i class="fa-solid fa-arrow-right text-xs"></i></button></div>
+    <div class="ip-floor" aria-hidden="true"></div>
+    <div class="ip-stage">
+        <div class="ip-dev">
+            <div class="ip-screen">
+                <video id="introVideo" src="./intro.mp4?v=5" poster="./intro-poster.jpg?v=5" preload="none" playsinline></video>
+                <button type="button" class="ip-big" onclick="introToggle()" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+            </div>
+            <canvas class="ip-refl" id="ipRefl" width="160" height="54" aria-hidden="true"></canvas>
+        </div>
+        <aside class="ip-end" id="ipEnd" aria-hidden="true">
+            <p class="ip-kicker ip-st" data-i18n="intro.thanks">Thanks for watching</p>
+            <h3 class="ip-st" data-i18n="intro.what">What can I make for you?</h3>
+            <div class="ip-tiles">
+                <button type="button" class="ip-tile ip-st" onclick="introOrder()"><img src="img/juaqthumbnail1.webp" alt="" loading="lazy"><span><b data-i18n="intro.t1">Thumbnail</b><small data-i18n="intro.t1s">YouTube, Kick, streams</small></span><i class="fa-solid fa-arrow-right"></i></button>
+                <button type="button" class="ip-tile ip-st" onclick="introOrder()"><img src="img/scoobybanner.webp" alt="" loading="lazy"><span><b data-i18n="intro.t2">Banner</b><small data-i18n="intro.t2s">Channels, promos, socials</small></span><i class="fa-solid fa-arrow-right"></i></button>
+                <button type="button" class="ip-tile ip-st" onclick="introOrder()"><img src="img/intro-sites.webp" alt="" loading="lazy"><span><b data-i18n="intro.t3">Website</b><small data-i18n="intro.t3s">Leaderboards, rewards, portfolios</small></span><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <div class="ip-endfoot ip-st"><span class="ip-stars">★★★★★<small>5.0</small></span><button type="button" class="ip-again" onclick="introReplay()"><i class="fa-solid fa-rotate-left"></i><span data-i18n="intro.again">Watch again</span></button></div>
+        </aside>
+    </div>
+    <div class="ip-ctrl">
+        <button type="button" class="ip-btn" id="ipPP" onclick="introToggle()" aria-label="Pause"><i class="fa-solid fa-pause"></i></button>
+        <span class="ip-label" id="ipLabel">Intro</span>
+        <div class="ip-segs" id="ipSegs" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="37" aria-valuenow="0"></div>
+        <span class="ip-time" id="ipTime">0:00</span>
+        <button type="button" class="ip-btn" id="ipMute" onclick="introMute()" aria-label="Mute"><i class="fa-solid fa-volume-high"></i></button>
+    </div>
 </div>
 <div id="slotModal" class="slot-modal" role="dialog" aria-modal="true" aria-labelledby="slotTitle" aria-hidden="true">
     <div class="slot-stage" id="slotStage"><canvas aria-label="3D slot machine" role="img"></canvas></div>
@@ -1461,6 +1540,7 @@ const I18N = {
     'hero.aria': 'Ti serve un banner, una miniatura o un sito web? Ci penso io.',
     'hero.p': 'Sono Daniel, alias AceSnap. Creo grafiche e siti web per chiunque, qualunque sia il tuo progetto.',
     'hero.cta1': 'Chiedi un preventivo', 'hero.cta2': 'Guarda i miei lavori', 'hero.intro': 'Guarda l\'intro', 'intro.like': 'Ti piace quello che vedi?',
+    'intro.thanks': 'Grazie per la visione', 'intro.what': 'Cosa posso creare per te?', 'intro.t1': 'Thumbnail', 'intro.t1s': 'YouTube, Kick, live', 'intro.t2': 'Banner', 'intro.t2s': 'Canali, promo, social', 'intro.t3': 'Sito web', 'intro.t3s': 'Classifiche, premi, portfolio', 'intro.again': 'Guarda di nuovo', 'intro.c1': 'Intro', 'intro.c2': 'Design', 'intro.c3': 'Siti web', 'intro.c4': 'Recensioni', 'intro.c5': 'Contatti',
     'exp.title': 'Esperienza', 'exp.sub': 'Design, sviluppo e community, tutto in un unico posto.',
     'exp.tab.design': 'Design', 'exp.tab.web': 'Web', 'exp.tab.community': 'Community',
     'exp.d.title': 'Grafica', 'exp.yrs4': '4 anni', 'exp.yrs2': '2 anni', 'exp.d.role': 'Grafico freelance',
@@ -1515,6 +1595,7 @@ const I18N = {
     'hero.aria': 'Potrzebujesz banera, miniaturki lub strony WWW? Zajmę się tym.',
     'hero.p': 'Jestem Daniel, znany jako AceSnap. Robię grafiki i strony WWW dla każdego, niezależnie od projektu.',
     'hero.cta1': 'Zapytaj o wycenę', 'hero.cta2': 'Zobacz moje prace', 'hero.intro': 'Zobacz intro', 'intro.like': 'Podoba ci się?',
+    'intro.thanks': 'Dzięki za obejrzenie', 'intro.what': 'Co mogę dla ciebie zrobić?', 'intro.t1': 'Miniatura', 'intro.t1s': 'YouTube, Kick, streamy', 'intro.t2': 'Baner', 'intro.t2s': 'Kanały, promocje, social media', 'intro.t3': 'Strona internetowa', 'intro.t3s': 'Rankingi, nagrody, portfolio', 'intro.again': 'Obejrzyj ponownie', 'intro.c1': 'Intro', 'intro.c2': 'Grafika', 'intro.c3': 'Strony', 'intro.c4': 'Opinie', 'intro.c5': 'Kontakt',
     'exp.title': 'Doświadczenie', 'exp.sub': 'Grafika, programowanie i społeczność w jednym miejscu.',
     'exp.tab.design': 'Grafika', 'exp.tab.web': 'Web', 'exp.tab.community': 'Społeczność',
     'exp.d.title': 'Projektowanie graficzne', 'exp.yrs4': '4 lata', 'exp.yrs2': '2 lata', 'exp.d.role': 'Grafik freelancer',
@@ -2718,23 +2799,110 @@ document.addEventListener('keydown', e => {
 const introModal = document.getElementById('introModal');
 const introVideo = document.getElementById('introVideo');
 let introLastFocus = null;
+const INTRO_CH = [
+  { t: 0, k: 'intro.c1', en: 'Intro' },
+  { t: 4.5, k: 'intro.c2', en: 'Designs' },
+  { t: 14.2, k: 'intro.c3', en: 'Websites' },
+  { t: 24.3, k: 'intro.c4', en: 'Vouches' },
+  { t: 29.6, k: 'intro.c5', en: 'Get in touch' },
+];
+const ipSegs = document.getElementById('ipSegs');
+const ipRefl = document.getElementById('ipRefl').getContext('2d');
+let ipRaf = 0, ipTick = 0;
+const ipDur = () => (introVideo.duration && isFinite(introVideo.duration) ? introVideo.duration : 36.6);
+const ipEnd = i => (i + 1 < INTRO_CH.length ? INTRO_CH[i + 1].t : ipDur());
+const ipFmt = s => { s = Math.max(0, Math.floor(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+ipSegs.innerHTML = INTRO_CH.map(() => '<b><i></i></b>').join('');
+const ipBars = [...ipSegs.children];
+function ipLayout() { ipBars.forEach((b, i) => { b.style.flex = (ipEnd(i) - INTRO_CH[i].t).toFixed(2); }); }
+ipLayout();
+introVideo.addEventListener('loadedmetadata', ipLayout);
+function ipSeekTo(t) { try { introVideo.currentTime = Math.max(0, Math.min(ipDur() - 0.05, t)); } catch (e) {} }
+ipSegs.addEventListener('click', e => { const r = ipSegs.getBoundingClientRect(); ipSeekTo((e.clientX - r.left) / r.width * ipDur()); });
+ipSegs.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') { ipSeekTo(introVideo.currentTime + 5); e.preventDefault(); }
+  if (e.key === 'ArrowLeft') { ipSeekTo(introVideo.currentTime - 5); e.preventDefault(); }
+});
+function ipFrame() {
+  ipText();
+  if (++ipTick % 2 === 0 && introVideo.readyState >= 2 && !introModal.classList.contains('ended')) {
+    try { ipRefl.drawImage(introVideo, 0, 0, 160, 90, 0, 0, 160, 54); } catch (e) {}
+  }
+  ipRaf = requestAnimationFrame(ipFrame);
+}
+function ipSyncPlay() {
+  const paused = introVideo.paused;
+  introModal.classList.toggle('paused', paused);
+  const pp = document.getElementById('ipPP');
+  pp.innerHTML = paused ? '<i class="fa-solid fa-play"></i>' : '<i class="fa-solid fa-pause"></i>';
+  pp.setAttribute('aria-label', paused ? 'Play' : 'Pause');
+}
+function ipText() {
+  const t = introVideo.currentTime;
+  let ci = 0;
+  INTRO_CH.forEach((c, i) => { if (t >= c.t) ci = i; });
+  ipBars.forEach((b, i) => { b.firstChild.style.transform = `scaleX(${Math.min(1, Math.max(0, (t - INTRO_CH[i].t) / (ipEnd(i) - INTRO_CH[i].t)))})`; });
+  document.getElementById('ipLabel').textContent = tr(INTRO_CH[ci].k, INTRO_CH[ci].en);
+  document.getElementById('ipTime').textContent = ipFmt(t);
+  ipSegs.setAttribute('aria-valuenow', Math.round(t));
+}
+introVideo.addEventListener('timeupdate', ipText);
+introVideo.addEventListener('seeked', ipText);
+introVideo.addEventListener('play', ipSyncPlay);
+introVideo.addEventListener('pause', ipSyncPlay);
+introVideo.addEventListener('click', () => introToggle());
+introVideo.addEventListener('ended', () => {
+  introModal.classList.add('ended');
+  document.getElementById('ipEnd').setAttribute('aria-hidden', 'false');
+  setTimeout(() => { const f = introModal.querySelector('.ip-tile'); if (f && introModal.classList.contains('ended')) f.focus({ preventScroll: true }); }, 900);
+});
+function introToggle() {
+  if (introModal.classList.contains('ended')) return;
+  if (introVideo.paused) { const p = introVideo.play(); if (p && p.catch) p.catch(() => {}); } else introVideo.pause();
+}
+function introMute() {
+  introVideo.muted = !introVideo.muted;
+  const b = document.getElementById('ipMute');
+  b.innerHTML = introVideo.muted ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
+  b.setAttribute('aria-label', introVideo.muted ? 'Unmute' : 'Mute');
+}
+function introReplay() {
+  introModal.classList.remove('ended');
+  document.getElementById('ipEnd').setAttribute('aria-hidden', 'true');
+  ipSeekTo(0);
+  const p = introVideo.play();
+  if (p && p.catch) p.catch(() => {});
+}
+function introOrder() {
+  closeIntro();
+  setTimeout(openContactModal, 250);
+}
 function openIntro() {
   introLastFocus = document.activeElement;
+  introModal.classList.remove('ended');
+  document.getElementById('ipEnd').setAttribute('aria-hidden', 'true');
   introModal.classList.add('open');
   introModal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
   try { introVideo.currentTime = 0; } catch (e) {}
   const p = introVideo.play();
-  if (p && p.catch) p.catch(() => {});
+  if (p && p.catch) p.catch(() => ipSyncPlay());
+  cancelAnimationFrame(ipRaf);
+  ipRaf = requestAnimationFrame(ipFrame);
   setTimeout(() => introModal.querySelector('.intro-close').focus(), 60);
 }
 function closeIntro() {
   introVideo.pause();
-  introModal.classList.remove('open');
+  cancelAnimationFrame(ipRaf);
+  introModal.classList.remove('open', 'ended', 'paused');
   introModal.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
   if (introLastFocus) introLastFocus.focus();
 }
+window.addEventListener('keydown', e => {
+  if (!introModal.classList.contains('open')) return;
+  if (e.key === ' ' && !/^(BUTTON|INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) { e.preventDefault(); introToggle(); }
+});
 introModal.addEventListener('click', e => { if (e.target === introModal) closeIntro(); });
 window.addEventListener('keydown', e => { if (e.key === 'Escape' && introModal.classList.contains('open')) closeIntro(); });
 </script>
