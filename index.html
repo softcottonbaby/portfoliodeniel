@@ -718,7 +718,7 @@ body {
 .ip-big { position: absolute; left: 50%; top: 50%; width: 76px; height: 76px; margin: -38px 0 0 -38px; border-radius: 50%; border: 0; color: #fff; font-size: 22px; cursor: pointer; background: radial-gradient(circle at 35% 30%, #c084fc, #7c3aed 70%); box-shadow: 0 12px 36px rgba(124,58,237,.5); opacity: 0; transform: scale(.8); pointer-events: none; transition: opacity .3s, transform .3s; }
 .ip-big i { margin-left: 4px; }
 .intro-modal.paused:not(.ended) .ip-big { opacity: 1; transform: none; pointer-events: auto; }
-.ip-refl { position: absolute; left: 0; right: 0; top: calc(100% + 14px); width: 100%; height: 34%; transform: scaleY(-1); opacity: .18; filter: blur(4px); -webkit-mask-image: linear-gradient(to top, #000, transparent 75%); mask-image: linear-gradient(to top, #000, transparent 75%); pointer-events: none; transition: opacity .6s; }
+.ip-refl { position: absolute; left: 0; right: 0; top: calc(100% + 14px); width: 100%; height: 34%; transform: scaleY(-1); opacity: .32; filter: blur(5px); mix-blend-mode: screen; background: transparent; -webkit-mask-image: linear-gradient(to top, #000, transparent 75%); mask-image: linear-gradient(to top, #000, transparent 75%); pointer-events: none; transition: opacity .6s; }
 .ip-ctrl { position: relative; z-index: 2; display: flex; align-items: center; gap: .6rem; padding: 6px 16px 6px 6px; border-radius: 999px; background: rgba(255,255,255,.06); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); width: min(640px, 92vw); opacity: 0; transform: translateY(20px); transition: opacity .6s .7s, transform .6s .7s cubic-bezier(.22,1,.36,1); }
 .intro-modal.open .ip-ctrl { opacity: 1; transform: none; }
 .ip-btn { width: 38px; height: 38px; flex: none; border-radius: 50%; border: 0; cursor: pointer; color: #fff; background: transparent; font-size: .85rem; display: inline-flex; align-items: center; justify-content: center; transition: background .2s; }
@@ -1369,7 +1369,7 @@ body {
     <div class="ip-stage">
         <div class="ip-dev">
             <div class="ip-screen">
-                <video id="introVideo" src="./intro.mp4?v=5" poster="./intro-poster.jpg?v=5" preload="none" playsinline></video>
+                <video id="introVideo" src="./intro.mp4?v=6" poster="./intro-poster.jpg?v=5" preload="none" playsinline></video>
                 <button type="button" class="ip-big" onclick="introToggle()" aria-label="Play"><i class="fa-solid fa-play"></i></button>
             </div>
             <canvas class="ip-refl" id="ipRefl" width="160" height="54" aria-hidden="true"></canvas>
