@@ -886,6 +886,11 @@ body {
   transition: opacity .5s ease;
 }
 .web-preview-frame iframe.active { opacity: 1; }
+.web-shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; opacity: 0; transition: opacity .5s ease; pointer-events: none; }
+.web-shot.active { opacity: 1; }
+.web-preview-frame iframe { display: none; }
+.web-preview-frame.live iframe { display: block; }
+.web-preview-frame.live .web-shot { display: none; }
 .web-preview-shield { position: absolute; inset: 0; z-index: 5; background: transparent; touch-action: pan-y; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 @media (max-width: 1023px) {
   .web-preview-frame { height: 280px; }
@@ -1252,8 +1257,10 @@ body {
                     </div>
                 </div>
                 <div class="web-preview-frame" id="webFrame">
-                    <iframe src="https://headed.gg" title="Headed.gg preview" scrolling="no" inert aria-hidden="true" class="active" tabindex="-1" loading="lazy"></iframe>
-                    <iframe src="https://scooby-rewards.vercel.app" title="Scooby Rewards preview" scrolling="no" inert aria-hidden="true" tabindex="-1" loading="lazy"></iframe>
+                    <img class="web-shot active" src="img/site-headed.webp" alt="Headed.gg homepage" width="960" height="877" loading="lazy" decoding="async">
+                    <img class="web-shot" src="img/site-scooby.webp" alt="Scooby Rewards homepage" width="960" height="877" loading="lazy" decoding="async">
+                    <iframe data-src="https://headed.gg" title="Headed.gg preview" scrolling="no" inert aria-hidden="true" class="active" tabindex="-1" loading="lazy"></iframe>
+                    <iframe data-src="https://scooby-rewards.vercel.app" title="Scooby Rewards preview" scrolling="no" inert aria-hidden="true" tabindex="-1" loading="lazy"></iframe>
                     <div class="web-preview-shield" aria-hidden="true"></div>
                     <a id="webOpen" href="https://headed.gg" target="_blank" rel="noopener noreferrer" class="absolute right-3 bottom-3 z-10 text-xs font-medium text-white bg-black/60 backdrop-blur-md border border-white/10 hover:border-purple-400/50 px-3 py-1.5 rounded-full transition-colors"><span data-i18n="web.open">Open live site</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1"></i></a>
                 </div>
@@ -2193,6 +2200,11 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
   const frame = document.getElementById('webFrame');
   if (!items.length || !frame) return;
   const frames = [...frame.querySelectorAll('iframe')];
+  const shots = [...frame.querySelectorAll('.web-shot')];
+  if (window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1024px)').matches) {
+    frames.forEach(f => { f.src = f.dataset.src; });
+    frame.classList.add('live');
+  }
   const url = document.getElementById('webUrl');
   const open = document.getElementById('webOpen');
   const sites = [
@@ -2210,6 +2222,7 @@ const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matc
     active = i;
     items.forEach((it, k) => { it.classList.toggle('active', k === i); it.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
     frames.forEach((f, k) => f.classList.toggle('active', k === i));
+    shots.forEach((f, k) => f.classList.toggle('active', k === i));
     url.textContent = sites[i].url;
     open.href = sites[i].href;
   }
