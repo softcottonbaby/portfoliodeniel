@@ -9,7 +9,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
 <style>
 body {
   font-family: 'Inter', sans-serif;
@@ -49,15 +49,17 @@ input:focus, textarea:focus, select:focus {
 .hp-field { position: absolute; left: -9999px; top: -9999px; }
 </style>
 </head>
-<body class="antialiased min-h-screen flex items-center justify-center px-6 py-16">
+<body class="antialiased min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-10 sm:py-16">
 <div class="ambient-glow"></div>
 
-<a href="./index.html" class="fixed top-6 left-6 z-20 glass rounded-full pl-3 pr-4 py-2 flex items-center gap-2 text-sm text-gray-300 hover:text-white hover:border-purple-400/30 transition-colors">
-  <i class="fa-solid fa-arrow-left text-xs"></i>
-  Back to site
-</a>
+<div class="w-full max-w-md mb-4">
+  <a href="/" class="inline-flex glass rounded-full pl-3 pr-4 py-2 items-center gap-2 text-sm text-gray-300 hover:text-white hover:border-purple-400/30 transition-colors">
+    <i class="fa-solid fa-arrow-left text-xs"></i>
+    Back to site
+  </a>
+</div>
 
-<div class="glass rounded-2xl p-8 w-full max-w-md" id="formWrap">
+<div class="glass rounded-2xl p-6 sm:p-8 w-full max-w-md" id="formWrap">
   <div class="flex items-center gap-2.5 mb-6">
     <img src="./acesnaplogonoouter.png" alt="AceSnap logo" class="h-7 w-auto">
     <span class="text-lg font-semibold tracking-wide text-white">Daniel.</span>
@@ -74,12 +76,12 @@ input:focus, textarea:focus, select:focus {
 
     <div>
       <label class="text-xs text-gray-400 font-medium mb-1.5 block">Your name</label>
-      <input type="text" name="name" required placeholder="e.g. Marcus T." class="w-full rounded-xl px-4 py-2.5 text-sm">
+      <input type="text" name="name" required maxlength="40" placeholder="e.g. Marcus T." class="w-full rounded-xl px-4 py-2.5 text-sm">
     </div>
 
     <div>
       <label class="text-xs text-gray-400 font-medium mb-1.5 block">Where do you know me from?</label>
-      <input type="text" name="context" required placeholder="e.g. RoRush, Discord, a project we worked on" class="w-full rounded-xl px-4 py-2.5 text-sm">
+      <input type="text" name="context" required maxlength="40" placeholder="e.g. RoRush, Discord, a project we worked on" class="w-full rounded-xl px-4 py-2.5 text-sm">
     </div>
 
     <div>
@@ -99,7 +101,7 @@ input:focus, textarea:focus, select:focus {
 
     <div>
       <label class="text-xs text-gray-400 font-medium mb-1.5 block">Your channel / site <span class="text-gray-600">(optional — self-promo, we don't judge)</span></label>
-      <input type="url" name="promo_link" placeholder="your Twitch, YouTube, site, socials..." class="w-full rounded-xl px-4 py-2.5 text-sm">
+      <input type="text" name="promo_link" inputmode="url" autocapitalize="off" spellcheck="false" maxlength="200" placeholder="e.g. kick.com/yourname" class="w-full rounded-xl px-4 py-2.5 text-sm">
     </div>
 
     <div>
@@ -116,12 +118,12 @@ input:focus, textarea:focus, select:focus {
 
     <div>
       <label class="text-xs text-gray-400 font-medium mb-1.5 block">Your vouch</label>
-      <textarea name="quote" required rows="4" placeholder="What was it like working with me?" class="w-full rounded-xl px-4 py-2.5 text-sm resize-none"></textarea>
+      <textarea name="quote" required rows="4" maxlength="400" placeholder="What was it like working with me?" class="w-full rounded-xl px-4 py-2.5 text-sm resize-none"></textarea>
     </div>
 
     <div>
       <label class="text-xs text-gray-400 font-medium mb-1.5 block">Discord or contact (not shown publicly)</label>
-      <input type="text" name="contact" placeholder="so I can verify it's really you" class="w-full rounded-xl px-4 py-2.5 text-sm">
+      <input type="text" name="contact" maxlength="80" placeholder="so I can verify it's really you" class="w-full rounded-xl px-4 py-2.5 text-sm">
     </div>
 
     <p id="formError" class="text-xs text-red-400 hidden"></p>
@@ -144,7 +146,7 @@ input:focus, textarea:focus, select:focus {
   <p class="text-sm text-gray-400 leading-relaxed">
     Your vouch is in. I read every one myself before it goes live on the site.
   </p>
-  <a href="./index.html" class="inline-block mt-6 text-sm text-purple-300 hover:text-white transition-colors">
+  <a href="/" class="inline-block mt-6 text-sm text-purple-300 hover:text-white transition-colors">
     ← Back to site
   </a>
 </div>
@@ -201,6 +203,37 @@ function showError(msg) {
   formError.classList.remove('hidden');
 }
 
+function normalizeLink(raw) {
+  const v = String(raw || '').trim();
+  if (!v) return null;
+  const withProto = /^https?:\/\//i.test(v) ? v : 'https://' + v.replace(/^\/+/, '');
+  try {
+    const u = new URL(withProto);
+    if (!u.hostname.includes('.')) return undefined;
+    return u.href;
+  } catch (_) {
+    return undefined;
+  }
+}
+
+function shrinkImage(file, max = 320) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const s = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.max(1, Math.round(img.width * s));
+      c.height = Math.max(1, Math.round(img.height * s));
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      c.toBlob(b => b ? resolve(b) : reject(new Error('Could not read that image.')), 'image/jpeg', 0.85);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('That file is not an image we can read. Try a JPG or PNG.')); };
+    img.src = url;
+  });
+}
+
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   formError.classList.add('hidden');
@@ -221,6 +254,12 @@ form.addEventListener('submit', async (e) => {
     return;
   }
 
+  const link = normalizeLink(data.get('promo_link'));
+  if (link === undefined) {
+    showError('That channel / site link doesn\'t look right. Try something like kick.com/yourname.');
+    return;
+  }
+
   submitBtn.disabled = true;
   submitBtn.textContent = 'Submitting...';
 
@@ -229,12 +268,12 @@ form.addEventListener('submit', async (e) => {
     const avatarFile = data.get('avatar');
 
     if (avatarFile && avatarFile.size > 0) {
-      const ext = avatarFile.name.split('.').pop();
-      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const small = await shrinkImage(avatarFile);
+      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
       const { error: uploadError } = await supabaseClient
         .storage
         .from('vouch-avatars')
-        .upload(fileName, avatarFile);
+        .upload(fileName, small, { contentType: 'image/jpeg' });
 
       if (uploadError) throw uploadError;
 
@@ -249,13 +288,13 @@ form.addEventListener('submit', async (e) => {
     const { error: insertError } = await supabaseClient
       .from('vouches')
       .insert({
-        name: data.get('name'),
-        role: data.get('context'),
-        quote: data.get('quote'),
+        name: String(data.get('name')).trim(),
+        role: String(data.get('context')).trim(),
+        quote: String(data.get('quote')).trim(),
         rating: rating,
         avatar_url: avatarUrl,
-        link: data.get('promo_link') || null,
-        contact: data.get('contact') || null,
+        link: link,
+        contact: String(data.get('contact') || '').trim() || null,
         status: 'pending'
       });
 
