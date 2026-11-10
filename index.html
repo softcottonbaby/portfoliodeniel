@@ -31,10 +31,13 @@
 <meta name="twitter:image:alt" content="AceSnap. Need a banner? I've got you. Thumbnails, banners and websites.">
 
 <meta name="theme-color" content="#8b5cf6">
-<link rel="icon" type="image/png" href="./acesnaplogonoouter.png">
-<link rel="apple-touch-icon" href="./acesnaplogonoouter.png">
+<link rel="icon" type="image/png" href="./img/favicon-64.png">
+<link rel="apple-touch-icon" href="./img/apple-touch-180.png">
 
-<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preload" as="image" href="./img/juaqthumbnail1.webp" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -854,6 +857,7 @@ body {
 }
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="stylesheet" href="./tw.css?v=1">
 </head>
 
 <body class="antialiased selection:bg-purple-500/30 selection:text-white min-h-screen flex flex-col relative">
@@ -864,7 +868,7 @@ body {
     <nav class="relative overflow-hidden max-w-4xl mx-auto glass rounded-full px-4 sm:px-6 py-4 flex justify-between items-center">
         <span class="scroll-progress" id="scrollProgress" aria-hidden="true"></span>
         <div class="flex items-center gap-2.5">
-            <img src="./acesnaplogonoouter.png" alt="AceSnap logo" class="h-7 w-auto">
+            <img src="img/logo.webp" alt="AceSnap logo" class="h-7 w-auto">
             <span class="text-lg font-semibold tracking-wide text-white">Daniel.</span>
         </div>
 
@@ -912,9 +916,9 @@ body {
         </div>
 
         <div class="reveal hero-stack">
-            <button type="button" class="hero-card hc-1" onclick="openDesignFromCarousel('juaqthumbnail1.png')" aria-label="View Juaq thumbnail"><span class="hero-card-inner"><img src="./juaqthumbnail1.png" alt="" draggable="false"></span></button>
-            <button type="button" class="hero-card hc-2" onclick="openDesignFromCarousel('casesbanner.png')" aria-label="View Cases.gg code promo"><span class="hero-card-inner"><img src="./casesbanner.png" alt="" draggable="false"></span></button>
-            <button type="button" class="hero-card hc-3" onclick="openDesignFromCarousel('liveleaderboardscsgobig.png')" aria-label="View CSGOBig live leaderboards"><span class="hero-card-inner"><img src="./liveleaderboardscsgobig.png" alt="" draggable="false"></span></button>
+            <button type="button" class="hero-card hc-1" onclick="openDesignFromCarousel('juaqthumbnail1.png')" aria-label="View Juaq thumbnail"><span class="hero-card-inner"><img src="img/juaqthumbnail1.webp" fetchpriority="high" alt="" draggable="false"></span></button>
+            <button type="button" class="hero-card hc-2" onclick="openDesignFromCarousel('casesbanner.png')" aria-label="View Cases.gg code promo"><span class="hero-card-inner"><img src="img/casesbanner.webp" alt="" draggable="false"></span></button>
+            <button type="button" class="hero-card hc-3" onclick="openDesignFromCarousel('liveleaderboardscsgobig.png')" aria-label="View CSGOBig live leaderboards"><span class="hero-card-inner"><img src="img/liveleaderboardscsgobig.webp" alt="" draggable="false"></span></button>
         </div>
     </div>
 </header>
@@ -1040,58 +1044,58 @@ body {
         <div class="cf-viewport">
             <div id="cfStage" class="cf-stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Design portfolio, use arrow keys to browse">
                 <div class="cf-item" data-file="newdiscordrafflecopia.png">
-                    <div class="tilt-card cf-card"><img src="./newdiscordrafflecopia.png" alt="Discord raffles" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/newdiscordrafflecopia.webp" alt="Discord raffles" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="race1milrorush.png">
-                    <div class="tilt-card cf-card"><img src="./race1milrorush.png" alt="1,000,000 race" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/race1milrorush.webp" alt="1,000,000 race" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="juaqthumbnail1.png">
-                    <div class="tilt-card cf-card"><img src="./juaqthumbnail1.png" alt="Juaq thumbnail" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/juaqthumbnail1.webp" alt="Juaq thumbnail" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="thumbnail2juaq.png">
-                    <div class="tilt-card cf-card"><img src="./thumbnail2juaq.png" alt="All in went crazy" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/thumbnail2juaq.webp" alt="All in went crazy" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="liveleaderboardscsgobig.png">
-                    <div class="tilt-card cf-card"><img src="./liveleaderboardscsgobig.png" alt="CSGOBig live leaderboards" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/liveleaderboardscsgobig.webp" alt="CSGOBig live leaderboards" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="pokerrrr.png">
-                    <div class="tilt-card cf-card"><img src="./pokerrrr.png" alt="Poker tournament" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/pokerrrr.webp" alt="Poker tournament" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="casesbanner.png">
-                    <div class="tilt-card cf-card"><img src="./casesbanner.png" alt="Cases.gg code promo" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/casesbanner.webp" alt="Cases.gg code promo" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="scoobybanner.png">
-                    <div class="tilt-card cf-card"><img src="./scoobybanner.png" alt="Scooby on Kick banner" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/scoobybanner.webp" alt="Scooby on Kick banner" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="howthiskeepshappening.png">
-                    <div class="tilt-card cf-card"><img src="./howthiskeepshappening.png" alt="How does this keep happening" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/howthiskeepshappening.webp" alt="How does this keep happening" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="mineschallenge.png">
-                    <div class="tilt-card cf-card"><img src="./mineschallenge.png" alt="Mines board challenge" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/mineschallenge.webp" alt="Mines board challenge" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="robertoinstagrambanner.png">
-                    <div class="tilt-card cf-card"><img src="./robertoinstagrambanner.png" alt="Instagram promo" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/robertoinstagrambanner.webp" alt="Instagram promo" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="robertobanner.png">
-                    <div class="tilt-card cf-card"><img src="./robertobanner.png" alt="Bitkingz deposit bonus" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/robertobanner.webp" alt="Bitkingz deposit bonus" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="sorhexbanner.png">
-                    <div class="tilt-card cf-card"><img src="./sorhexbanner.png" alt="Sorhex logo" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/sorhexbanner.webp" alt="Sorhex logo" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="scoobylogo.png">
-                    <div class="tilt-card cf-card"><img src="./scoobylogo.png" alt="Scooby logo" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/scoobylogo.webp" alt="Scooby logo" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="thumbnail1.png">
-                    <div class="tilt-card cf-card"><img src="./thumbnail1.png" alt="Bac Bo 1K to 3K" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/thumbnail1.webp" alt="Bac Bo 1K to 3K" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="joshy4.png">
-                    <div class="tilt-card cf-card"><img src="./joshy4.png" alt="Refer and earn" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/joshy4.webp" alt="Refer and earn" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="shopannouncement.png">
-                    <div class="tilt-card cf-card"><img src="./shopannouncement.png" alt="Points shop launch" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/shopannouncement.webp" alt="Points shop launch" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
                 <div class="cf-item" data-file="leaderboardheaded.png">
-                    <div class="tilt-card cf-card"><img src="./leaderboardheaded.png" alt="Headed leaderboard" draggable="false"></div>
+                    <div class="tilt-card cf-card"><img src="img/leaderboardheaded.webp" alt="Headed leaderboard" loading="lazy" decoding="async" draggable="false"></div>
                 </div>
             </div>
         </div>
@@ -1239,7 +1243,7 @@ body {
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 text-sm">
         <div class="lg:col-span-2">
             <div class="flex items-center gap-2.5 mb-3">
-                <img src="./acesnaplogonoouter.png" alt="AceSnap logo" class="h-6 w-auto">
+                <img src="img/logo.webp" alt="AceSnap logo" class="h-6 w-auto">
                 <span class="text-base font-semibold text-white">Daniel.</span>
             </div>
             <p class="text-gray-400 max-w-xs leading-relaxed" data-i18n="foot.about">Design, web and community, operating as AceSnap.</p>
@@ -1437,6 +1441,10 @@ body {
     </div>
 </div>
 
+<script>
+const imgMd = f => 'img/' + String(f).replace(/\.png$/i, '') + '.webp';
+const imgFull = f => 'img/full/' + String(f).replace(/\.png$/i, '') + '.webp';
+</script>
 <script>
 const I18N_PL_PLURAL = (n, one, few, many) => {
   if (n === 1) return one;
@@ -2481,7 +2489,6 @@ renderVouches();
 })();
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="./vouches-loader.js?v=3"></script>
 
 <script>
@@ -2607,7 +2614,7 @@ function renderGalleryFolders() {
     const n = imgs.length;
     const fan = imgs.map((it, j) => {
       const off = j - (n - 1) / 2;
-      return `<img src="./${it[0]}" alt="" loading="lazy" style="--r:${off * 6}deg;--dx:${off * 38}px;z-index:${3 - Math.abs(Math.round(off))}">`;
+      return `<img src="${imgMd(it[0])}" alt="" loading="lazy" decoding="async" style="--r:${off * 6}deg;--dx:${off * 38}px;z-index:${3 - Math.abs(Math.round(off))}">`;
     }).join('');
     return `<button type="button" class="gal-folder" style="animation-delay:${i * 60}ms" onclick="openGalleryType(${i})" aria-label="${tr('gal.type.' + t.key, t.name)}, ${trn('gal.n', t.items.length)}">
       <div class="gal-fan" aria-hidden="true">${fan}</div>
@@ -2626,7 +2633,7 @@ function renderGallery() {
   document.getElementById('galTabs').innerHTML = galleryTypes.map((x, i) =>
     `<button type="button" class="gal-tab${i === galType ? ' active' : ''}" onclick="switchGallery(${i})">${tr('gal.type.' + x.key, x.name)}</button>`).join('');
   document.getElementById('galGrid').innerHTML = t.items.map((it, i) =>
-    `<button type="button" class="gal-item" style="animation-delay:${i * 60}ms" onclick="openGalleryView(${i})" aria-label="View ${it[1]}"><img src="./${it[0]}" alt="${it[1]}" loading="lazy"></button>`).join('');
+    `<button type="button" class="gal-item" style="animation-delay:${i * 60}ms" onclick="openGalleryView(${i})" aria-label="View ${it[1]}"><img src="${imgMd(it[0])}" alt="${it[1]}" loading="lazy" decoding="async"></button>`).join('');
 }
 function switchGallery(i) { galType = i; renderGallery(); }
 onLangChange(() => {
@@ -2677,7 +2684,7 @@ function showGalleryView() {
   const items = galleryTypes[galType].items;
   const it = items[galViewIndex];
   const img = document.getElementById('galViewImg');
-  img.src = './' + it[0];
+  img.src = imgFull(it[0]);
   img.alt = it[1];
   document.getElementById('galViewCap').textContent = `${it[1]}  ·  ${galViewIndex + 1} / ${items.length}`;
   const many = items.length > 1;
@@ -2767,10 +2774,10 @@ const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;'
 function cardHTML(c, locked) {
   const no = String(c.no).padStart(2, '0');
   const total = String(CARDS.length).padStart(2, '0');
-  const back = `<div class="ac-face ac-back"><div class="ac-back-in"><span class="ac-back-no">${no}</span><img src="./acesnaplogonoouter.png" alt=""><b>AceSnap</b><small>${esc(tr('cards.series', 'Collector series'))}</small>${locked ? '<span class="ac-back-q">?</span>' : ''}</div></div>`;
+  const back = `<div class="ac-face ac-back"><div class="ac-back-in"><span class="ac-back-no">${no}</span><img src="img/logo-256.webp" alt=""><b>AceSnap</b><small>${esc(tr('cards.series', 'Collector series'))}</small>${locked ? '<span class="ac-back-q">?</span>' : ''}</div></div>`;
   if (locked) return `<div class="ac-card locked r-${c.rarity}" aria-label="${esc(tr('cards.locked', 'Locked card'))} ${no}">${back}</div>`;
   return `<div class="ac-card r-${c.rarity}" data-file="${esc(c.file)}" role="img" aria-label="${esc(c.name)}, ${esc(tr('rar.' + c.rarity, c.rarity))}">
-    <div class="ac-face ac-front"><div class="ac-img"><img class="ac-bgimg" src="./${esc(c.file)}" alt="" loading="lazy" decoding="async"><img class="ac-fgimg" src="./${esc(c.file)}" alt="" loading="lazy" decoding="async"></div><div class="ac-holo"></div><div class="ac-glare"></div><div class="ac-sweep"></div></div>
+    <div class="ac-face ac-front"><div class="ac-img"><img class="ac-bgimg" src="${imgMd(c.file)}" alt="" loading="lazy" decoding="async"><img class="ac-fgimg" src="${imgMd(c.file)}" alt="" loading="lazy" decoding="async"></div><div class="ac-holo"></div><div class="ac-glare"></div><div class="ac-sweep"></div></div>
     ${back}
   </div>`;
 }
@@ -2950,6 +2957,15 @@ function slotBokeh() {
   }
   box.innerHTML = html;
 }
+(function () {
+  const sec = document.getElementById('gfx');
+  const imgs = () => document.querySelectorAll('.cf-card img[loading="lazy"]');
+  const go = () => imgs().forEach(i => { i.loading = 'eager'; });
+  window.addEventListener('load', () => setTimeout(go, 1500));
+  if (!sec || !('IntersectionObserver' in window)) { go(); return; }
+  const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { go(); io.disconnect(); } }, { rootMargin: '900px 0px' });
+  io.observe(sec);
+})();
 let slotPrefetched = false;
 function slotPrefetch() {
   if (slotPrefetched) return;

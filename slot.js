@@ -257,7 +257,7 @@ export async function mount(stage, items, opts = {}) {
   loader.setDRACOLoader(draco);
   const [gltf, images] = await Promise.all([
     loader.loadAsync(opts.model || './slot.glb'),
-    Promise.all(items.map(it => loadImg('./' + it.file)))
+    Promise.all(items.map(it => loadImg('img/' + String(it.file).replace(/\.png$/i, '') + '.webp')))
   ]);
 
   const rig = new THREE.Group();
